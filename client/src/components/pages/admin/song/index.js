@@ -1,50 +1,84 @@
 import React, { useEffect, useState } from 'react';
+import Pagination from 'react-js-pagination';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import api from '../../../axios'
+import convertDateTime from '../../../helper/ConvertDateTime';
 import Loading from '../../loading';
 import NotPermission from '../../notpermission';
 
 const AdminSong = () => {
-    document.title = 'Admin Song'
+    document.title = 'Song Manager | Admin'
     const navigate = useNavigate()
     const [data, setData] = useState()
-    const [songShow, setSongShow] = useState()
-    const [songHide, setSongHide] = useState()
     const [listCategory, setListCategory] = useState()
     const [listAlbum, setListAlbum] = useState()
     const [per, setPer] = useState(true)
+    const limit = 10
+    const [curPage, setCurPage] = useState(1)
+
+    const handleChangeShow = id => {
+        api.put('api/Manage/song/show?id='+id).then(res=> {
+            if(res.data.success){
+                setData(prev => ({
+                    ...prev,
+                    song: prev.song.map(ele => ele.id === id ? ({
+                        ...ele,
+                        show: res.data.data.show,
+                    }) : ele)
+                }))
+                toast.success(res.data.message)
+            }else{
+                toast.error(res.data.message)
+            }
+        })
+    }
 
     useEffect(() => {
-        api.get('api/admin/song').then(res=> {
+        api.get('api/admin/song', {
+            params : {
+                page: curPage,
+                limit,
+            }
+        }).then(res=> {
             if(res.status === 403){
                 setPer(false)
             }
             if(res.status === 200){
-                setListAlbum(res.data.album)
-                setListCategory(res.data.category)
-                const show = []
-                const hide = []
-                res.data.song.map(e => e.show === 1 ? show.push(e) : hide.push(e))
-                setSongShow(show)
-                setSongHide(hide)
                 setData(res.data)
             }
         })
-    })
+    }, [curPage])
+    useEffect(() => {
+        api.get('api/admin/home/allalbum').then(res => {
+            if(res.status === 403){
+                setPer(false)
+            }else{
+                setListAlbum(res.data)
+            }
+        })
+        api.get('api/admin/home/allcategory').then(res => {
+            if(res.status === 403){
+                setPer(false)
+            }else{
+                setListCategory(res.data)
+            }
+        })
+    } ,[])
     if(!per)
         return ( <NotPermission/> )
-    if(!data)
+    if(!data || !listAlbum || !listCategory)
         return ( <Loading/> )
     return (
         <>
-            {/* <div className='card mb-4'>
+            <div className='card mb-4'>
                 <div className='card-header pb-0'>
                     <div className='d-flex justify-content-between align-item-center'>
                         <div>
                             <h6>Songs</h6>
                         </div>
                         <div
-                            onClick={() => navigate('/manage/upload-song')}
+                            onClick={() => navigate('/admin/song/create')}
                             className='btn btn-info btn-sm'>Upload new song</div>
                     </div>
                 </div>
@@ -68,55 +102,65 @@ const AdminSong = () => {
                                         <td>
                                             <div className='d-flex px-2 py-1'>
                                                 <div>
-                                                    <img src={e.song.localImg === 1 
-                                                        ? process.env.REACT_APP_API_SRC_AUDIO_IMG + e.song.img
-                                                        : e.song.img
-                                                    } className='avatar avatar-sm me-3' alt={e.song.name} />
+                                                    <img src={e.localImg === 1 
+                                                        ? process.env.REACT_APP_API_SRC_AUDIO_IMG + e.img
+                                                        : e.img
+                                                    } className='avatar avatar-sm me-3' alt={e.name} />
                                                 </div>
                                                 <div className='d-flex flex-column justify-content-center'>
-                                                    <h6 className='mb-0 text-sm warptext'>{e.song.name}</h6>
-                                                    <p className='text-xs text-secondary mb-0 warptext'>{e.song.artist}</p>
+                                                    <h6 className='mb-0 text-sm warptext'>{e.name}</h6>
+                                                    <p className='text-xs text-secondary mb-0 warptext'>{e.artist}</p>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            {e.album.id === -1
+                                            {e.album
                                                 ? (
-                                                    <span className='text-secondary text-xs font-weight-bold'>null</span>
+                                                    <>
+                                                        {listAlbum.map(ele => ele.id === e.album
+                                                            ? (
+                                                                <span key={ele.id}>
+                                                                    <p className='text-xs font-weight-bold mb-0'>{ele.name}</p>
+                                                                    <p className='text-xs text-secondary mb-0'>{ele.artist}</p>
+                                                                </span>
+                                                            )
+                                                            : null
+                                                        )}
+
+                                                    </>
                                                 )
                                                 : (
-                                                    <>
-                                                        <p className='text-xs font-weight-bold mb-0 warptext'>{e.album.name}</p>
-                                                        <p className='text-xs text-secondary mb-0 warptext'>{e.album.artist}</p>
-                                                    </>
+                                                    <span className='text-secondary text-xs font-weight-bold'>null</span>
 
                                                 )}
                                         </td>
                                         <td className='align-middle text-center warptext'>
-                                            <span className='text-secondary text-xs font-weight-bold'>{e.category.name}</span>
+                                            <span className='text-secondary text-xs font-weight-bold'>
+                                                {listCategory.map(ele => ele.id === e.category ? ele.name : null)}
+                                            </span>
                                         </td>
                                         <td className='align-middle text-center text-sm cursor-default'>
-                                            {e.song.show === 0
+                                            {e.show === 0
                                                 ? (<span className='badge badge-sm bg-gradient-secondary'>Hide</span>)
                                                 : (<span className='badge badge-sm bg-gradient-success'>Show</span>)
                                             }
                                         </td>
                                         <td className='align-middle text-center'>
-                                            <span className='text-secondary text-xs font-weight-bold'>{e.song.listen}</span>
+                                            <span className='text-secondary text-xs font-weight-bold'>{e.listen}</span>
                                         </td>
                                         <td className='align-middle text-center'>
-                                            <span className='text-secondary text-xs font-weight-bold'>{convertDateTime(e.song.createdAt)}</span>
+                                            <span className='text-secondary text-xs font-weight-bold'>{convertDateTime(e.createdAt)}</span>
                                         </td>
                                         <td className='align-middle'>
                                             <div className='text-secondary font-weight-bold text-xs cursor-pointer text-center'>
-                                                {e.song.show === 1
+                                                {e.show === 1
                                                     ? (
-                                                        <div onClick={() => handleChangeShow(e.song.id, i)} className='btn btn-sm btn-outline-secondary m-0 mx-1'>Hide</div>
+                                                        <div onClick={() => handleChangeShow(e.id)} className='btn btn-sm btn-outline-secondary m-0 mx-1'>Hide</div>
                                                     )
                                                     : (
-                                                        <div onClick={() => handleChangeShow(e.song.id, i)} className='btn btn-sm btn-outline-success m-0 mx-1'>Show</div>
+                                                        <div onClick={() => handleChangeShow(e.id)} className='btn btn-sm btn-outline-success m-0 mx-1'>Show</div>
                                                     )}
-                                                <div onClick={() => handleDelete(e)} className='btn btn-sm btn-outline-danger m-0 mx-1'>Delete</div>
+                                                <div className='btn btn-sm btn-outline-danger m-0 mx-1'>Delete</div>
                                             </div>
                                         </td>
                                     </tr>
@@ -141,7 +185,7 @@ const AdminSong = () => {
                     />
                 </div>
                 )}
-            </div> */}
+            </div>
         </>
     );
 };

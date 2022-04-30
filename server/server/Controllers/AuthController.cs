@@ -118,10 +118,23 @@ namespace server.Controllers
                 jwtTokenHandler.ValidateToken(rf.refreshToken, tokenParameter, out SecurityToken securityToken);
                 var jwtToken = (JwtSecurityToken)securityToken;
                 int rid = Int16.Parse(jwtToken.Claims.First(claim => claim.Type == ClaimTypeHelper.Id).Value);
-                int rroles = Int16.Parse(jwtToken.Claims.First(claim => claim.Type == "role").Value);
-                System.Diagnostics.Debug.WriteLine("rid " + rid);
-                using (var context = new MusicContext())
+
+                MusicContext context = new MusicContext();
+                var checku = (from r in context.Users
+                         where r.Id == rid
+                         select r).FirstOrDefault();
+                if(checku == null)
                 {
+                    return Ok(new
+                    {
+                        success = false,
+                        message = "invalid user!"
+                    });
+                }
+                int rroles = checku.Roles;
+                //int rroles = Int16.Parse(jwtToken.Claims.First(claim => claim.Type == "role").Value);
+                //System.Diagnostics.Debug.WriteLine("rid " + rid);
+
                     var check = (from u in context.RefreshTokens
                                 where u.UserId == rid && u.Token == rf.refreshToken
                                 select u).FirstOrDefault();
@@ -141,7 +154,6 @@ namespace server.Controllers
                             accessToken = GenerateToken(rid, rroles)
                         });
                     }
-                }
                 
             }
             catch

@@ -604,6 +604,137 @@ namespace server.Controllers
             }
         }
 
+        [HttpPost("song/create"), DisableRequestSizeLimit]
+        public async Task<IActionResult> CreateSong()
+        {
+            try
+            {
+                var formCollection = await Request.ReadFormAsync();
+
+                var files = formCollection.Files;
+                var name = formCollection["name"][0].ToString().Trim();
+                var artist = formCollection["artist"][0].ToString().Trim();
+                var category = Int32.Parse(formCollection["category"][0]);
+                var album = Int32.Parse(formCollection["album"][0]);
+                var show = Int32.Parse(formCollection["show"][0]);
+                var status = Int32.Parse(formCollection["status"][0]);
+                var localImg = Int32.Parse(formCollection["localimg"][0]);
+                var localSrc = Int32.Parse(formCollection["localsrc"][0]);
+                var createBy = Int32.Parse(formCollection["uid"][0]);
+
+                //if (files.Any(f => f.Length < 2))
+                //{
+                //    return Ok(new
+                //    {
+                //        success = false,
+                //        message = "Not enough file!"
+                //    });
+                //}
+
+                if (name.Length == 0 || artist.Length == 0 || category == -1)
+                {
+                    return Ok(new
+                    {
+                        success = false,
+                        message = "Not enough infomation!"
+                    });
+                }
+                string image = null;
+                string src = null;
+                UploadTemplate upload;
+                if (localImg == 1 && localSrc == 0)
+                {
+
+                    src = formCollection["src"][0].ToString().Trim();
+                    upload = new UploadImageSong();
+                    image = upload.UploadFile(files[0]);
+                }
+                if (localImg == 0 && localSrc == 1)
+                {
+
+                    image = formCollection["img"][0].ToString().Trim();
+                    upload = new UploadSong();
+                    src = upload.UploadFile(files[0]);
+                }
+                if (localImg == 1 && localSrc == 1)
+                {
+                    upload = new UploadImageSong();
+                    image = upload.UploadFile(files[0]);
+                    upload = new UploadSong();
+                    src = upload.UploadFile(files[1]);
+                }
+
+
+                //create data
+                using (var context = new MusicContext())
+                {
+                    if (album == -1)
+                    {
+                        context.Requestsongs.Add(new Requestsong()
+                        {
+                            Name = name,
+                            Artist = artist,
+                            Img = image,
+                            Src = src,
+                            Category = category,
+                            Show = show,
+                            LocalImg = localImg,
+                            LocalSrc = localSrc,
+                            Tag = SongHelper.ConvertTag(name),
+                            CreatedBy = createBy,
+                            Status = status,
+                        });
+                    }
+                    else
+                    {
+                        context.Requestsongs.Add(new Requestsong()
+                        {
+                            Name = name,
+                            Artist = artist,
+                            Img = image,
+                            Src = src,
+                            Category = category,
+                            Show = show,
+                            LocalImg = localImg,
+                            LocalSrc = localSrc,
+                            Album = album,
+                            Tag = SongHelper.ConvertTag(name),
+                            CreatedBy = createBy,
+                            Status = status,
+                        });
+                    }
+
+                    context.SaveChanges();
+                }
+
+
+                //if (files.Any(f => f.Length == 0))
+                //{
+                //    return BadRequest();
+                //}
+                //foreach (var file in files)
+                //{
+                //    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                //    System.Diagnostics.Debug.WriteLine(fileName);
+                //    var fullPath = Path.Combine(pathToSave, fileName);
+                //    var dbPath = Path.Combine(folderName, fileName);
+                //    using (var stream = new FileStream(fullPath, FileMode.Create))
+                //    {
+                //        file.CopyTo(stream);
+                //    }
+                //}
+                return Ok(new
+                {
+                    success = true,
+                    message = "Upload success!"
+                });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, "Internal server error " + e);
+            }
+        }
+
         //Album
         [HttpGet("album/getalbum")]
         public IActionResult GetAlbum(int page, int limit)

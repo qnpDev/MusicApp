@@ -7,7 +7,7 @@ import api from '../../axios'
 import Loading from '../loading';
 import { useNavigate } from 'react-router-dom';
 
-const UploadSong = () => {
+const CreateSong = () => {
     document.title = 'Upload new song'
     const navigate = useNavigate()
     const [listCategory, setListCategory] = useState()
@@ -40,10 +40,14 @@ const UploadSong = () => {
             toast.error('Enter song artist!')
         else if (category === -1)
             toast.error('Choose song category!')
-        else if (!image)
+        else if (!image && localImg === 1)
             toast.error('Upload song image!')
-        else if (!song)
+        else if (linkImg.trim().length === 0 && localImg === 0)
+            toast.error('Enter link song image!')
+        else if (!song && localSrc === 1)
             toast.error('Upload song!')
+        else if (linkSrc.trim().length === 0 && localSrc === 0)
+            toast.error('Enter link song!')
         else {
             let formData = new FormData()
             formData.append('localimg', localImg)
@@ -66,7 +70,7 @@ const UploadSong = () => {
 
             const load = toast.loading('Wait...')
                 setBtnUpload(false)
-                api.put('api/Song/', formData).then(res => {
+                api.put('api/manage/song/create', formData).then(res => {
                     if (res.data.success) {
                         setBtnUpload(true)
                         toast.success('Upload success!')
@@ -271,4 +275,4 @@ const UploadSong = () => {
     );
 };
 
-export default UploadSong;
+export default CreateSong;

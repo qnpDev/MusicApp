@@ -36,10 +36,14 @@ const UpdateSong = ({ data, listAlbum, listCategory, close, setData }) => {
             toast.error('Choose song category!')
         else if (tag.trim().length === 0)
             toast.error('enter tag!')
-        else if (!image && changeImage)
+        else if (!image && changeImage && localImg === 1)
             toast.error('Upload song image!')
-        else if (!song && changeSong)
+        else if (linkImg.trim().length === 0 && localImg === 0)
+            toast.error('Enter link song image!')
+        else if (!song && changeSong && localSrc === 1)
             toast.error('Upload song!')
+        else if (linkSrc.trim().length === 0 && localSrc === 0)
+            toast.error('Enter link song!')
         else {
             let formData = new FormData()
             if(changeImage){

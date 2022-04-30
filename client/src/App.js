@@ -13,11 +13,12 @@ import SignUp from './components/pages/auth/SignUp';
 import SignOut from './components/pages/auth/SignOut';
 import Song from './components/pages/song';
 import ManageSong from './components/pages/manage';
-import UploadSong from './components/pages/manage/UploadSong';
+import UploadSong from './components/pages/manage/CreateSong';
 import CreateAlbum from './components/pages/manage/CreateAlbum';
 import NotFound from './components/pages/notfound';
 import Admin from './components/pages/admin';
 import AdminSong from './components/pages/admin/song';
+import AdminCreateSong from './components/pages/admin/song/Create';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Router>
             <Routes>
               <Route path='/' element={<Static />}>
+                {/* Home */}
                 <Route index element={<Home />} />
                 <Route path='signin/*' element={<SignIn />} />
                 <Route path='signup/*' element={<SignUp />} />
@@ -39,7 +41,9 @@ function App() {
                 {/* Admin */}
                 <Route path='admin/*' element={<Admin/>} />
                 <Route path='admin/song/*' element={<AdminSong/>}/>
+                <Route path='admin/song/create/*' element={<AdminCreateSong/>}/>
 
+                {/* 404 */}
                 <Route path="*" element={<NotFound />} />
               </Route>
             </Routes>

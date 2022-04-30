@@ -20,7 +20,7 @@ namespace server.Controllers.Admin
     {
         MusicContext db = new MusicContext();
 
-        [HttpGet("show")]
+        [HttpGet]
         public IActionResult GetSongShow(int page, int limit)
         {
             if (page < 1)
@@ -32,35 +32,12 @@ namespace server.Controllers.Admin
                 });
             }
             var song = from r in db.Songs
-                       where r.Show == 1
                        select r;
             int p = page - 1;
             return Ok(new
             {
                 song = song.Skip(limit * p).Take(limit).ToList(),
-                length = song.Count(),
-            });
-        }
-
-        [HttpGet("hide")]
-        public IActionResult GetSongHide(int page, int limit)
-        {
-            if (page < 1)
-            {
-                return BadRequest(new
-                {
-                    success = false,
-                    message = "Page start from 1",
-                });
-            }
-            var song = from r in db.Songs
-                       where r.Show == 0
-                       select r;
-            int p = page - 1;
-            return Ok(new
-            {
-                song = song.Skip(limit * p).Take(limit).ToList(),
-                length = song.Count(),
+                songLength = song.Count(),
             });
         }
 
@@ -156,7 +133,7 @@ namespace server.Controllers.Admin
                 }
         }
 
-        [HttpPut("song/update"), DisableRequestSizeLimit]
+        [HttpPut("update"), DisableRequestSizeLimit]
         public async Task<IActionResult> Update()
         {
             try
@@ -313,6 +290,120 @@ namespace server.Controllers.Admin
                     }
                 }
 
+            catch (Exception e)
+            {
+                return StatusCode(500, "Internal server error " + e);
+            }
+        }
+
+        [HttpPost("create"), DisableRequestSizeLimit]
+        public async Task<IActionResult> CreateSong()
+        {
+            var createBy = User.Identity.GetId();
+            try
+            {
+                var formCollection = await Request.ReadFormAsync();
+
+                var files = formCollection.Files;
+                var name = formCollection["name"][0].ToString().Trim();
+                var artist = formCollection["artist"][0].ToString().Trim();
+                var category = Int32.Parse(formCollection["category"][0]);
+                var album = Int32.Parse(formCollection["album"][0]);
+                var show = Int32.Parse(formCollection["show"][0]);
+                var localImg = Int32.Parse(formCollection["localimg"][0]);
+                var localSrc = Int32.Parse(formCollection["localsrc"][0]);
+
+
+                if (name.Length == 0 || artist.Length == 0 || category == -1)
+                {
+                    return Ok(new
+                    {
+                        success = false,
+                        message = "Not enough infomation!"
+                    });
+                }
+                string image = null;
+                string src = null;
+                UploadTemplate upload;
+                if (localImg == 1 && localSrc == 0)
+                {
+
+                    src = formCollection["src"][0].ToString().Trim();
+                    upload = new UploadImageSong();
+                    image = upload.UploadFile(files[0]);
+                }
+                if (localImg == 0 && localSrc == 1)
+                {
+
+                    image = formCollection["img"][0].ToString().Trim();
+                    upload = new UploadSong();
+                    src = upload.UploadFile(files[0]);
+                }
+                if (localImg == 1 && localSrc == 1)
+                {
+                    upload = new UploadImageSong();
+                    image = upload.UploadFile(files[0]);
+                    upload = new UploadSong();
+                    src = upload.UploadFile(files[1]);
+                }
+
+
+                //create data
+                using (var context = new MusicContext())
+                {
+                    if (album == -1)
+                    {
+                        context.Songs.Add(new Song()
+                        {
+                            Name = name,
+                            Artist = artist,
+                            Img = image,
+                            Src = src,
+                            Category = category,
+                            Show = show,
+                            LocalImg = localImg,
+                            LocalSrc = localSrc,
+                            Tag = SongHelper.ConvertTag(name),
+                            CreatedBy = createBy,
+                        });
+                    }
+                    else
+                    {
+                        context.Songs.Add(new Song()
+                        {
+                            Name = name,
+                            Artist = artist,
+                            Img = image,
+                            Src = src,
+                            Category = category,
+                            Show = show,
+                            LocalImg = localImg,
+                            LocalSrc = localSrc,
+                            Album = album,
+                            Tag = SongHelper.ConvertTag(name),
+                            CreatedBy = createBy,
+                        });
+                    }
+
+                    if(context.SaveChanges() > 0)
+                    {
+                        return Ok(new
+                        {
+                            success = true,
+                            message = "Upload success!"
+                        });
+                    }
+                    else
+                    {
+                        return Ok(new
+                        {
+                            success = false,
+                            message = "Upload fail!",
+                        });
+                    }
+                }
+                
+            }
             catch (Exception e)
             {
                 return StatusCode(500, "Internal server error " + e);
