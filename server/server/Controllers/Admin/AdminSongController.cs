@@ -269,7 +269,12 @@ namespace server.Controllers.Admin
                     {
                         song.Src = formCollection["src"][0].ToString().Trim();
                     }
-
+                }
+                
+                if (changeSong.Equals("false") && changeImg.Equals("false"))
+                {
+                    song.Img = formCollection["img"][0].ToString().Trim();
+                    song.Src = formCollection["src"][0].ToString().Trim();
                 }
                 if (db.SaveChanges() > 0)
                     {
@@ -346,6 +351,11 @@ namespace server.Controllers.Admin
                     upload = new UploadSong();
                     src = upload.UploadFile(files[1]);
                 }
+                if(localImg == 0 && localSrc == 0)
+                {
+                    image = formCollection["img"][0].ToString().Trim();
+                    src = formCollection["src"][0].ToString().Trim();
+                }
 
 
                 //create data
@@ -384,8 +394,7 @@ namespace server.Controllers.Admin
                             CreatedBy = createBy,
                         });
                     }
-
-                    if(context.SaveChanges() > 0)
+                    if (context.SaveChanges() > 0)
                     {
                         return Ok(new
                         {
@@ -399,9 +408,9 @@ namespace server.Controllers.Admin
                         {
                             success = false,
                             message = "Upload fail!",
-                        });
-                    }
+                    });
                 }
+            }
                 
             }
             catch (Exception e)

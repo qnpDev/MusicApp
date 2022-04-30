@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import NotPermission from '../../notpermission'
 import api from '../../../axios'
@@ -66,11 +66,11 @@ const AdminCreateSong = () => {
 
             const load = toast.loading('Wait...')
                 setBtnUpload(false)
-                api.put('api/admin/song/create', formData).then(res => {
+                api.post('api/admin/song/create', formData).then(res => {
                     if (res.data.success) {
                         setBtnUpload(true)
                         toast.success('Upload success!')
-                        navigate(-1)
+                        navigate('/admin/song')
                     } else {
                         setBtnUpload(true)
                         toast.error(res.data.message)

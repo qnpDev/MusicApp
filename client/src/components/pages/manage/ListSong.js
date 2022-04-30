@@ -150,7 +150,7 @@ const ListSong = () => {
 
                                                 )}
                                         </td>
-                                        <td className='align-middle text-center warptext'>
+                                        <td className='align-middle warptext'>
                                             <span className='text-secondary text-xs font-weight-bold'>{e.category.name}</span>
                                         </td>
                                         <td className='align-middle text-center text-sm cursor-default'>

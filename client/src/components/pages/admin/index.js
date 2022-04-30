@@ -12,7 +12,6 @@ const Admin = () => {
 
     useEffect(() => {
         api.get('api/admin/home').then(res=>{
-            console.log('hihi')
             if(res.status === 403)
                 setPer(false)
             if(res.status === 200){

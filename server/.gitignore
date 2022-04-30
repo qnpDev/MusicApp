@@ -5,7 +5,7 @@
 /.pnp
 .pnp.js
 /server/bin
-/server/obj
+/server/obj/Debug
 
 # testing
 /coverage

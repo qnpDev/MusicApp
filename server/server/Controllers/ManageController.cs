@@ -576,7 +576,11 @@ namespace server.Controllers
                         {
                             song.Src = formCollection["src"][0].ToString().Trim();
                         }
-                        
+                    }
+                    if (changeSong.Equals("false") && changeImg.Equals("false"))
+                    {
+                        song.Img = formCollection["img"][0].ToString().Trim();
+                        song.Src = formCollection["src"][0].ToString().Trim();
                     }
                     if (context.SaveChanges() > 0)
                     {
@@ -664,13 +668,19 @@ namespace server.Controllers
                     src = upload.UploadFile(files[1]);
                 }
 
+                if (localImg == 0 && localSrc == 0)
+                {
+                    image = formCollection["img"][0].ToString().Trim();
+                    src = formCollection["src"][0].ToString().Trim();
+                }
+
 
                 //create data
                 using (var context = new MusicContext())
                 {
                     if (album == -1)
                     {
-                        context.Requestsongs.Add(new Requestsong()
+                        context.Songs.Add(new Song()
                         {
                             Name = name,
                             Artist = artist,
@@ -682,12 +692,11 @@ namespace server.Controllers
                             LocalSrc = localSrc,
                             Tag = SongHelper.ConvertTag(name),
                             CreatedBy = createBy,
-                            Status = status,
                         });
                     }
                     else
                     {
-                        context.Requestsongs.Add(new Requestsong()
+                        context.Songs.Add(new Song()
                         {
                             Name = name,
                             Artist = artist,
@@ -700,13 +709,25 @@ namespace server.Controllers
                             Album = album,
                             Tag = SongHelper.ConvertTag(name),
                             CreatedBy = createBy,
-                            Status = status,
                         });
                     }
-
-                    context.SaveChanges();
+                    if (context.SaveChanges() > 0)
+                    {
+                        return Ok(new
+                        {
+                            success = true,
+                            message = "Upload success!"
+                        });
+                    }
+                    else
+                    {
+                        return Ok(new
+                        {
+                            success = false,
+                            message = "Upload fail!",
+                        });
+                    }
                 }
-
 
                 //if (files.Any(f => f.Length == 0))
                 //{
@@ -723,11 +744,6 @@ namespace server.Controllers
                 //        file.CopyTo(stream);
                 //    }
                 //}
-                return Ok(new
-                {
-                    success = true,
-                    message = "Upload success!"
-                });
             }
             catch (Exception e)
             {

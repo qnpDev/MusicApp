@@ -70,7 +70,7 @@ const CreateSong = () => {
 
             const load = toast.loading('Wait...')
                 setBtnUpload(false)
-                api.put('api/manage/song/create', formData).then(res => {
+                api.post('api/manage/song/create', formData).then(res => {
                     if (res.data.success) {
                         setBtnUpload(true)
                         toast.success('Upload success!')

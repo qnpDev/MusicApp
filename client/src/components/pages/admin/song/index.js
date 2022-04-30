@@ -134,7 +134,7 @@ const AdminSong = () => {
 
                                                 )}
                                         </td>
-                                        <td className='align-middle text-center warptext'>
+                                        <td className='align-middle warptext'>
                                             <span className='text-secondary text-xs font-weight-bold'>
                                                 {listCategory.map(ele => ele.id === e.category ? ele.name : null)}
                                             </span>
