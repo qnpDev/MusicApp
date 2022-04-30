@@ -1,0 +1,357 @@
+.home-banner {
+    height: 32vh;
+    max-height: 32vh;
+}
+
+.home-banner-img {
+    position: relative;
+    height: 28vh;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+.home-banner-info {
+    position: absolute;
+    color: white;
+    padding: 15px;
+    max-width: 100%;
+    max-height: 26vh;
+    min-height: 26vh;
+    font-family: Poppins-Regular;
+}
+
+.home-banner-seemore {
+    position: absolute;
+    color: white;
+    font-family: Poppins-Regular;
+    bottom: 3px;
+    right: 3px;
+}
+
+.home-banner-info .home-banner-name {
+    font-weight: bold;
+}
+
+.home-banner-img img {
+    position: absolute;
+    height: 28vh;
+    width: 100%;
+}
+
+@media screen and (max-width: 400px) {
+    .col-mini {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    .col-max {
+        flex: 0 0 auto;
+        width: 20%;
+    }
+}
+
+.home-content {
+    text-align: center;
+}
+
+.home-content .img img {
+    height: 10rem;
+    width: 10rem;
+    border-radius: 8px;
+    transition: .5s;
+}
+
+/* .home-content .img img:hover{
+    cursor: pointer;
+    opacity: .5;
+    transition: .5s;
+} */
+
+.home-content .home-img-container {
+    position: relative;
+    transition: .5s ease;
+}
+
+.home-content .home-img-hover {
+    opacity: 0;
+    transition: .5s ease;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    border: 0;
+    background: transparent;
+    box-sizing: border-box;
+    width: 0;
+    height: 74px;
+
+    border-color: transparent transparent transparent #202020;
+    transition: 100ms all ease;
+    cursor: pointer;
+
+    border-style: solid;
+    border-width: 37px 0 37px 60px;
+    transition: .5s ease;
+}
+.home-content .home-img-container:hover{
+    cursor: pointer;
+}
+
+.home-content .home-img-container:hover img {
+    opacity: .3;
+}
+
+.home-content .home-img-container:hover .home-img-hover {
+    opacity: .8;
+}
+
+
+.home-content .item {
+    margin: .3rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.home-content .item .info .name,
+.singer {
+    display: flex;
+    justify-content: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 10rem;
+}
+
+.home-content .item .info .name {
+    font-size: large;
+}
+
+.home-content .item .info {
+    color: var(--first-color-light);
+    transition: .3s;
+}
+
+.home-content .item .info:hover {
+    cursor: pointer;
+    color: black !important;
+    transition: .3s;
+}
+
+.home-content .item .info .singer {
+    font-size: small;
+}
+
+/* Top */
+.home-list-top .content-top {
+    color: var(--first-color-light);
+}
+
+.home-list-top .content-top ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.home-list-top .content-top li {
+    margin-top: .3rem;
+    margin-bottom: .3rem;
+    border-radius: 8px;
+    background-color: aliceblue;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-left: .3rem;
+    padding-right: .3rem;
+}
+
+.home-list-top .content-top ul .item {
+    display: flex;
+    text-align: left;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}
+
+.content-top li:first-child {
+    background-color: rgb(194, 231, 253);
+}
+
+.content-top li:nth-child(2) {
+    background-color: rgb(184, 245, 192);
+}
+
+.content-top li:nth-child(3) {
+    background-color: rgb(245, 184, 184);
+}
+
+.content-top li .center:hover {
+    transition: .5s;
+    cursor: pointer;
+    color: black;
+}
+
+.content-top li .center:hover img {
+    transition: .5s;
+    opacity: .8;
+}
+
+.home-list-top .content-top ul .item .left,
+.right {
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-top li:first-child .left {
+    color: blue;
+    font-weight: bold;
+}
+
+.content-top li:nth-child(2) .left {
+    color: green;
+    font-weight: bold;
+}
+
+.content-top li:nth-child(3) .left {
+    color: red;
+    font-weight: bold;
+}
+
+.content-top li:first-child .center2 {
+    color: blue;
+    font-weight: bold;
+}
+
+.content-top li:nth-child(2) .center2 {
+    color: green;
+    font-weight: bold;
+}
+
+.content-top li:nth-child(3) .center2 {
+    color: red;
+    font-weight: bold;
+}
+
+.home-list-top .content-top ul .item .center {
+    width: 70%;
+    display: flex;
+    text-align: left;
+}
+
+.home-list-top .content-top ul .item .center2 {
+    width: 10%;
+    display: flex;
+    text-align: left;
+    cursor: default;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-top .item .center img {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 8px;
+}
+
+.content-top .item .center .info {
+    padding-left: .3rem;
+    width: 100%;
+}
+
+.content-top .item .center .info .info-name,
+.info-singer {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 70%;
+}
+
+.content-top .item .center .info .info-singer {
+    font-size: small;
+}
+
+.home-list-top .content-top ul .item .left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-top ul .item .right .playnow {
+    margin-right: .2rem;
+    cursor: pointer;
+}
+
+.playnow:hover,
+.addtolist:hover {
+    transition: .5s;
+    color: black;
+}
+
+.home-top-left {
+    display: none;
+}
+
+@media screen and (max-width: 1200px) {
+    .home-top-left {
+        display: block;
+    }
+}
+
+
+
+
+.home-some-album ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.home-some-album li {
+    display: flex;
+    text-align: left;
+    padding: .5rem .3rem;
+
+    margin: .3rem 0px;
+    border-radius: 8px;
+    background-color: aliceblue;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: .5s;
+}
+
+.home-some-album li:hover {
+    background-color: aquamarine;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.home-some-album img {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 8px;
+}
+
+.home-some-album .info {
+    padding-left: .3rem;
+    width: 100%;
+}
+
+.home-some-album .info .info-name,
+.info-artist {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 70%;
+}
+
+.home-some-album .info .info-name {
+    font-weight: bold;
+}
+
+.home-some-album .info .info-artist {
+    font-size: small;
+}

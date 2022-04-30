@@ -1,0 +1,75 @@
+.song-current{
+    align-items: center;
+    display: flex;
+    text-align: center;
+    cursor: default;
+}
+.song-current .song-img{
+    width: 30%;
+}
+.song-current .song-img img{
+    height: 8rem;
+    width: 8rem;
+    border-radius: 8px;
+    transition: .5s;
+}
+.song-current .listens{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-top: 8px;
+}
+.song-current .song-info{
+    font-family: Poppins-Regular;
+    width: 100%;
+}
+.song-current .song-info .name{
+    font-size: xx-large;
+    font-weight: bold;
+}
+.song-current .song-info .album{
+    font-size: x-small;
+}
+
+.song-current-action{
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    border-top: solid var(--bs-gray-400) 1px;
+}
+.song-current-action .author{
+    width: 30%;
+    cursor: default;
+}
+.song-current-action .author .avatar{
+    text-align: center;
+    margin-top: 5px;
+}
+.song-current-action .author .avatar img{
+    height: 3rem;
+    width: 3rem;
+    border-radius: 8px;
+}
+.song-current-action .author .info{
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    font-weight: bold;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-left: .2rem;
+}
+.song-current-action .action{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.song-current-action .action{
+    justify-content: right;
+    width: 100%;
+}
+.song-current-action .action .btn{
+    margin: 8px;
+}

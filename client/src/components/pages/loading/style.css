@@ -1,0 +1,15 @@
+/* center v h */
+.loading .centervh{
+    display: table;
+    min-width: 100%;
+    min-height: 100%;
+}
+.loading .centervh-content{
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+.loading .centervh-item{
+    display: inline-block;
+}
+/* end center v h */
