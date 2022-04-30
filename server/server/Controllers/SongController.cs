@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using server.Helpers;
+using server.Helpers.Pattern.UploadTemplate;
 using server.Models;
 using System;
 using System.Collections.Generic;
@@ -196,57 +197,66 @@ namespace server.Controllers
                 }
                 string image = null;
                 string src = null;
+                UploadTemplate upload;
                 if(localImg == 1 && localSrc == 0)
                 {
                     // file song image
-                    var folderName = Path.Combine("Uploads", "Images", "Songs");
-                    var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                    var fileName = SongHelper.ConvertSongFile(ContentDispositionHeaderValue.Parse(files[0].ContentDisposition).FileName.Trim('"'));
-                    var fullPath = Path.Combine(pathToSave, fileName);
-                    image = fileName;
+                    //var folderName = Path.Combine("Uploads", "Images", "Songs");
+                    //var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                    //var fileName = SongHelper.ConvertSongFile(ContentDispositionHeaderValue.Parse(files[0].ContentDisposition).FileName.Trim('"'));
+                    //var fullPath = Path.Combine(pathToSave, fileName);
+                    //image = fileName;
                     src = formCollection["src"][0].ToString().Trim();
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        files[0].CopyTo(stream);
-                    }
+                    //using (var stream = new FileStream(fullPath, FileMode.Create))
+                    //{
+                    //    files[0].CopyTo(stream);
+                    //}
+                    upload = new UploadImageSong();
+                    image = upload.UploadFile(files[0]);
                 }
                 if(localImg == 0 && localSrc == 1)
                 {
                     // file song
-                    var folderName = Path.Combine("Uploads", "Songs");
-                    var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                    var fileName = SongHelper.ConvertSongFile(ContentDispositionHeaderValue.Parse(files[1].ContentDisposition).FileName.Trim('"'));
-                    var fullPath = Path.Combine(pathToSave, fileName);
-                    src = fileName;
+                    //var folderName = Path.Combine("Uploads", "Songs");
+                    //var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                    //var fileName = SongHelper.ConvertSongFile(ContentDispositionHeaderValue.Parse(files[1].ContentDisposition).FileName.Trim('"'));
+                    //var fullPath = Path.Combine(pathToSave, fileName);
+                    //src = fileName;
                     image = formCollection["img"][0].ToString().Trim();
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        files[0].CopyTo(stream);
-                    }
+                    //using (var stream = new FileStream(fullPath, FileMode.Create))
+                    //{
+                    //    files[0].CopyTo(stream);
+                    //}
+                    upload = new UploadSong();
+                    src = upload.UploadFile(files[0]);
                 }
                 if(localImg == 1 && localSrc == 1)
                 {
-                    // file song image
-                    var folderName = Path.Combine("Uploads", "Images", "Songs");
-                    var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                    var fileName = SongHelper.ConvertSongFile(ContentDispositionHeaderValue.Parse(files[0].ContentDisposition).FileName.Trim('"'));
-                    var fullPath = Path.Combine(pathToSave, fileName);
-                    image = fileName;
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        files[0].CopyTo(stream);
-                    }
+                    //// file song image
+                    //var folderName = Path.Combine("Uploads", "Images", "Songs");
+                    //var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                    //var fileName = SongHelper.ConvertSongFile(ContentDispositionHeaderValue.Parse(files[0].ContentDisposition).FileName.Trim('"'));
+                    //var fullPath = Path.Combine(pathToSave, fileName);
+                    //image = fileName;
+                    //using (var stream = new FileStream(fullPath, FileMode.Create))
+                    //{
+                    //    files[0].CopyTo(stream);
+                    //}
 
-                    // file song
-                    folderName = Path.Combine("Uploads", "Songs");
-                    pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                    fileName = SongHelper.ConvertSongFile(ContentDispositionHeaderValue.Parse(files[1].ContentDisposition).FileName.Trim('"'));
-                    fullPath = Path.Combine(pathToSave, fileName);
-                    src = fileName;
-                    using (var stream = new FileStream(fullPath, FileMode.Create))
-                    {
-                        files[1].CopyTo(stream);
-                    }
+                    //// file song
+                    //folderName = Path.Combine("Uploads", "Songs");
+                    //pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                    //fileName = SongHelper.ConvertSongFile(ContentDispositionHeaderValue.Parse(files[1].ContentDisposition).FileName.Trim('"'));
+                    //fullPath = Path.Combine(pathToSave, fileName);
+                    //src = fileName;
+                    //using (var stream = new FileStream(fullPath, FileMode.Create))
+                    //{
+                    //    files[1].CopyTo(stream);
+                    //}
+                    upload = new UploadImageSong();
+                    image = upload.UploadFile(files[0]);
+                    upload = new UploadSong();
+                    src = upload.UploadFile(files[1]);
                 }
                 
 
