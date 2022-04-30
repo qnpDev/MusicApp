@@ -582,7 +582,6 @@ namespace server.Controllers
                         {
                             song.Img = formCollection["img"][0].ToString().Trim();
                         }
-                        
 
                         // delete file song
                         folderName = Path.Combine("Uploads", "Songs", song.Src);
