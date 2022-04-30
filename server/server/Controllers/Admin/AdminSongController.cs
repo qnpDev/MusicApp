@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.Helpers;
+using server.Helpers.Pattern.UploadTemplate;
 using server.Models;
 using System;
 using System.Collections.Generic;
@@ -209,126 +210,91 @@ namespace server.Controllers.Admin
                     if (album != -1)
                         song.Album = album;
 
-                    if (changeImg.Equals("true") && changeSong.Equals("false"))
+                if (changeImg.Equals("true") && changeSong.Equals("false"))
+                {
+                    // delete file song image
+                    var folderName = Path.Combine("Uploads", "Images", "Songs", song.Img);
+                    var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                    FileInfo file = new FileInfo(pathToSave);
+                    if (file.Exists)
                     {
-                        // delete file song image
-                        var folderName = Path.Combine("Uploads", "Images", "Songs", song.Img);
-                        var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                        FileInfo file = new FileInfo(pathToSave);
-                        if (file.Exists)
-                        {
-                            file.Delete();
-                        }
-                        if (localImg == 1)
-                        {
-                            // upload file song image
-                            folderName = Path.Combine("Uploads", "Images", "Songs");
-                            pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                            var fileName = SongHelper.ConvertSongFile(ContentDispositionHeaderValue.Parse(files[0].ContentDisposition).FileName.Trim('"'));
-                            var fullPath = Path.Combine(pathToSave, fileName);
-                            using (var stream = new FileStream(fullPath, FileMode.Create))
-                            {
-                                files[0].CopyTo(stream);
-                            }
-                            //update sql
-                            song.Img = fileName;
-                        }
-                        else
-                        {
-                            song.Img = formCollection["img"][0].ToString().Trim();
-                        }
-
+                        file.Delete();
+                    }
+                    if (localImg == 1)
+                    {
+                        UploadTemplate upload = new UploadImageSong();
+                        song.Img = upload.UploadFile(files[0]);
+                    }
+                    else
+                    {
+                        song.Img = formCollection["img"][0].ToString().Trim();
                     }
 
-                    if (changeSong.Equals("true") && changeImg.Equals("false"))
+                }
+
+                if (changeSong.Equals("true") && changeImg.Equals("false"))
+                {
+                    // delete file song
+                    var folderName = Path.Combine("Uploads", "Songs", song.Src);
+                    var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                    FileInfo file = new FileInfo(pathToSave);
+                    if (file.Exists)
                     {
-                        // delete file song
-                        var folderName = Path.Combine("Uploads", "Songs", song.Src);
-                        var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                        FileInfo file = new FileInfo(pathToSave);
-                        if (file.Exists)
-                        {
-                            file.Delete();
-                        }
-                        if (localSrc == 1)
-                        {
-                            // upload file song
-                            folderName = Path.Combine("Uploads", "Songs");
-                            pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                            var fileName = SongHelper.ConvertSongFile(ContentDispositionHeaderValue.Parse(files[0].ContentDisposition).FileName.Trim('"'));
-                            var fullPath = Path.Combine(pathToSave, fileName);
-                            using (var stream = new FileStream(fullPath, FileMode.Create))
-                            {
-                                files[0].CopyTo(stream);
-                            }
-                            //update sql
-                            song.Src = fileName;
-                        }
-                        else
-                        {
-                            song.Src = formCollection["src"][0].ToString().Trim();
-                        }
-
+                        file.Delete();
                     }
-                    if (changeSong.Equals("true") && changeImg.Equals("true"))
+                    if (localSrc == 1)
                     {
-                        // delete file song image
-                        var folderName = Path.Combine("Uploads", "Images", "Songs", song.Img);
-                        var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                        FileInfo file = new FileInfo(pathToSave);
-                        if (file.Exists)
-                        {
-                            file.Delete();
-                        }
-                        if (localImg == 1)
-                        {
-                            // upload file song image
-                            folderName = Path.Combine("Uploads", "Images", "Songs");
-                            pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                            var fileName = SongHelper.ConvertSongFile(ContentDispositionHeaderValue.Parse(files[0].ContentDisposition).FileName.Trim('"'));
-                            var fullPath = Path.Combine(pathToSave, fileName);
-                            using (var stream = new FileStream(fullPath, FileMode.Create))
-                            {
-                                files[0].CopyTo(stream);
-                            }
-                            //update sql
-                            song.Img = fileName;
-                        }
-                        else
-                        {
-                            song.Img = formCollection["img"][0].ToString().Trim();
-                        }
-
-
-                        // delete file song
-                        folderName = Path.Combine("Uploads", "Songs", song.Src);
-                        pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                        FileInfo file1 = new FileInfo(pathToSave);
-                        if (file1.Exists)
-                        {
-                            file1.Delete();
-                        }
-                        if (localSrc == 1)
-                        {
-                            // upload file song
-                            folderName = Path.Combine("Uploads", "Songs");
-                            pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                            var fileName = SongHelper.ConvertSongFile(ContentDispositionHeaderValue.Parse(files[0].ContentDisposition).FileName.Trim('"'));
-                            var fullPath = Path.Combine(pathToSave, fileName);
-                            using (var stream = new FileStream(fullPath, FileMode.Create))
-                            {
-                                files[1].CopyTo(stream);
-                            }
-                            //update sql
-                            song.Src = fileName;
-                        }
-                        else
-                        {
-                            song.Src = formCollection["src"][0].ToString().Trim();
-                        }
-
+                        UploadTemplate upload = new UploadSong();
+                        song.Src = upload.UploadFile(files[0]);
                     }
-                    if (db.SaveChanges() > 0)
+                    else
+                    {
+                        song.Src = formCollection["src"][0].ToString().Trim();
+                    }
+
+                }
+                if (changeSong.Equals("true") && changeImg.Equals("true"))
+                {
+                    UploadTemplate upload;
+
+                    // delete file song image
+                    var folderName = Path.Combine("Uploads", "Images", "Songs", song.Img);
+                    var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                    FileInfo file = new FileInfo(pathToSave);
+                    if (file.Exists)
+                    {
+                        file.Delete();
+                    }
+                    if (localImg == 1)
+                    {
+                        upload = new UploadImageSong();
+                        song.Img = upload.UploadFile(files[0]);
+                    }
+                    else
+                    {
+                        song.Img = formCollection["img"][0].ToString().Trim();
+                    }
+
+                    // delete file song
+                    folderName = Path.Combine("Uploads", "Songs", song.Src);
+                    pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                    FileInfo file1 = new FileInfo(pathToSave);
+                    if (file1.Exists)
+                    {
+                        file1.Delete();
+                    }
+                    if (localSrc == 1)
+                    {
+                        upload = new UploadSong();
+                        song.Src = upload.UploadFile(files[1]);
+                    }
+                    else
+                    {
+                        song.Src = formCollection["src"][0].ToString().Trim();
+                    }
+
+                }
+                if (db.SaveChanges() > 0)
                     {
                         return Ok(new
                         {
