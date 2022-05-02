@@ -610,6 +610,7 @@ namespace server.Controllers
         [HttpPost("song/create"), DisableRequestSizeLimit]
         public async Task<IActionResult> CreateSong()
         {
+            var createBy = User.Identity.GetId();
             try
             {
                 var formCollection = await Request.ReadFormAsync();
@@ -623,7 +624,6 @@ namespace server.Controllers
                 var status = Int32.Parse(formCollection["status"][0]);
                 var localImg = Int32.Parse(formCollection["localimg"][0]);
                 var localSrc = Int32.Parse(formCollection["localsrc"][0]);
-                var createBy = Int32.Parse(formCollection["uid"][0]);
 
                 //if (files.Any(f => f.Length < 2))
                 //{

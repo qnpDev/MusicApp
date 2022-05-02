@@ -1,0 +1,8 @@
+.crawl-song-img{
+    width: 20rem;
+    height: 20rem;
+}
+.horizontal-line{
+    border: solid .1px var(--bs-gray-300);
+    margin: 8px 0;
+}
