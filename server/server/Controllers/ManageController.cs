@@ -461,7 +461,11 @@ namespace server.Controllers
                     var check = (from r in context.Songs
                                  where r.Tag == tag
                                  select r).FirstOrDefault();
-                    if(check != null)
+                    var check1 = (from r in context.Requestsongs
+                                  where r.Tag == tag
+                                         && r.Id != id
+                                  select r).FirstOrDefault();
+                    if (check != null || check1 != null)
                     {
                         return Ok(new
                         {
@@ -576,11 +580,6 @@ namespace server.Controllers
                         {
                             song.Src = formCollection["src"][0].ToString().Trim();
                         }
-                    }
-                    if (changeSong.Equals("false") && changeImg.Equals("false"))
-                    {
-                        song.Img = formCollection["img"][0].ToString().Trim();
-                        song.Src = formCollection["src"][0].ToString().Trim();
                     }
                     if (context.SaveChanges() > 0)
                     {

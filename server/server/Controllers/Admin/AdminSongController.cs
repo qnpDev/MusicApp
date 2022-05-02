@@ -155,6 +155,7 @@ namespace server.Controllers.Admin
 
                     var check = (from r in db.Songs
                                  where r.Tag == tag
+                                    && r.Id != id
                                  select r).FirstOrDefault();
                     if (check != null)
                     {
@@ -269,12 +270,6 @@ namespace server.Controllers.Admin
                     {
                         song.Src = formCollection["src"][0].ToString().Trim();
                     }
-                }
-                
-                if (changeSong.Equals("false") && changeImg.Equals("false"))
-                {
-                    song.Img = formCollection["img"][0].ToString().Trim();
-                    song.Src = formCollection["src"][0].ToString().Trim();
                 }
                 if (db.SaveChanges() > 0)
                     {

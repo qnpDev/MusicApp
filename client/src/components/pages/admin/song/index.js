@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
 import Pagination from 'react-js-pagination';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -6,6 +7,7 @@ import api from '../../../axios'
 import convertDateTime from '../../../helper/ConvertDateTime';
 import Loading from '../../loading';
 import NotPermission from '../../notpermission';
+import UpdateSong from './UpdateSong';
 
 const AdminSong = () => {
     document.title = 'Song Manager | Admin'
@@ -18,7 +20,7 @@ const AdminSong = () => {
     const [curPage, setCurPage] = useState(1)
 
     const handleChangeShow = id => {
-        api.put('api/Manage/song/show?id='+id).then(res=> {
+        api.put('api/admin/song/show?id='+id).then(res=> {
             if(res.data.success){
                 setData(prev => ({
                     ...prev,
@@ -26,6 +28,61 @@ const AdminSong = () => {
                         ...ele,
                         show: res.data.data.show,
                     }) : ele)
+                }))
+                toast.success(res.data.message)
+            }else{
+                toast.error(res.data.message)
+            }
+        })
+    }
+
+    const handleDelete = id => {
+        confirmAlert({
+            customUI: ({ onClose }) => {
+                return (
+                    <div className='card'>
+                        <div className='card-header text-center'>
+                            <h1>Are you sure?</h1>
+                        </div>
+                        <div className='card-body'>
+                            <p>You want to delete this song?</p>
+                            <div className='d-flex justify-content-end'>
+                                <button className='btn btn-secondary mx-1' onClick={onClose}>No</button>
+                                <button
+                                    className='btn btn-danger mx-1'
+                                    onClick={() => apiDelete(id, onClose)}
+                                >
+                                    Yes!
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                );
+            }
+        });
+    }
+
+    const handleUpdate = e => {
+        confirmAlert({
+            customUI: ({ onClose }) => {
+                return (
+                    <UpdateSong data={e} setData={setData} listAlbum={listAlbum} listCategory={listCategory} close={onClose} />
+                );
+            }
+        });
+    }
+
+    const apiDelete = (id, close) => {
+        close()
+        const load = toast.loading('Wait...')
+        api.delete('api/admin/song/delete?id='+id).then(res => {
+            toast.dismiss(load)
+            if(res.status === 200 || res.data.success){
+                setData(prev => ({
+                    ...prev,
+                    song: prev.song.filter(ele => ele.id !== id)
                 }))
                 toast.success(res.data.message)
             }else{
@@ -153,14 +210,15 @@ const AdminSong = () => {
                                         </td>
                                         <td className='align-middle'>
                                             <div className='text-secondary font-weight-bold text-xs cursor-pointer text-center'>
+                                            <div onClick={() => handleUpdate(e)} className='btn btn-sm bg-gradient-info m-0 mx-1'>Edit</div>
                                                 {e.show === 1
                                                     ? (
-                                                        <div onClick={() => handleChangeShow(e.id)} className='btn btn-sm btn-outline-secondary m-0 mx-1'>Hide</div>
+                                                        <div onClick={() => handleChangeShow(e.id)} className='btn btn-sm bg-gradient-secondary m-0 mx-1'>Hide</div>
                                                     )
                                                     : (
-                                                        <div onClick={() => handleChangeShow(e.id)} className='btn btn-sm btn-outline-success m-0 mx-1'>Show</div>
+                                                        <div onClick={() => handleChangeShow(e.id)} className='btn btn-sm bg-gradient-success m-0 mx-1'>Show</div>
                                                     )}
-                                                <div className='btn btn-sm btn-outline-danger m-0 mx-1'>Delete</div>
+                                                <div onClick={() => handleDelete(e.id)} className='btn btn-sm bg-gradient-danger m-0 mx-1'>Delete</div>
                                             </div>
                                         </td>
                                     </tr>
