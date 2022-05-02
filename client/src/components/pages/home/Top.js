@@ -110,10 +110,10 @@ const HomeTop = () => {
                                     </div>
                                     <div className='center' onClick={() => navigate('/song/' + e.tag)}>
                                         <div className='img'>
-                                            <img src={e.img
-                                                ? (process.env.REACT_APP_API_SRC_AUDIO_IMG + e.img)
-                                                : 'https://wallpaperaccess.com/full/2029165.jpg'
-                                            }
+                                            <img src={e.localImg === 1
+                                                        ? process.env.REACT_APP_API_SRC_AUDIO_IMG + e.img
+                                                        : e.img
+                                                    }
                                                 alt='img song' />
                                         </div>
                                         <div className='info'>
