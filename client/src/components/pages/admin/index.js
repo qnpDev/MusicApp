@@ -1,28 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Loading from '../loading';
-import NotPermission from '../notpermission';
 import api from '../../axios'
 import { useNavigate } from 'react-router-dom';
 import CrawlSongTool from './tool/crawlSong';
-
 const Admin = () => {
     document.title = 'Admin Panel'
     const navigate = useNavigate()
     const [data, setData] = useState()
-    const [per, setPer] = useState(true)
-
     useEffect(() => {
         api.get('api/admin/home').then(res=>{
-            if(res.status === 403)
-                setPer(false)
             if(res.status === 200){
                 setData(res.data)
             }
         })
     }, [])
-    if(!per){
-        return ( <NotPermission/> )
-    }
     if(!data)
         return ( <Loading/> )
     return (

@@ -20,6 +20,8 @@ import Admin from './components/pages/admin';
 import AdminSong from './components/pages/admin/song';
 import AdminCreateSong from './components/pages/admin/song/Create';
 import CrawlSongNCT from './components/pages/admin/tool/crawlSong/NCT';
+import CrawlSongNhacVn from './components/pages/admin/tool/crawlSong/NhacVn';
+import CrawlSongCSN from './components/pages/admin/tool/crawlSong/CSN';
 
 function App() {
   return (
@@ -44,6 +46,8 @@ function App() {
                 <Route path='admin/song/*' element={<AdminSong/>}/>
                 <Route path='admin/song/create/*' element={<AdminCreateSong/>}/>
                 <Route path='admin/tool/crawl-song/nct/*' element={<CrawlSongNCT/>}/>
+                <Route path='admin/tool/crawl-song/nhacvn/*' element={<CrawlSongNhacVn/>}/>
+                <Route path='admin/tool/crawl-song/csn/*' element={<CrawlSongCSN/>}/>
 
                 {/* 404 */}
                 <Route path="*" element={<NotFound />} />

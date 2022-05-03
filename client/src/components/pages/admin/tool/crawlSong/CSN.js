@@ -7,8 +7,8 @@ import Loading from '../../../loading';
 import './style.css'
 import { useNavigate } from 'react-router-dom';
 
-const CrawlSongNCT = () => {
-    document.title = 'Nhaccuatui Song Tool | Admin'
+const CrawlSongCSN = () => {
+    document.title = 'NhacVn Song Tool | Admin'
     const navigate = useNavigate()
     const { dataUser } = useContext(UserContext)
     const [data, setData] = useState()
@@ -21,7 +21,7 @@ const CrawlSongNCT = () => {
     const handleGet = () => {
         setData()
         setBtnLoading(true)
-        api.get('api/admin/tool/nhaccuatui', {
+        api.get('api/admin/tool/chiasenhac', {
             params: {
                 uri: link
             }
@@ -39,7 +39,7 @@ const CrawlSongNCT = () => {
     const handleSave = () => {
         if (data.name.trim().length === 0)
             toast.error('Enter song name!')
-        else if (data.artist || data.artist.trim().length === 0)
+        else if (!data.artist || data.artist.trim().length === 0)
             toast.error('Enter song artist!')
         else if (!data.category || data.category === -1)
             toast.error('Choose song category!')
@@ -84,25 +84,25 @@ const CrawlSongNCT = () => {
     if (!dataUser || dataUser.role < 10)
         return (<NotPermission />)
     if(!listAlbum || !listCategory)
-        return (<Loading/>)
+        return ( <Loading />)
     return (
         <>
             <div className='card'>
                 <div className='card-header pb-0'>
-                    <h3>Crawl Nhaccuatui song</h3>
+                    <h3>Crawl ChiaSeNhac song</h3>
                 </div>
                 <div className='card-body'>
                     <div className='d-flex justify-content-center'>
                         <input
                             className='form-control'
-                            placeholder='Input nhaccuatui link'
+                            placeholder='Input ChiaSeNhac link'
                             type='text'
                             value={link}
                             onChange={e => setLink(e.target.value)}
                         />
                     </div>
                     <div className='text-end text-sm mt-1'>
-                        <b>Example: </b>https://www.nhaccuatui.com/bai-hat/da-vu-tang-duy-tan.8Q8yLCcES92H.html
+                        <b>Example: </b>https://chiasenhac.vn/mp3/keyo/muon-em-la-tsv7z6dmqt1km8.html
                     </div>
                     <div className='d-flex justify-content-center mt-3'>
                         <button
@@ -119,6 +119,7 @@ const CrawlSongNCT = () => {
                             <div className='text-center'>
                                 <img
                                     className='avatar crawl-song-img'
+                                    referrerPolicy='no-referrer'
                                     src={data.img}
                                     alt='img data crawl'
                                 />
@@ -215,4 +216,4 @@ const CrawlSongNCT = () => {
     );
 };
 
-export default CrawlSongNCT;
+export default CrawlSongCSN;

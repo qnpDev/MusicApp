@@ -109,7 +109,6 @@ const Media = () => {
                     ? process.env.REACT_APP_API_SRC_AUDIO + listMusic[audioIndex].src
                     : listMusic[audioIndex].src
                 }
-                
                 onLoadedData={handleLoadedData}
                 onTimeUpdate={() => setCurrentTime(audioRef.current.currentTime)}
                 onEnded={repeat}
