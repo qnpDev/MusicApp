@@ -7,6 +7,7 @@ import api from '../../../axios'
 import convertDateTime from '../../../helper/ConvertDateTime';
 import Loading from '../../loading';
 import NotPermission from '../../notpermission';
+import CrawlSongTool from '../tool/crawlSong';
 import UpdateSong from './UpdateSong';
 
 const AdminSong = () => {
@@ -244,6 +245,8 @@ const AdminSong = () => {
                 </div>
                 )}
             </div>
+
+            <CrawlSongTool />
         </>
     );
 };
