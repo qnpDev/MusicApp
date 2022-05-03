@@ -67,7 +67,7 @@ const Admin = () => {
                             {data.album}
                         </h1>
                         <div className='card-footer pt-0'>
-                            <button className='btn btn-sm bg-gradient-danger'>Manage</button>
+                            <button onClick={() => navigate('/admin/album')} className='btn btn-sm bg-gradient-danger'>Manage</button>
                         </div>
                     </div>
                 </div>

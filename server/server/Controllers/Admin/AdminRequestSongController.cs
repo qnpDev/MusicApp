@@ -78,7 +78,7 @@ namespace server.Controllers.Admin
         [HttpPost]
         public IActionResult Action(int id, string type)
         {
-            System.Diagnostics.Debug.WriteLine("id: " + id);
+            //System.Diagnostics.Debug.WriteLine("id: " + id);
             var song = (from r in db.Requestsongs
                         where r.Id == id
                         select r).FirstOrDefault();

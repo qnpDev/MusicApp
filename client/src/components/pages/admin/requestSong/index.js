@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { confirmAlert } from 'react-confirm-alert';
 import Pagination from 'react-js-pagination';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../../../axios'
 import convertDateTime from '../../../helper/ConvertDateTime';
@@ -11,7 +10,6 @@ import Update from './Update';
 
 const AdminRequestSong = () => {
     document.title = 'Song Request Manager | Admin'
-    const navigate = useNavigate()
     const [data, setData] = useState()
     const [listCategory, setListCategory] = useState()
     const [listAlbum, setListAlbum] = useState()
@@ -178,14 +176,14 @@ const AdminRequestSong = () => {
     }, [curPage])
     useEffect(() => {
         api.get('api/admin/home/allalbum').then(res => {
-            if(res.status === 403){
+            if(!res.data){
                 setPer(false)
             }else{
                 setListAlbum(res.data)
             }
         })
         api.get('api/admin/home/allcategory').then(res => {
-            if(res.status === 403){
+            if(!res.data){
                 setPer(false)
             }else{
                 setListCategory(res.data)
@@ -200,14 +198,7 @@ const AdminRequestSong = () => {
         <>
             <div className='card mb-4'>
                 <div className='card-header pb-0'>
-                    <div className='d-flex justify-content-between align-item-center'>
-                        <div>
-                            <h6>Songs</h6>
-                        </div>
-                        <div
-                            onClick={() => navigate('/admin/song/create')}
-                            className='btn btn-info btn-sm'>Upload new song</div>
-                    </div>
+                    <h6>Request Song | Admin</h6>
                 </div>
                 <div className='card-body px-0 pt-0 pb-2'>
                     <div className='table-responsive p-0'>
