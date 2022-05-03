@@ -66,6 +66,13 @@ const Media = () => {
     const handleShowListMusic = () => {
         setShowListMusic(!showListMusic)
     }
+    const handlePrev = () => {
+        if(audioIndex === 0){
+            setAudioIndex(listMusic.length - 1)
+        }else{
+            setAudioIndex(prev => prev - 1)
+        }
+    }
     const repeat = () => {
         if (repeatOne) {
             audioRef.current.currentTime = 0;
@@ -140,7 +147,7 @@ const Media = () => {
                                     className={(random) ? 'media-random media-random-active' : 'media-random'}
                                 />
                                 <MdSkipPrevious
-                                    onClick={() => setAudioIndex(Math.abs(audioIndex - 1) % listMusic.length)}
+                                    onClick={handlePrev}
                                     className='media-btn' />
                                 {isPlay
                                     ? <MdPauseCircleOutline onClick={handlePausePlayClick} className='media-btn media-playpause' />

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { ListMusicContext } from '../../contexts/ListMusicContext';
 import {
     AiOutlineClose,
@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const ListMedia = ({ audioIndex, setAudioIndex, audioRef, setPlay }) => {
     const { listMusic, removeMusic, removeAll } = useContext(ListMusicContext)
     const navigate = useNavigate()
+    const ulRef = useRef()
     const handleSelect = e => {
         setAudioIndex(e % listMusic.length)
         audioRef.current.play();
@@ -19,20 +20,25 @@ const ListMedia = ({ audioIndex, setAudioIndex, audioRef, setPlay }) => {
             setAudioIndex(prev => prev - 1)
         }
     }
-
+    useEffect(() => {
+        if(ulRef.current){
+            console.log(audioIndex)
+            ulRef.current.scrollTop = audioIndex * 60;
+        }
+    }, [ulRef, audioIndex])
     return (
         <>
             <div className='media-list-music'>
                 <div className=' pt-2 list-title mt-3'>
                     <div className='text-dark font-weight-bolder'>Playlists</div>
-                    <div className='media-listdelete-all'>
+                    <div className='media-list-delete-all'>
                         <button 
                             onClick={removeAll}
                             className='btn btn-sm btn-outline-danger m-0'
                         >Del all</button>
                     </div>
                 </div>
-                <ul>
+                <ul ref={ulRef}>
                     {listMusic.length === 0
                         ? (
                             <div className='media-list-empty'>
