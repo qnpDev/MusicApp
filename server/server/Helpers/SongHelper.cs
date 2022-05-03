@@ -33,7 +33,7 @@ namespace server.Helpers
             Regex regex = new Regex("\\p{IsCombiningDiacriticalMarks}+");
             string temp = name.Normalize(NormalizationForm.FormD);
             string temp2 = regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D');
-            return temp2.Replace(" ", "") + "." + extent;
+            return temp2.Replace(" ", "") + "-" + DateTimeOffset.UtcNow.ToUnixTimeSeconds() + "." + extent;
         }
     }
 }
