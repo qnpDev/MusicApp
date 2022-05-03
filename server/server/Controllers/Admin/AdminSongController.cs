@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.Helpers;
+using server.Helpers.Pattern.DeleteStrategy;
 using server.Helpers.Pattern.UploadTemplate;
 using server.Models;
 using System;
@@ -108,21 +109,30 @@ namespace server.Controllers.Admin
                 else
                 {
                     // delete file song
-                    var folderName = Path.Combine("Uploads", "Songs", song.Src);
-                    var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                    FileInfo file = new FileInfo(pathToSave);
-                    if (file.Exists)
-                    {
-                        file.Delete();
-                    }
+
+                    DeleteFile delFile;
+                    delFile = new(new DeleteSong());
+                    delFile.Delete(song.Src);
+
+                    //var folderName = Path.Combine("Uploads", "Songs", song.Src);
+                    //var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                    //FileInfo file = new FileInfo(pathToSave);
+                    //if (file.Exists)
+                    //{
+                    //    file.Delete();
+                    //}
                     // delete file song image
-                    folderName = Path.Combine("Uploads", "Images", "Songs", song.Img);
-                    pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                    FileInfo file1 = new FileInfo(pathToSave);
-                    if (file1.Exists)
-                    {
-                        file1.Delete();
-                    }
+
+                    delFile = new(new DeleteImageSong());
+                    delFile.Delete(song.Img);
+
+                    //folderName = Path.Combine("Uploads", "Images", "Songs", song.Img);
+                    //pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                    //FileInfo file1 = new FileInfo(pathToSave);
+                    //if (file1.Exists)
+                    //{
+                    //    file1.Delete();
+                    //}
                     db.Songs.Remove(song);
                     db.SaveChanges();
                     return Ok(new
@@ -187,17 +197,19 @@ namespace server.Controllers.Admin
                     song.LocalSrc = localSrc;
                     if (album != -1)
                         song.Album = album;
-
+                DeleteFile delFile;
                 if (changeImg.Equals("true") && changeSong.Equals("false"))
                 {
                     // delete file song image
-                    var folderName = Path.Combine("Uploads", "Images", "Songs", song.Img);
-                    var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                    FileInfo file = new FileInfo(pathToSave);
-                    if (file.Exists)
-                    {
-                        file.Delete();
-                    }
+                    delFile = new(new DeleteImageSong());
+                    delFile.Delete(song.Img);
+                    //var folderName = Path.Combine("Uploads", "Images", "Songs", song.Img);
+                    //var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                    //FileInfo file = new FileInfo(pathToSave);
+                    //if (file.Exists)
+                    //{
+                    //    file.Delete();
+                    //}
                     if (localImg == 1)
                     {
                         UploadTemplate upload = new UploadImageSong();
@@ -213,13 +225,15 @@ namespace server.Controllers.Admin
                 if (changeSong.Equals("true") && changeImg.Equals("false"))
                 {
                     // delete file song
-                    var folderName = Path.Combine("Uploads", "Songs", song.Src);
-                    var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                    FileInfo file = new FileInfo(pathToSave);
-                    if (file.Exists)
-                    {
-                        file.Delete();
-                    }
+                    delFile = new(new DeleteSong());
+                    delFile.Delete(song.Src);
+                    //var folderName = Path.Combine("Uploads", "Songs", song.Src);
+                    //var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                    //FileInfo file = new FileInfo(pathToSave);
+                    //if (file.Exists)
+                    //{
+                    //    file.Delete();
+                    //}
                     if (localSrc == 1)
                     {
                         UploadTemplate upload = new UploadSong();
@@ -236,13 +250,9 @@ namespace server.Controllers.Admin
                     UploadTemplate upload;
 
                     // delete file song image
-                    var folderName = Path.Combine("Uploads", "Images", "Songs", song.Img);
-                    var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                    FileInfo file = new FileInfo(pathToSave);
-                    if (file.Exists)
-                    {
-                        file.Delete();
-                    }
+                    delFile = new(new DeleteImageSong());
+                    delFile.Delete(song.Img);
+                    
                     if (localImg == 1)
                     {
                         upload = new UploadImageSong();
@@ -254,13 +264,9 @@ namespace server.Controllers.Admin
                     }
 
                     // delete file song
-                    folderName = Path.Combine("Uploads", "Songs", song.Src);
-                    pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                    FileInfo file1 = new FileInfo(pathToSave);
-                    if (file1.Exists)
-                    {
-                        file1.Delete();
-                    }
+                    delFile = new(new DeleteSong());
+                    delFile.Delete(song.Src);
+
                     if (localSrc == 1)
                     {
                         upload = new UploadSong();
