@@ -119,7 +119,7 @@ const Admin = () => {
                             {data.category}
                         </h1>
                         <div className='card-footer pt-0'>
-                            <button className='btn btn-sm bg-gradient-warning'>Manage</button>
+                            <button onClick={() => navigate('/admin/category')} className='btn btn-sm bg-gradient-warning'>Manage</button>
                         </div>
                     </div>
                 </div>
