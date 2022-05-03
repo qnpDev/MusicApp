@@ -169,12 +169,12 @@ const ListSong = () => {
                                             <div className='text-secondary font-weight-bold text-xs cursor-pointer text-center'>
                                                 {e.song.show === 1
                                                     ? (
-                                                        <div onClick={() => handleChangeShow(e.song.id, i)} className='btn btn-sm btn-outline-secondary m-0 mx-1'>Hide</div>
+                                                        <div onClick={() => handleChangeShow(e.song.id, i)} className='btn btn-sm btn-outline-secondary m-0 mx-1 px-3'>Hide</div>
                                                     )
                                                     : (
-                                                        <div onClick={() => handleChangeShow(e.song.id, i)} className='btn btn-sm btn-outline-success m-0 mx-1'>Show</div>
+                                                        <div onClick={() => handleChangeShow(e.song.id, i)} className='btn btn-sm btn-outline-success m-0 mx-1 px-3'>Show</div>
                                                     )}
-                                                <div onClick={() => handleDelete(e)} className='btn btn-sm btn-outline-danger m-0 mx-1'>Delete</div>
+                                                <div onClick={() => handleDelete(e)} className='btn btn-sm btn-outline-danger m-0 mx-1 px-3'>Delete</div>
                                             </div>
                                         </td>
                                     </tr>

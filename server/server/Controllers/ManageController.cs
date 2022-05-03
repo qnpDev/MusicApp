@@ -106,7 +106,7 @@ namespace server.Controllers
                                   from al in albumJoin.DefaultIfEmpty()
                                   where s.CreatedBy == id
                                        && s.Category == c.Id
-                                       && s.Status == 1
+                                       && s.Status != 0
                                   select new
                                   {
                                       song = new
@@ -124,6 +124,7 @@ namespace server.Controllers
                                           s.Album,
                                           s.LocalImg,
                                           s.LocalSrc,
+                                          s.Status,
                                       },
                                       category = new
                                       {

@@ -7,10 +7,10 @@ import api from '../../../axios'
 import convertDateTime from '../../../helper/ConvertDateTime';
 import Loading from '../../loading';
 import NotPermission from '../../notpermission';
-import UpdateSong from './UpdateSong';
+import Update from './Update';
 
-const AdminSong = () => {
-    document.title = 'Song Manager | Admin'
+const AdminRequestSong = () => {
+    document.title = 'Song Request Manager | Admin'
     const navigate = useNavigate()
     const [data, setData] = useState()
     const [listCategory, setListCategory] = useState()
@@ -18,23 +18,6 @@ const AdminSong = () => {
     const [per, setPer] = useState(true)
     const limit = 10
     const [curPage, setCurPage] = useState(1)
-
-    const handleChangeShow = id => {
-        api.put('api/admin/song/show?id='+id).then(res=> {
-            if(res.data.success){
-                setData(prev => ({
-                    ...prev,
-                    song: prev.song.map(ele => ele.id === id ? ({
-                        ...ele,
-                        show: res.data.data.show,
-                    }) : ele)
-                }))
-                toast.success(res.data.message)
-            }else{
-                toast.error(res.data.message)
-            }
-        })
-    }
 
     const handleDelete = id => {
         confirmAlert({
@@ -68,16 +51,86 @@ const AdminSong = () => {
         confirmAlert({
             customUI: ({ onClose }) => {
                 return (
-                    <UpdateSong data={e} setData={setData} listAlbum={listAlbum} listCategory={listCategory} close={onClose} />
+                    <Update data={e} setData={setData} listAlbum={listAlbum} listCategory={listCategory} close={onClose} />
                 );
             }
         });
     }
 
-    const apiDelete = (id, close) => {
+    const handleAccept = id => {
+        confirmAlert({
+            customUI: ({ onClose }) => {
+                return (
+                    <div className='card'>
+                        <div className='card-header text-center'>
+                            <h1>Are you sure?</h1>
+                        </div>
+                        <div className='card-body'>
+                            <p>You want to accept this song?</p>
+                            <div className='d-flex justify-content-end'>
+                                <button className='btn btn-secondary mx-1' onClick={onClose}>No</button>
+                                <button
+                                    className='btn btn-success mx-1'
+                                    onClick={() => apiAccept(id, onClose)}
+                                >
+                                    Yes!
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                );
+            }
+        });
+    }
+    const handleRefuse = id => {
+        confirmAlert({
+            customUI: ({ onClose }) => {
+                return (
+                    <div className='card'>
+                        <div className='card-header text-center'>
+                            <h1>Are you sure?</h1>
+                        </div>
+                        <div className='card-body'>
+                            <p>You want to refuse this song?</p>
+                            <div className='d-flex justify-content-end'>
+                                <button className='btn btn-secondary mx-1' onClick={onClose}>No</button>
+                                <button
+                                    className='btn btn-info mx-1'
+                                    onClick={() => apiRefuse(id, onClose)}
+                                >
+                                    Yes!
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                );
+            }
+        });
+    }
+    const apiAccept = (id, close) => {
         close()
         const load = toast.loading('Wait...')
-        api.delete('api/admin/song/delete?id='+id).then(res => {
+        api.post('api/admin/request?id='+id+'&type=accept').then(res => {
+            toast.dismiss(load)
+            if(res.data.success){
+                setData(prev => ({
+                    ...prev,
+                    song: prev.song.filter(ele => ele.id !== id)
+                }))
+                toast.success(res.data.message)
+            }else{
+                toast.error(res.data.message)
+            }
+        })
+    }
+    const apiRefuse = (id, close) => {
+        close()
+        const load = toast.loading('Wait...')
+        api.post('api/admin/request?id='+id+'&type=refuse').then(res => {
             toast.dismiss(load)
             if(res.data.success){
                 setData(prev => ({
@@ -91,8 +144,25 @@ const AdminSong = () => {
         })
     }
 
+    const apiDelete = (id, close) => {
+        close()
+        const load = toast.loading('Wait...')
+        api.delete('api/admin/request?id='+id).then(res => {
+            toast.dismiss(load)
+            if(res.status === 200 || res.data.success){
+                setData(prev => ({
+                    ...prev,
+                    song: prev.song.filter(ele => ele.id !== id)
+                }))
+                toast.success(res.data.message)
+            }else{
+                toast.error(res.data.message)
+            }
+        })
+    }
+
     useEffect(() => {
-        api.get('api/admin/song', {
+        api.get('api/admin/request', {
             params : {
                 page: curPage,
                 limit,
@@ -147,8 +217,7 @@ const AdminSong = () => {
                                     <th className='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Song</th>
                                     <th className='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2'>Album</th>
                                     <th className='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2'>Category</th>
-                                    <th className='text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Status</th>
-                                    <th className='text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Listen</th>
+                                    <th className='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2'>Tag</th>
                                     <th className='text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Upload at</th>
                                     <th className='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 text-center'>Action</th>
                                 </tr>
@@ -196,29 +265,18 @@ const AdminSong = () => {
                                                 {listCategory.map(ele => ele.id === e.category ? ele.name : null)}
                                             </span>
                                         </td>
-                                        <td className='align-middle text-center text-sm cursor-default'>
-                                            {e.show === 0
-                                                ? (<span className='badge badge-sm bg-gradient-secondary'>Hide</span>)
-                                                : (<span className='badge badge-sm bg-gradient-success'>Show</span>)
-                                            }
-                                        </td>
-                                        <td className='align-middle text-center'>
-                                            <span className='text-secondary text-xs font-weight-bold'>{e.listen}</span>
+                                        <td className='align-middle text-sm warptext'>
+                                            {e.tag}
                                         </td>
                                         <td className='align-middle text-center'>
                                             <span className='text-secondary text-xs font-weight-bold'>{convertDateTime(e.createdAt)}</span>
                                         </td>
                                         <td className='align-middle'>
                                             <div className='text-secondary font-weight-bold text-xs cursor-pointer text-center'>
-                                            <div onClick={() => handleUpdate(e)} className='btn btn-sm bg-gradient-info m-0 mx-1 px-3'>Edit</div>
-                                                {e.show === 1
-                                                    ? (
-                                                        <div onClick={() => handleChangeShow(e.id)} className='btn btn-sm bg-gradient-secondary m-0 mx-1 px-3'>Hide</div>
-                                                    )
-                                                    : (
-                                                        <div onClick={() => handleChangeShow(e.id)} className='btn btn-sm bg-gradient-success m-0 mx-1 px-3'>Show</div>
-                                                    )}
-                                                <div onClick={() => handleDelete(e.id)} className='btn btn-sm bg-gradient-danger m-0 mx-1 px-3'>Delete</div>
+                                            <div onClick={() => handleAccept(e.id)} className='btn btn-sm bg-gradient-success m-0 mx-1 px-2'>Accept</div>
+                                            <div onClick={() => handleRefuse(e.id)} className='btn btn-sm bg-gradient-secondary m-0 mx-1 px-2'>Refuse</div>
+                                            <div onClick={() => handleUpdate(e)} className='btn btn-sm bg-gradient-info m-0 mx-1 px-2'>Edit</div>
+                                            <div onClick={() => handleDelete(e.id)} className='btn btn-sm bg-gradient-danger m-0 mx-1 px-2'>Delete</div>
                                             </div>
                                         </td>
                                     </tr>
@@ -248,4 +306,4 @@ const AdminSong = () => {
     );
 };
 
-export default AdminSong;
+export default AdminRequestSong;

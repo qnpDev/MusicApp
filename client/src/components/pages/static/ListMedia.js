@@ -22,7 +22,6 @@ const ListMedia = ({ audioIndex, setAudioIndex, audioRef, setPlay }) => {
     }
     useEffect(() => {
         if(ulRef.current){
-            console.log(audioIndex)
             ulRef.current.scrollTop = audioIndex * 60;
         }
     }, [ulRef, audioIndex])

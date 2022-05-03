@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.Helpers;
 using server.Helpers.Pattern.CrawlSongFactory;
@@ -15,6 +16,7 @@ namespace server.Controllers.Admin
 {
     [Route("api/admin/tool")]
     [ApiController]
+    [Authorize(Roles = "10")]
     public class AdminToolController : ControllerBase
     {
         [HttpGet("{type}")]
@@ -29,28 +31,6 @@ namespace server.Controllers.Admin
             {
                 ICrawlSong crawl = CrawlSongFactory.GetCrawlSong(type);
                 return Ok(crawl.GetData(uri));
-                //var curl = CurlHelper.Get(uri);
-                //var matchs = Regex.Matches(curl, "xmlURL = \"(.+?)\";");
-                //var link = matchs[0].Groups[1].Value;
-
-                //curl = CurlHelper.Get(link);
-                //matchs = Regex.Matches(curl, @"<!\[CDATA\[(.+?)]]>");
-
-                //string name = matchs[0].Groups[1].Value;
-                //string artist = matchs[2].Groups[1].Value;
-                //string src = matchs[3].Groups[1].Value;
-                //string img = matchs[9].Groups[1].Value;
-
-                ////System.Diagnostics.Debug.WriteLine(src);
-                ////System.Diagnostics.Debug.WriteLine(matchs[0].Groups[1].Value);
-
-                //return Ok(new
-                //{
-                //    name,
-                //    artist,
-                //    src,
-                //    img,
-                //});
             }
             catch (Exception)
             {

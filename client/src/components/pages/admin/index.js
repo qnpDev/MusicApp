@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import Loading from '../loading';
 import api from '../../axios'
 import { useNavigate } from 'react-router-dom';
@@ -54,7 +54,7 @@ const Admin = () => {
                             {data.request}
                         </h1>
                         <div className='card-footer pt-0'>
-                            <button className='btn btn-sm bg-gradient-success'>Manage</button>
+                            <button onClick={() => navigate('/admin/request-song')} className='btn btn-sm bg-gradient-success'>Manage</button>
                         </div>
                     </div>
                 </div>

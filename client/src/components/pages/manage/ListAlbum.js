@@ -148,15 +148,15 @@ const ListAlbum = () => {
                                         </td>
                                         <td className='align-middle'>
                                             <div className='text-secondary font-weight-bold text-xs cursor-pointer text-center'>
-                                                <div onClick={() => handleUpdate(e)} className='btn btn-sm btn-outline-info m-0 mx-1'>Edit</div>
+                                                <div onClick={() => handleUpdate(e)} className='btn btn-sm btn-outline-info m-0 mx-1 px-2'>Edit</div>
                                                 {e.show === 1
                                                     ? (
-                                                        <div onClick={() => handleChangeShow(e.id, i)} className='btn btn-sm btn-outline-secondary m-0 mx-1'>Hide</div>
+                                                        <div onClick={() => handleChangeShow(e.id, i)} className='btn btn-sm btn-outline-secondary m-0 mx-1 px-2'>Hide</div>
                                                     )
                                                     : (
-                                                        <div onClick={() => handleChangeShow(e.id, i)} className='btn btn-sm btn-outline-success m-0 mx-1'>Show</div>
+                                                        <div onClick={() => handleChangeShow(e.id, i)} className='btn btn-sm btn-outline-success m-0 mx-1 px-2'>Show</div>
                                                     )}
-                                                <div onClick={() => handleDelete(e)} className='btn btn-sm btn-outline-danger m-0 mx-1'>Delete</div>
+                                                <div onClick={() => handleDelete(e)} className='btn btn-sm btn-outline-danger m-0 mx-1 px-2'>Delete</div>
                                             </div>
                                         </td>
                                     </tr>

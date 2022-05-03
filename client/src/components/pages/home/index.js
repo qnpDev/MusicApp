@@ -51,7 +51,7 @@ const Home = () => {
                                                         : e.img
                                                     }
                                                     alt='avatar' />
-                                                <Link to={'/song/' + e.tag} className='info'>
+                                                <Link to={'/album/' + e.tag} className='info'>
                                                     <div className='name'>
                                                         {e.name}
                                                     </div>

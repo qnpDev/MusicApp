@@ -103,7 +103,7 @@ namespace server.Controllers.Admin
                     return BadRequest(new
                     {
                         success = false,
-                        message = "not found id request song"
+                        message = "not found id song"
                     });
                 }
                 else
@@ -183,7 +183,7 @@ namespace server.Controllers.Admin
                         return Ok(new
                         {
                             success = false,
-                            message = "Not found draft song"
+                            message = "Not found song"
                         });
                     }
 
@@ -282,7 +282,7 @@ namespace server.Controllers.Admin
                         return Ok(new
                         {
                             success = true,
-                            message = "Upload success!",
+                            message = "Update success!",
                             data = song,
                         });
                     }

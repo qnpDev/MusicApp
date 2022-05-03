@@ -39,7 +39,7 @@ const ListRequest = () => {
                             <div className='d-flex justify-content-end'>
                                 <button className='btn btn-secondary mx-1' onClick={onClose}>No</button>
                                 <button
-                                    className='btn btn-danger mx-1'
+                                    className='btn btn-success mx-1'
                                     onClick={() => apiSendRequest(e, onClose)}
                                 >
                                     Yes, Send it!
@@ -66,7 +66,7 @@ const ListRequest = () => {
                             <div className='d-flex justify-content-end'>
                                 <button className='btn btn-secondary mx-1' onClick={onClose}>No</button>
                                 <button
-                                    className='btn btn-danger mx-1'
+                                    className='btn btn-info mx-1'
                                     onClick={() => apiMoveDraft(e, onClose)}
                                 >
                                     Yes!
@@ -126,6 +126,7 @@ const ListRequest = () => {
                         draftLength: prev.draftLength - 1,
                         draft: prev.draft.filter(ele => ele.song.id !== e.song.id)
                     }))
+                    e.song.status = 1
                     setDataRequest(prev => ({
                         request: [
                             ...prev?.request,
@@ -278,8 +279,8 @@ const ListRequest = () => {
                                                         {allAlbum.map(ele => ele.id === e.song.album
                                                             ? (
                                                                 <span key={ele.id}>
-                                                                    <p className='text-xs font-weight-bold mb-0'>{ele.name}</p>
-                                                                    <p className='text-xs text-secondary mb-0'>{ele.artist}</p>
+                                                                    <p className='text-xs font-weight-bold mb-0 warptext'>{ele.name}</p>
+                                                                    <p className='text-xs text-secondary mb-0 warptext'>{ele.artist}</p>
                                                                 </span>
                                                             )
                                                             : null
@@ -303,7 +304,7 @@ const ListRequest = () => {
                                         </td>
                                         <td className='align-middle'>
                                             <div className='text-secondary font-weight-bold text-xs cursor-pointer text-center'>
-                                                <div onClick={() => handleMoveDraft(e)} className='btn btn-sm btn-outline-secondary m-0 mx-1'>Move draft</div>
+                                                <div onClick={() => handleMoveDraft(e)} className='btn btn-sm btn-outline-secondary m-0 mx-1 px-2'>Move draft</div>
                                             </div>
                                         </td>
                                     </tr>
@@ -380,8 +381,8 @@ const ListRequest = () => {
                                                         {allAlbum.map(ele => ele.id === e.song.album
                                                             ? (
                                                                 <span key={ele.id}>
-                                                                    <p className='text-xs font-weight-bold mb-0'>{ele.name}</p>
-                                                                    <p className='text-xs text-secondary mb-0'>{ele.artist}</p>
+                                                                    <p className='text-xs font-weight-bold mb-0 warptext'>{ele.name}</p>
+                                                                    <p className='text-xs text-secondary mb-0 warptext'>{ele.artist}</p>
                                                                 </span>
                                                             )
                                                             : null
@@ -398,9 +399,9 @@ const ListRequest = () => {
                                         </td>
                                         <td className='align-middle'>
                                             <div className='text-secondary font-weight-bold text-xs cursor-pointer text-center'>
-                                                <div onClick={() => handleUpdateDraft(e.song)} className='btn btn-sm btn-outline-info m-0 mx-1'>Edit</div>
-                                                <div onClick={() => handleRequest(e)} className='btn btn-sm btn-outline-success m-0 mx-1'>Request</div>
-                                                <div onClick={() => handleDeleteDraft(e)} className='btn btn-sm btn-outline-danger m-0 mx-1'>Delete</div>
+                                                <div onClick={() => handleUpdateDraft(e.song)} className='btn btn-sm btn-outline-info m-0 mx-1 px-2'>Edit</div>
+                                                <div onClick={() => handleRequest(e)} className='btn btn-sm btn-outline-success m-0 mx-1 px-2'>Request</div>
+                                                <div onClick={() => handleDeleteDraft(e)} className='btn btn-sm btn-outline-danger m-0 mx-1 px-2'>Delete</div>
                                             </div>
                                         </td>
                                     </tr>
