@@ -166,7 +166,7 @@ const CrawlSongNCT = () => {
                                 />
                             </div>
                             <div className='form-group'>
-                                <label htmlhtmlFor="category">Category: </label>
+                                <label htmlFor="category">Category: </label>
                                 <select
                                     onChange={e => setData(prev => ({ ...prev, category: e.target.value }))}
                                     className="form-control"
@@ -182,7 +182,7 @@ const CrawlSongNCT = () => {
                             <div className='form-group'>
                                 <div className='d-flex justify-content-between align-items-end'>
                                     <div>
-                                        <label htmlhtmlFor="album">Album: </label>
+                                        <label htmlFor="album">Album: </label>
                                     </div>
                                     <div className='d-flex justify-content-end'>
                                         <div onClick={() => navigate('/manage/create-album')} className='btn btn-sm btn-outline-success'>Create new album</div>

@@ -7,8 +7,8 @@ import Loading from '../../../loading';
 import './style.css'
 import { useNavigate } from 'react-router-dom';
 
-const CrawlSongNhacVn = () => {
-    document.title = 'NhacVn Song Tool | Admin'
+const CrawlSongKeeng = () => {
+    document.title = 'Keeng Song Tool | Admin'
     const navigate = useNavigate()
     const { dataUser } = useContext(UserContext)
     const [data, setData] = useState()
@@ -21,7 +21,7 @@ const CrawlSongNhacVn = () => {
     const handleGet = () => {
         setData()
         setBtnLoading(true)
-        api.get('api/admin/tool/nhacvn', {
+        api.get('api/admin/tool/keeng', {
             params: {
                 uri: link
             }
@@ -89,20 +89,20 @@ const CrawlSongNhacVn = () => {
         <>
             <div className='card'>
                 <div className='card-header pb-0'>
-                    <h3>Crawl Nhac.Vn song</h3>
+                    <h3>Crawl Keeng song</h3>
                 </div>
                 <div className='card-body'>
                     <div className='d-flex justify-content-center'>
                         <input
                             className='form-control'
-                            placeholder='Input Nhac.VN link'
+                            placeholder='Input ChiaSeNhac link'
                             type='text'
                             value={link}
                             onChange={e => setLink(e.target.value)}
                         />
                     </div>
                     <div className='text-end text-sm mt-1'>
-                        <b>Example: </b>https://nhac.vn/bai-hat/nhat-sobJPrd
+                        <b>Example: </b>http://keeng.vn/audio/Bua-Yeu-Bich-Phuong-320Kbps/2r5lCx4Q.html
                     </div>
                     <div className='d-flex justify-content-center mt-3'>
                         <button
@@ -216,4 +216,4 @@ const CrawlSongNhacVn = () => {
     );
 };
 
-export default CrawlSongNhacVn;
+export default CrawlSongKeeng;

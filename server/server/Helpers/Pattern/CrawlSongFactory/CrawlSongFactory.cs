@@ -18,6 +18,8 @@ namespace server.Helpers.Pattern.CrawlSongFactory
                     return new CrawlNhacVn();
                 case "chiasenhac":
                     return new CrawlChiasenhac();
+                case "keeng":
+                    return new CrawlKeeng();
                 default:
                     throw new ArgumentException("This type is unsupported");
             }

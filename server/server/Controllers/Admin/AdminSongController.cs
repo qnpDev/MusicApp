@@ -92,7 +92,7 @@ namespace server.Controllers.Admin
         }
 
         [HttpDelete("delete")]
-        public IActionResult DeleteDSong(int id)
+        public IActionResult DeleteSong(int id)
         {
                 var song = (from r in db.Songs
                             where r.Id == id
