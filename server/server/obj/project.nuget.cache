@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "sfx9RohKHi4IoK9zK5q4QyLeBFLP3DvBjjbDPQnkdrW99InBBwynTar8uUAcYF8iG4+SWYbf2YEPgHlGsphNog==",
+  "dgSpecHash": "ZO29BtNFiJPMiRQiDL48xCJ0rskTawoUgV1xBCFYZaSiWb2nsqzMMcoaAD5DVTv2nv2Z/WoevtjDNbJoCLhZyg==",
   "success": true,
   "projectFilePath": "C:\\DataUser\\BT\\Năm 3 - HK2\\CĐ-CNPM\\Final\\server\\server\\server.csproj",
   "expectedPackageFiles": [
@@ -37,6 +37,7 @@
     "C:\\Users\\qnp\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
     "C:\\Users\\qnp\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\qnp\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\qnp\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\qnp\\.nuget\\packages\\runtime.native.system\\4.3.0\\runtime.native.system.4.3.0.nupkg.sha512",
     "C:\\Users\\qnp\\.nuget\\packages\\swashbuckle.aspnetcore\\5.6.3\\swashbuckle.aspnetcore.5.6.3.nupkg.sha512",
     "C:\\Users\\qnp\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\5.6.3\\swashbuckle.aspnetcore.swagger.5.6.3.nupkg.sha512",

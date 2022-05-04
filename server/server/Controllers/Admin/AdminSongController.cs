@@ -33,6 +33,7 @@ namespace server.Controllers.Admin
                 });
             }
             var song = from r in db.Songs
+                       orderby r.CreatedAt descending
                        select r;
             int p = page - 1;
             return Ok(new

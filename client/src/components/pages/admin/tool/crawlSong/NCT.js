@@ -39,7 +39,7 @@ const CrawlSongNCT = () => {
     const handleSave = () => {
         if (data.name.trim().length === 0)
             toast.error('Enter song name!')
-        else if (data.artist || data.artist.trim().length === 0)
+        else if (!data.artist || data.artist.trim().length === 0)
             toast.error('Enter song artist!')
         else if (!data.category || data.category === -1)
             toast.error('Choose song category!')

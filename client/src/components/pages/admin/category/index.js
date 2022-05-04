@@ -116,7 +116,6 @@ const AdminCategory = () => {
         return ( <NotPermission/> )
     if(!data)
         return ( <Loading/> )
-    console.log(data)
     return (
         <>
             <div className='card mb-4'>
