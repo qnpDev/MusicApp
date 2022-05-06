@@ -166,8 +166,8 @@ const AdminSong = () => {
                                                     } className='avatar avatar-sm me-3' alt={e.name} />
                                                 </div>
                                                 <div className='d-flex flex-column justify-content-center'>
-                                                    <h6 className='mb-0 text-sm warptext'>{e.name}</h6>
-                                                    <p className='text-xs text-secondary mb-0 warptext'>{e.artist}</p>
+                                                    <h6 className='mb-0 text-sm wraptext'>{e.name}</h6>
+                                                    <p className='text-xs text-secondary mb-0 wraptext'>{e.artist}</p>
                                                 </div>
                                             </div>
                                         </td>
@@ -178,8 +178,8 @@ const AdminSong = () => {
                                                         {listAlbum.map(ele => ele.id === e.album
                                                             ? (
                                                                 <span key={ele.id}>
-                                                                    <p className='text-xs font-weight-bold mb-0 warptext'>{ele.name}</p>
-                                                                    <p className='text-xs text-secondary mb-0 warptext'>{ele.artist}</p>
+                                                                    <p className='text-xs font-weight-bold mb-0 wraptext'>{ele.name}</p>
+                                                                    <p className='text-xs text-secondary mb-0 wraptext'>{ele.artist}</p>
                                                                 </span>
                                                             )
                                                             : null
@@ -192,7 +192,7 @@ const AdminSong = () => {
 
                                                 )}
                                         </td>
-                                        <td className='align-middle warptext'>
+                                        <td className='align-middle wraptext'>
                                             <span className='text-secondary text-xs font-weight-bold'>
                                                 {listCategory.map(ele => ele.id === e.category ? ele.name : null)}
                                             </span>

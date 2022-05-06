@@ -9,9 +9,9 @@ create table users(
 	name nvarchar(MAX) not null,
 	avatar varchar(MAX),
 	localAvatar int default 0 not null,
-	block int default 0 not null,
 	email varchar(MAX),
 	createdAt datetime not null default current_timestamp,
+	updatedAt datetime default 0,
 	primary key(id)
 )
 
@@ -30,7 +30,7 @@ create table categories(
 	localAvatar int default 1 not null,
 	createdAt datetime not null default current_timestamp,
 	updatedAt datetime default 0,
-	primary key(id)
+	primary key(id, tag)
 )
 
 create table song(
@@ -49,7 +49,7 @@ create table song(
 	createdBy int not null foreign key references users(id),
 	createdAt datetime not null default current_timestamp,
 	updatedAt datetime default 0,
-	primary key(id),
+	primary key(id, tag),
 	foreign key (category) REFERENCES categories(id)
 )
 
@@ -102,7 +102,7 @@ create table album(
 	createdBy int foreign key references users(id),
 	createdAt datetime not null default current_timestamp,
 	updatedAt datetime not null default 0,
-	primary key(id)
+	primary key(id, tag)
 )
 
 create table requestsong(
@@ -121,6 +121,6 @@ create table requestsong(
 	createdBy int not null foreign key references users(id),
 	createdAt datetime not null default current_timestamp,
 	updatedAt datetime default 0,
-	primary key(id),
+	primary key(id, tag),
 	foreign key (category) REFERENCES categories(id)
 )

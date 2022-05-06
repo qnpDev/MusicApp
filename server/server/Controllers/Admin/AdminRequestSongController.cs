@@ -17,7 +17,7 @@ namespace server.Controllers.Admin
     [Authorize(Roles = "10")]
     public class AdminRequestSongController : ControllerBase
     {
-        MusicContext db = new MusicContext();
+        MusicContext db = new();
 
         [HttpGet]
         public IActionResult GetSong(int page, int limit)
@@ -32,6 +32,7 @@ namespace server.Controllers.Admin
             }
             var song = from r in db.Requestsongs
                        where r.Status == 1
+                       orderby r.CreatedAt descending
                        select r;
             int p = page - 1;
             return Ok(new

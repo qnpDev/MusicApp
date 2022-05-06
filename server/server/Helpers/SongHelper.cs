@@ -15,8 +15,10 @@ namespace server.Helpers
         {
             Regex regex = new Regex("\\p{IsCombiningDiacriticalMarks}+");
             string temp = s.Normalize(NormalizationForm.FormD);
-            string temp2 = regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D');
-            return temp2.Replace(" ", "-");
+            temp = regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D');
+            temp = Regex.Replace(temp, "[^0-9a-zA-Z ]+", "");
+            temp = temp.Replace(" ", "-") + DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            return temp;
         }
 
         public static string ConvertSongFileName(string s)

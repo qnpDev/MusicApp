@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using server.Helpers;
 using server.Helpers.Pattern.DeleteStrategy;
 using server.Helpers.Pattern.UploadTemplate;
 using server.Models;
@@ -12,10 +11,10 @@ using System.Threading.Tasks;
 
 namespace server.Controllers.Admin
 {
-    [Route("api/admin/category")]
+    [Route("api/admin/banner")]
     [ApiController]
     [Authorize(Roles = "10")]
-    public class AdminCategoryController : ControllerBase
+    public class AdminBannerController : ControllerBase
     {
         MusicContext db = new();
         [HttpGet]
@@ -29,7 +28,7 @@ namespace server.Controllers.Admin
                     message = "Page start from 1",
                 });
             }
-            var category = from r in db.Categories
+            var category = from r in db.Banners
                            orderby r.CreatedAt descending
                            select r;
             int p = page - 1;
@@ -44,10 +43,10 @@ namespace server.Controllers.Admin
         public IActionResult Delete(int id)
         {
 
-            var category = (from r in db.Categories
-                         where r.Id == id
-                         select r).FirstOrDefault();
-            if (category == null)
+            var data = (from r in db.Banners
+                            where r.Id == id
+                            select r).FirstOrDefault();
+            if (data == null)
             {
                 return Ok(new
                 {
@@ -58,17 +57,10 @@ namespace server.Controllers.Admin
             else
             {
                 // delete album image
-                DeleteFile delFile = new(new DeleteImageCategory());
-                delFile.Delete(category.Avatar);
+                DeleteFile delFile = new(new DeleteImageBanner());
+                delFile.Delete(data.Img);
 
-                var songs = from r in db.Songs
-                            where r.Category == id
-                            select r;
-                foreach (var song in songs)
-                {
-                    db.Songs.Remove(song);
-                }
-                db.Categories.Remove(category);
+                db.Banners.Remove(data);
                 if (db.SaveChanges() > 0)
                 {
                     return Ok(new
@@ -98,15 +90,19 @@ namespace server.Controllers.Admin
 
                 var files = formCollection.Files;
                 var name = formCollection["name"][0].ToString().Trim();
-                var tag = formCollection["tag"][0].ToString().Trim();
+                var info = formCollection["info"][0].ToString().Trim();
+                var link = formCollection["link"][0].ToString().Trim();
+                var colorTitle = formCollection["colortitle"][0].ToString().Trim();
+                var colorInfo = formCollection["colorinfo"][0].ToString().Trim();
                 var show = Int32.Parse(formCollection["show"][0]);
                 var id = Int32.Parse(formCollection["id"][0]);
                 var changeImg = formCollection["changeImage"][0].ToLower();
                 var localImg = Int32.Parse(formCollection["localimg"][0]);
+                var localLink = Int32.Parse(formCollection["locallink"][0]);
 
 
 
-                if (name.Length == 0 || tag.Length == 0)
+                if (name.Length == 0)
                 {
                     return Ok(new
                     {
@@ -115,11 +111,11 @@ namespace server.Controllers.Admin
                     });
                 }
 
-                var category = (from r in db.Categories
+                var data = (from r in db.Banners
                                 where r.Id == id
-                             select r).FirstOrDefault();
+                                select r).FirstOrDefault();
 
-                if (category == null)
+                if (data == null)
                 {
                     return Ok(new
                     {
@@ -131,28 +127,32 @@ namespace server.Controllers.Admin
                 if (changeImg.Equals("true"))
                 {
                     // delete file song image
-                    DeleteFile delFile = new(new DeleteImageCategory());
-                    delFile.Delete(category.Avatar);
+                    DeleteFile delFile = new(new DeleteImageBanner());
+                    delFile.Delete(data.Img);
 
                     if (localImg == 1)
                     {
                         // upload file song image
                         UploadTemplate upload = new UploadImageCategory();
-                        category.Avatar = upload.UploadFile(files[0]);
+                        data.Img = upload.UploadFile(files[0]);
                     }
                     else
                     {
-                        category.Avatar = formCollection["img"][0].ToString().Trim();
+                        data.Img = formCollection["img"][0].ToString().Trim();
                     }
 
 
                 }
 
-                category.Name = name;
-                category.Show = show;
-                category.UpdatedAt = DateTime.Now;
-                category.Tag = tag;
-                category.LocalAvatar = localImg;
+                data.Name = name;
+                data.Info = info;
+                data.LocalImg = localImg;
+                data.LocalLink = localLink;
+                data.Link = link;
+                data.Show = show;
+                data.UpdatedAt = DateTime.Now;
+                data.ColorInfo = colorInfo;
+                data.ColorTitle = colorTitle;
 
                 if (db.SaveChanges() > 0)
                 {
@@ -160,7 +160,7 @@ namespace server.Controllers.Admin
                     {
                         success = true,
                         message = "Update success!",
-                        data = category,
+                        data,
                     });
                 }
                 else
@@ -174,17 +174,17 @@ namespace server.Controllers.Admin
             }
             catch (Exception e)
             {
-                return StatusCode(500, "Internal server error " + e);
+                return StatusCode(200, "Internal server error " + e);
             }
         }
 
         [HttpPut("show")]
         public IActionResult ChangeShow(int id)
         {
-            var category = (from r in db.Categories
-                         where r.Id == id
-                         select r).FirstOrDefault();
-            if (category == null)
+            var data = (from r in db.Banners
+                            where r.Id == id
+                            select r).FirstOrDefault();
+            if (data == null)
             {
                 return Ok(new
                 {
@@ -194,20 +194,13 @@ namespace server.Controllers.Admin
             }
             else
             {
-                if (category.Show == 1)
+                if (data.Show == 1)
                 {
-                    //var songs = from r in db.Songs
-                    //            where r.Category == category.Id
-                    //            select r;
-                    category.Show = 0;
-                    //foreach (Song s in songs)
-                    //{
-                    //    s.Show = 0;
-                    //}
+                    data.Show = 0;
                 }
                 else
                 {
-                    category.Show = 1;
+                    data.Show = 1;
                 }
 
                 if (db.SaveChanges() > 0)
@@ -215,7 +208,7 @@ namespace server.Controllers.Admin
                     return Ok(new
                     {
                         success = true,
-                        data = category,
+                        data,
                         message = "Changed success!",
                     });
                 }
@@ -240,13 +233,16 @@ namespace server.Controllers.Admin
 
                 var files = formCollection.Files;
                 var name = formCollection["name"][0].ToString().Trim();
-                var tag = formCollection["tag"][0].ToString().Trim().ToLower().Replace(" ", "");
+                var info = formCollection["info"][0].ToString().Trim();
+                var link = formCollection["link"][0].ToString().Trim();
+                var colorTitle = formCollection["colortitle"][0].ToString().Trim();
+                var colorInfo = formCollection["colorinfo"][0].ToString().Trim();
                 var show = Int32.Parse(formCollection["show"][0]);
-                var createBy = User.Identity.GetId();
                 var localImg = Int32.Parse(formCollection["localimg"][0]);
+                var localLink = Int32.Parse(formCollection["locallink"][0]);
 
 
-                if (name.Length == 0 || tag.Length == 0)
+                if (name.Length == 0 || link.Length == 0)
                 {
                     return Ok(new
                     {
@@ -254,23 +250,12 @@ namespace server.Controllers.Admin
                         message = "Not enough infomation!"
                     });
                 }
-                var check = (from r in db.Categories
-                             where r.Tag == tag
-                             select r).FirstOrDefault();
-                if(check != null)
-                {
-                    return Ok(new
-                    {
-                        success = false,
-                        message = "Tag already exists!",
-                    });
-                }
 
                 string image = null;
                 if (localImg == 1)
                 {
                     // file category image
-                    UploadTemplate upload = new UploadImageCategory();
+                    UploadTemplate upload = new UploadImageBanner();
                     image = upload.UploadFile(files[0]);
                 }
                 else
@@ -280,42 +265,51 @@ namespace server.Controllers.Admin
 
 
                 //create data
-                //var tag = SongHelper.ConvertTag(name);
-                    db.Categories.Add(new Category()
-                    {
-                        Name = name,
-                        Avatar = image,
-                        Show = show,
-                        LocalAvatar = localImg,
-                        Tag = tag,
-                        //CreatedBy = createBy,
-                    });
-                db.SaveChanges();
-                var getInf = (from r in db.Categories
-                              where r.Tag == tag
-                              select r).FirstOrDefault();
+                db.Banners.Add(new Banner()
+                {
+                    Name = name,
+                    Info = info,
+                    Link = link,
+                    Img = image,
+                    LocalImg = localImg,
+                    LocalLink = localLink,
+                    ColorInfo = colorInfo,
+                    ColorTitle = colorTitle,
+                    Show = show,
+                });
+                var checkSave = db.SaveChanges();
+                var save = (from r in db.Banners
+                            where r.Name == name
+                                 && r.Link == link
+                                 && r.Img == image
+                                 && r.CreatedAt >= DateTime.Now.Date.AddDays(-1)
+                            select r).FirstOrDefault();
 
-                    if (getInf != null)
+                if (checkSave > 0)
+                {
+                    return Ok(new
                     {
-                        return Ok(new
-                        {
-                            success = true,
-                            message = "Create success!",
-                            data = getInf,
-                        });
-                    }
-                    else
+                        success = true,
+                        message = "Create success!",
+                        data = save,
+                    });
+                }
+                else
+                {
+                    return Ok(new
                     {
-                        return Ok(new
-                        {
-                            success = false,
-                            message = "Create fail!"
-                        });
-                    }
+                        success = false,
+                        message = "Create fail!"
+                    });
+                }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return StatusCode(500, "Internal server error " + e);
+                return StatusCode(200, new 
+                { 
+                    status = false,
+                    message = "Not enought infomation",
+                });
             }
         }
     }

@@ -6,7 +6,7 @@
 }
 @media screen and (min-width: 1200px) {
     .media-container{
-        width: calc(100vw - 18rem);
+        width: calc(100vw - 19rem);
     }
 }
 

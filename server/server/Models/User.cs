@@ -22,8 +22,9 @@ namespace server.Models
         public string Name { get; set; }
         public string Avatar { get; set; }
         public DateTime CreatedAt { get; set; }
-        public int Block { get; set; }
         public string Email { get; set; }
+        public int LocalAvatar { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         public virtual ICollection<Album> Albums { get; set; }
         public virtual ICollection<RefreshToken> RefreshTokens { get; set; }

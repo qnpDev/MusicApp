@@ -26,24 +26,24 @@ const HomeBanner = ({ data }) => {
                     <div key={i} >
                         <div className='home-banner-img'>
                             <img
-                                src={e.localImg === 1 ? (process.env.REACT_APP_API_SRC_AUDIO_IMG + e.img) : e.img}
+                                src={e.localImg === 1 ? (process.env.REACT_APP_API_SRC_BANNER_IMG + e.img) : e.img}
                                 alt={e.name} />
-                            <div className='home-banner-info'>
+                            <div className='home-banner-info text-center'>
                                 <h2 className='banner-name' style={{ color: (e.colorTitle || 'white') }}>
                                     {e.name}
                                 </h2>
                                 <div className='banner-info' style={{ color: (e.colorInfo || 'white') }}>
-                                    {e.info}
+                                    <pre>{e.info}</pre>
                                 </div>
                             </div>
                             {e.localLink === 1
                                 ? (
-                                    <Link to={e.link} className='home-banner-seemore'>
+                                    <Link to={e.link} className='home-banner-seemore' style={{ color: (e.colorTitle || 'white') }}>
                                         Xem thêm <SiNextcloud />
                                     </Link>
                                 )
                                 : (
-                                    <a href={e.link} className='home-banner-seemore'>
+                                    <a href={e.link} className='home-banner-seemore' style={{ color: (e.colorTitle || 'white') }}>
                                         Xem thêm <SiNextcloud />
                                     </a>
                                 )}

@@ -57,9 +57,7 @@ namespace server.Models
                     .IsUnicode(false)
                     .HasColumnName("img");
 
-                entity.Property(e => e.LocalImg)
-                    .HasColumnName("localImg")
-                    .HasDefaultValueSql("((1))");
+                entity.Property(e => e.LocalImg).HasColumnName("localImg");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -116,13 +114,9 @@ namespace server.Models
                     .IsUnicode(false)
                     .HasColumnName("link");
 
-                entity.Property(e => e.LocalImg)
-                    .HasColumnName("localImg")
-                    .HasDefaultValueSql("((1))");
+                entity.Property(e => e.LocalImg).HasColumnName("localImg");
 
-                entity.Property(e => e.LocalLink)
-                    .HasColumnName("localLink")
-                    .HasDefaultValueSql("((1))");
+                entity.Property(e => e.LocalLink).HasColumnName("localLink");
 
                 entity.Property(e => e.Name).HasColumnName("name");
 
@@ -151,9 +145,7 @@ namespace server.Models
                     .HasColumnName("createdAt")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.LocalAvatar)
-                    .HasColumnName("localAvatar")
-                    .HasDefaultValueSql("((1))");
+                entity.Property(e => e.LocalAvatar).HasColumnName("localAvatar");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -234,13 +226,9 @@ namespace server.Models
                     .IsUnicode(false)
                     .HasColumnName("img");
 
-                entity.Property(e => e.LocalImg)
-                    .HasColumnName("localImg")
-                    .HasDefaultValueSql("((1))");
+                entity.Property(e => e.LocalImg).HasColumnName("localImg");
 
-                entity.Property(e => e.LocalSrc)
-                    .HasColumnName("localSrc")
-                    .HasDefaultValueSql("((1))");
+                entity.Property(e => e.LocalSrc).HasColumnName("localSrc");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -311,13 +299,9 @@ namespace server.Models
 
                 entity.Property(e => e.Listen).HasColumnName("listen");
 
-                entity.Property(e => e.LocalImg)
-                    .HasColumnName("localImg")
-                    .HasDefaultValueSql("((1))");
+                entity.Property(e => e.LocalImg).HasColumnName("localImg");
 
-                entity.Property(e => e.LocalSrc)
-                    .HasColumnName("localSrc")
-                    .HasDefaultValueSql("((1))");
+                entity.Property(e => e.LocalSrc).HasColumnName("localSrc");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -369,8 +353,6 @@ namespace server.Models
                     .IsUnicode(false)
                     .HasColumnName("avatar");
 
-                entity.Property(e => e.Block).HasColumnName("block");
-
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
                     .HasColumnName("createdAt")
@@ -380,6 +362,8 @@ namespace server.Models
                     .IsUnicode(false)
                     .HasColumnName("email");
 
+                entity.Property(e => e.LocalAvatar).HasColumnName("localAvatar");
+
                 entity.Property(e => e.Name).HasColumnName("name");
 
                 entity.Property(e => e.Password)
@@ -388,6 +372,11 @@ namespace server.Models
                     .HasColumnName("password");
 
                 entity.Property(e => e.Roles).HasColumnName("roles");
+
+                entity.Property(e => e.UpdatedAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("updatedAt")
+                    .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.Username)
                     .IsRequired()

@@ -134,7 +134,7 @@ const AdminCategory = () => {
                         <table className='table align-items-center mb-0'>
                             <thead>
                                 <tr>
-                                    <th className='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Album</th>
+                                    <th className='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Category</th>
                                     <th className='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2'>Tag</th>
                                     <th className='text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Status</th>
                                     <th className='text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Created at</th>
@@ -153,7 +153,7 @@ const AdminCategory = () => {
                                                         } className='avatar avatar-sm me-3' alt={e.name} />
                                                 </div>
                                                 <div className='d-flex flex-column justify-content-center'>
-                                                    <h6 className='mb-0 text-sm warptext'>{e.name}</h6>
+                                                    <h6 className='mb-0 text-sm wraptext'>{e.name}</h6>
                                                 </div>
                                             </div>
                                         </td>

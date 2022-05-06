@@ -17,7 +17,7 @@ namespace server.Models
         public DateTime? UpdatedAt { get; set; }
         public string ColorTitle { get; set; }
         public string ColorInfo { get; set; }
-        public int? LocalImg { get; set; }
-        public int? LocalLink { get; set; }
+        public int LocalImg { get; set; }
+        public int LocalLink { get; set; }
     }
 }

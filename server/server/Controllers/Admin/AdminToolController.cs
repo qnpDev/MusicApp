@@ -21,15 +21,19 @@ namespace server.Controllers.Admin
 {
     [Route("api/admin/tool")]
     [ApiController]
-    //[Authorize(Roles = "10")]
+    [Authorize(Roles = "10")]
     public class AdminToolController : ControllerBase
     {
         [HttpGet("{type}")]
         public IActionResult GetSong(string uri, string type)
         {
-            if(uri.Trim().Length == 0 || type.Trim().Length == 0)
+            if(uri == null || type == null || uri.Trim().Length == 0 || type.Trim().Length == 0)
             {
-                return BadRequest("Enter link or type!");
+                return Ok(new
+                {
+                    success = false,
+                    message = "Enter link!",
+                });
             }
 
             try
@@ -61,6 +65,7 @@ namespace server.Controllers.Admin
                 return Ok(crawl.GetData(uri));
                 //IXML2ListSongAdapter parse = new XML2ListSong(new XMLReader(uri));
                 //return Ok(parse.Get());
+                
             }
             catch (Exception)
             {

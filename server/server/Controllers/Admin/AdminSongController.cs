@@ -22,7 +22,7 @@ namespace server.Controllers.Admin
         MusicContext db = new MusicContext();
 
         [HttpGet]
-        public IActionResult GetSongShow(int page, int limit)
+        public IActionResult GetSong(int page, int limit)
         {
             if (page < 1)
             {

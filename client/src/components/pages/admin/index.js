@@ -28,7 +28,7 @@ const Admin = () => {
                             {data.user}
                         </h1>
                         <div className='card-footer pt-0'>
-                            <button className='btn btn-sm bg-gradient-info'>Manage</button>
+                            <button onClick={() => navigate('/admin/user')} className='btn btn-sm bg-gradient-info'>Manage</button>
                         </div>
                     </div>
                 </div>
@@ -80,7 +80,7 @@ const Admin = () => {
                             {data.draft}
                         </h1>
                         <div className='card-footer pt-0'>
-                            <button className='btn btn-sm bg-gradient-primary'>Manage</button>
+                            <button disabled={true} className='btn btn-sm bg-gradient-primary'>Manage</button>
                         </div>
                     </div>
                 </div>
@@ -93,7 +93,7 @@ const Admin = () => {
                             {data.banner}
                         </h1>
                         <div className='card-footer pt-0'>
-                            <button className='btn btn-sm bg-gradient-secondary'>Manage</button>
+                            <button onClick={() => navigate('/admin/banner')} className='btn btn-sm bg-gradient-secondary'>Manage</button>
                         </div>
                     </div>
                 </div>
@@ -106,7 +106,7 @@ const Admin = () => {
                             {data.admin}
                         </h1>
                         <div className='card-footer pt-0'>
-                            <button className='btn btn-sm bg-gradient-info'>Manage</button>
+                            <button onClick={() => navigate('/admin/user')} className='btn btn-sm bg-gradient-info'>Manage</button>
                         </div>
                     </div>
                 </div>

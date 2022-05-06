@@ -44,27 +44,12 @@ namespace server.Controllers
                     .OrderBy(r => Guid.NewGuid())
                     .Take(10);
 
-                //var randomAlbums = context.Albums
-                //    .Where(s => s.Show == 1)
-                //    .OrderBy(r => Guid.NewGuid())
-                //    .Select(s => new 
-                //    {
-                //        s.Id,
-                //        s.Name,
-                //        s.Artist,
-                //        s.Img,
-                //        s.Tag,
-                //    })
-                //    .Take(10);
-
-
                 return Ok(new
                 {
                     banner = banners.ToList(),
                     newsong = newSongs.ToList(),
                     albums = album.ToList(),
                     randomsong = randomSongs.ToList(),
-                    //randomalbum = randomAlbums.ToList(),
                 });
             }
         }

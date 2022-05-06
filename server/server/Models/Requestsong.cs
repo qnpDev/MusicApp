@@ -20,8 +20,8 @@ namespace server.Models
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public int? Show { get; set; }
-        public int? LocalImg { get; set; }
-        public int? LocalSrc { get; set; }
+        public int LocalImg { get; set; }
+        public int LocalSrc { get; set; }
 
         public virtual Album AlbumNavigation { get; set; }
         public virtual Category CategoryNavigation { get; set; }

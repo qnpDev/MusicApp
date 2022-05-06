@@ -26,6 +26,8 @@ import CrawlSongKeeng from './components/pages/admin/tool/crawlSong/Keeng';
 import AdminRequestSong from './components/pages/admin/requestSong';
 import AdminAlbum from './components/pages/admin/album';
 import AdminCategory from './components/pages/admin/category';
+import AdminBanner from './components/pages/admin/banner';
+import AdminUser from './components/pages/admin/user';
 
 function App() {
   return (
@@ -56,7 +58,8 @@ function App() {
                 <Route path='admin/request-song/*' element={<AdminRequestSong/>}/>
                 <Route path='admin/album/*' element={<AdminAlbum/>}/>
                 <Route path='admin/category/*' element={<AdminCategory/>}/>
-
+                <Route path='admin/banner/*' element={<AdminBanner/>}/>
+                <Route path='admin/user/*' element={<AdminUser/>}/>
 
                 {/* 404 */}
                 <Route path="*" element={<NotFound />} />

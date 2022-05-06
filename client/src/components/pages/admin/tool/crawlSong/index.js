@@ -16,7 +16,7 @@ const CrawlSongTool = () => {
                 <div className='card-body'>
                     <div className='row'>
                         <div className='col-md-3 col-12 mt-2'>
-                            <div className='card bg-gradient-secondary d-flex justify-content-center align-items-center py-4'>
+                            <div className='card bg-gradient-success d-flex justify-content-center align-items-center py-4'>
                                 <img 
                                     className='avatar avatar-xl mb-2'
                                     src={Nhaccuatui}

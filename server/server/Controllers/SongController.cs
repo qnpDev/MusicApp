@@ -28,7 +28,7 @@ namespace server.Controllers
                 {
                     var song = (from r in context.Songs
                                 where r.Tag == tag
-                                select r).SingleOrDefault();
+                                select r).FirstOrDefault();
                     if (song != null)
                     {
                         song.Listen += 1;

@@ -39,6 +39,7 @@ namespace server.Controllers
                            from al in albumJoin.DefaultIfEmpty()
                            where s.CreatedBy == id
                                 && s.Category == c.Id
+                           orderby s.CreatedAt descending
                            select new
                            {
                                song = new
@@ -107,6 +108,7 @@ namespace server.Controllers
                                   where s.CreatedBy == id
                                        && s.Category == c.Id
                                        && s.Status != 0
+                                  orderby s.CreatedAt descending
                                   select new
                                   {
                                       song = new
@@ -175,6 +177,7 @@ namespace server.Controllers
                             where s.CreatedBy == id
                                  && s.Category == c.Id
                                  && s.Status == 0
+                            orderby s.CreatedAt descending
                             select new
                             {
                                 song = new
@@ -621,15 +624,6 @@ namespace server.Controllers
                 var localImg = Int32.Parse(formCollection["localimg"][0]);
                 var localSrc = Int32.Parse(formCollection["localsrc"][0]);
 
-                //if (files.Any(f => f.Length < 2))
-                //{
-                //    return Ok(new
-                //    {
-                //        success = false,
-                //        message = "Not enough file!"
-                //    });
-                //}
-
                 if (name.Length == 0 || artist.Length == 0 || category == -1)
                 {
                     return Ok(new
@@ -723,22 +717,6 @@ namespace server.Controllers
                         });
                     }
                 }
-
-                //if (files.Any(f => f.Length == 0))
-                //{
-                //    return BadRequest();
-                //}
-                //foreach (var file in files)
-                //{
-                //    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                //    System.Diagnostics.Debug.WriteLine(fileName);
-                //    var fullPath = Path.Combine(pathToSave, fileName);
-                //    var dbPath = Path.Combine(folderName, fileName);
-                //    using (var stream = new FileStream(fullPath, FileMode.Create))
-                //    {
-                //        file.CopyTo(stream);
-                //    }
-                //}
             }
             catch (Exception e)
             {
@@ -763,7 +741,8 @@ namespace server.Controllers
             {
                 var album = from r in context.Albums
                            where r.CreatedBy == id
-                           select new
+                            orderby r.CreatedAt descending
+                            select new
                            {
                                
                               r.Id,

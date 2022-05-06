@@ -20,7 +20,7 @@ namespace server.Models
         public int? Show { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
-        public int? LocalAvatar { get; set; }
+        public int LocalAvatar { get; set; }
 
         public virtual ICollection<Requestsong> Requestsongs { get; set; }
         public virtual ICollection<Song> Songs { get; set; }

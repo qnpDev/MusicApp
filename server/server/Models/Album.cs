@@ -22,7 +22,7 @@ namespace server.Models
         public int? CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public int? LocalImg { get; set; }
+        public int LocalImg { get; set; }
 
         public virtual User CreatedByNavigation { get; set; }
         public virtual ICollection<Requestsong> Requestsongs { get; set; }

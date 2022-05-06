@@ -19,6 +19,13 @@
     max-height: 26vh;
     min-height: 26vh;
     font-family: Poppins-Regular;
+
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    background: transparent;
+    box-sizing: border-box;
+
 }
 
 .home-banner-seemore {

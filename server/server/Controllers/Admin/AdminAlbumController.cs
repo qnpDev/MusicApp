@@ -29,6 +29,7 @@ namespace server.Controllers.Admin
                 });
             }
             var album = from r in db.Albums
+                        orderby r.CreatedAt descending
                         select new
                         {
                             r.Id,

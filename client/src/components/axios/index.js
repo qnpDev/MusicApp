@@ -51,12 +51,12 @@ instance.interceptors.response.use(
           return Promise.reject(_error)
         }
       }
-      // if (err.response.status === 403 && !originalConfig._retry) {
+      if (err.response.status === 403 && !originalConfig._retry) {
 
-      //     localStorage.removeItem('token')
-      //     localStorage.removeItem('refreshToken')
-      //     return Promise.reject()
-      // }
+          localStorage.removeItem('token')
+          localStorage.removeItem('refreshToken')
+          return Promise.reject()
+      }
     }
 
     return Promise.reject(err);
