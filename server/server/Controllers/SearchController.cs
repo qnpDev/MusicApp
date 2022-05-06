@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using server.Helpers;
 using server.Models;
 using System;
 using System.Collections.Generic;
@@ -17,20 +18,19 @@ namespace server.Controllers
         {
             using(var context = new MusicContext())
             {
+                string text = SongHelper.ConvertVietnamese(searchText).ToLower();
                 var song = from r in context.Songs
                              where r.Show == 1
-                                && (
-                                    r.Name.ToLower().Contains(searchText.ToLower())
-                                    || r.Artist.ToLower().Contains(searchText.ToLower())
-                                )
-                             select new { r.Id, r.Tag, r.Name, r.Artist, r.Img, r.Src };
+                                && (r.Name.ToLower().Contains(text)
+                                    || r.Artist.ToLower().Contains(text)
+                                    || r.Tag.ToLower().Contains(text))
+                           select new { r.Id, r.Tag, r.Name, r.Artist, r.Img, r.Src };
                 var album = from r in context.Albums
                            where r.Show == 1
-                              && (
-                                  r.Name.ToLower().Contains(searchText.ToLower())
-                                  || r.Artist.ToLower().Contains(searchText.ToLower())
-                              )
-                           select new { r.Id, r.Tag, r.Name, r.Artist, r.Img };
+                              && (r.Name.ToLower().Contains(text)
+                                    || r.Artist.ToLower().Contains(text)
+                                    || r.Tag.ToLower().Contains(text))
+                            select new { r.Id, r.Tag, r.Name, r.Artist, r.Img };
                 return Ok(new
                 {
                     song = song.ToList(),
