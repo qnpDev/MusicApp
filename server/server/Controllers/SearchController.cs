@@ -13,14 +13,29 @@ namespace server.Controllers
     public class SearchController : ControllerBase
     {
         [HttpGet]
-        public IActionResult GetSearch()
+        public IActionResult GetSearch(string searchText)
         {
             using(var context = new MusicContext())
             {
-                var result = from r in context.Songs
+                var song = from r in context.Songs
                              where r.Show == 1
-                             select new { r.Tag, r.Name, r.Artist, r.Img, r.Src };
-                return Ok(result.ToList());
+                                && (
+                                    r.Name.ToLower().Contains(searchText.ToLower())
+                                    || r.Artist.ToLower().Contains(searchText.ToLower())
+                                )
+                             select new { r.Id, r.Tag, r.Name, r.Artist, r.Img, r.Src };
+                var album = from r in context.Albums
+                           where r.Show == 1
+                              && (
+                                  r.Name.ToLower().Contains(searchText.ToLower())
+                                  || r.Artist.ToLower().Contains(searchText.ToLower())
+                              )
+                           select new { r.Id, r.Tag, r.Name, r.Artist, r.Img };
+                return Ok(new
+                {
+                    song = song.ToList(),
+                    album = album.ToList(),
+                });
             }
         }
     }
