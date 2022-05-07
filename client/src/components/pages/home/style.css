@@ -314,6 +314,7 @@
 .home-some-album ul {
     list-style-type: none;
     padding-left: 0;
+    
 }
 
 .home-some-album li {
@@ -343,7 +344,7 @@
 }
 
 .home-some-album .info {
-    padding-left: .3rem;
+    padding-left: .4rem;
     width: 100%;
 }
 

@@ -251,13 +251,13 @@ const AdminRequestSong = () => {
 
                                                 )}
                                         </td>
-                                        <td className='align-middle wraptext'>
-                                            <span className='text-secondary text-xs font-weight-bold'>
+                                        <td className='align-middle'>
+                                            <span className='text-secondary text-xs font-weight-bold wraptext'>
                                                 {listCategory.map(ele => ele.id === e.category ? ele.name : null)}
                                             </span>
                                         </td>
-                                        <td className='align-middle text-sm wraptext'>
-                                            {e.tag}
+                                        <td className='align-middle text-sm '>
+                                            <span className='wraptext'>{e.tag}</span>
                                         </td>
                                         <td className='align-middle text-center'>
                                             <span className='text-secondary text-xs font-weight-bold'>{convertDateTime(e.createdAt)}</span>

@@ -22,7 +22,7 @@ const HomeListAlbum = () => {
                             <li key={e.id}>
                                 <div className='d-flex justify-content-center align-items-center'>
                                     <img
-                                        src={e.localImg
+                                        src={e.localImg === 1
                                             ? (process.env.REACT_APP_API_SRC_ALBUM_IMG + e.img)
                                             : e.img
                                         }

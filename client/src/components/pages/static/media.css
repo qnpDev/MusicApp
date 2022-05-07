@@ -168,7 +168,7 @@
     border-radius: 20px;
     padding: .8rem;
     justify-content: center;
-    background-color: var(--white);
+    background-color: var(--bs-gray-200);
 }
 
 .media-volume-show input[type=range][orient=vertical]

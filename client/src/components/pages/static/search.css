@@ -1,0 +1,83 @@
+.search-container{
+    width: 75%;
+}
+.search-wrap{
+    width: 100%;
+    position: relative;
+    padding: 0 .3rem;
+}
+.search-show{
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 2.5rem;
+    border-radius: 0 0 20px 20px;
+    padding: .8rem;
+    justify-content: center;
+    background-color: var(--bs-gray-200);
+    width: 100%;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+.search-container:hover .search-show{
+    display: block;
+}
+.search-container:hover .search-wrap{
+    background-color: var(--bs-gray-200);
+    border-radius: .5rem .5rem 0 0;
+}
+@media screen and(min-width: 768px) {
+    .search-container{
+        width: 100%;
+    }
+}
+
+.search-show ul{
+    list-style-type: none;
+    padding-left: 0;
+}
+.search-show li {
+    display: flex;
+    text-align: left;
+    padding: .5rem .3rem;
+
+    margin: .1rem 0px;
+    border-radius: 8px;
+    background-color: var(--bs-white);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: .5s;
+}
+
+.search-show li:hover {
+    background-color: #6de4ff;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.search-show img {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 8px;
+}
+
+.search-show .info {
+    padding-left: .6rem;
+    width: 100%;
+}
+
+.search-show .info .info-name,
+.info-artist {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 70%;
+}
+
+.search-show .info .info-name {
+    font-weight: bold;
+}
+
+.search-show .info .info-artist {
+    font-size: small;
+}
