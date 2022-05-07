@@ -5,11 +5,12 @@ import Loading from '../loading'
 import './style.css'
 import HomeItem from './Item';
 import HomeTop from './Top';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import HomeListAlbum from './HomeListAlbum';
 
 const Home = () => {
     document.title = 'Music App'
+    const navigate = useNavigate()
     const [data, setData] = useState();
 
     useEffect(() => {
@@ -42,8 +43,10 @@ const Home = () => {
                             <div className='text-dark font-weight-bolder mb-4 pt-2'>New albums</div>
                             <div className='home-content row'>
                                 {data.albums.map((e, i) => (
-                                    <div key={i} className='col-mini col-6 col-sm-4 col-md-3 col-max'>
-                                        <div key={i} className='item'>
+                                    <div key={i} 
+                                        onClick={() => navigate('/album/' + e.tag)} 
+                                        className='col-mini col-6 col-sm-4 col-md-3 col-max cursor-pointer'>
+                                        <div className='item'>
                                             <div className='img'>
                                                 <img
                                                     src={e.localImg === 1
@@ -51,14 +54,14 @@ const Home = () => {
                                                         : e.img
                                                     }
                                                     alt='avatar' />
-                                                <Link to={'/album/' + e.tag} className='info'>
+                                                <div onClick={() => navigate('/album/' + e.tag)} className='info'>
                                                     <div className='name'>
                                                         {e.name}
                                                     </div>
                                                     <div className='singer'>
                                                         {e.artist}
                                                     </div>
-                                                </Link>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

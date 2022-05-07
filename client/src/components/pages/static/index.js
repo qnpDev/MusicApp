@@ -11,7 +11,7 @@ import Media from './Media';
 import Main from './Main';
 import { UserContext } from '../../contexts/UserContext';
 import api from '../../axios'
-import defaultAvatar from '../../assets/avatar-default.png'
+// import defaultAvatar from '../../assets/avatar-default.png'
 import { ToastContainer } from 'react-toastify';
 import Search from './Search';
 
@@ -423,7 +423,7 @@ const Static = () => {
                                             )
                                             : (
                                                 <Link to='/' className='nav-link text-body font-weight-bold px-0 static-user-avatar'>
-                                                    <img className='avatar' src={dataUser?.avatar || defaultAvatar} alt={dataUser?.name} />
+                                                    <img className='avatar' src={dataUser?.localAvatar === 1 ? process.env.REACT_APP_API_SRC_USER_IMG + dataUser.avatar : dataUser.avatar} alt={dataUser?.name} />
                                                 </Link>
                                             )
                                         }

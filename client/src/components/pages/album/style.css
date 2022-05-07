@@ -1,0 +1,89 @@
+.album-detail-info .album-img img{
+    min-width: 18rem;
+    min-height: 18rem;
+}
+.album-detail-info .album-info{
+    font-family: Poppins-Regular;
+}
+
+.album-datail-playlist{
+    max-height: 40rem;
+}
+.album-datail-playlist ul{
+    list-style-type: none;
+    padding-left: 0;
+    max-height: 37rem;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+.album-datail-playlist li {
+    display: flex;
+    justify-content: space-between;
+    padding: .5rem .3rem;
+
+    margin: .1rem 0px;
+    border-radius: 8px;
+    background-color: var(--bs-white);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: .5s;
+}
+
+.album-datail-playlist li:hover {
+    background-color: #b4f0fd;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.album-datail-playlist img {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 8px;
+}
+
+.album-datail-playlist .info {
+    padding-left: .6rem;
+    width: 100%;
+}
+
+.album-datail-playlist .info .info-name,
+.info-artist {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.album-datail-playlist .info .info-name {
+    font-weight: bold;
+}
+
+.album-datail-playlist .info .info-artist {
+    font-size: small;
+}
+
+.album-datail-playlist li .right{
+    text-align: end;
+    transition: .5s;
+}
+.album-datail-playlist li .right .playnow:hover{
+    font-size: larger;
+    transition: .5s;
+    color: var(--bs-pink);
+}
+.album-datail-playlist li .right .addtolist:hover{
+    font-size: larger;
+    transition: .5s;
+    color: var(--bs-purple);
+}
+
+/* Index */
+.album-table .album-table-item{
+    transition: .5s;
+    cursor: pointer;
+}
+.album-table .album-table-item:hover{
+    background-color: #b4f0fd;
+    transition: .5s;
+}

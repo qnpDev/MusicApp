@@ -53,12 +53,12 @@
     }
 }
 
-@media screen and (min-width: 1400px) {
+/* @media screen and (min-width: 1400px) {
     .col-max {
         flex: 0 0 auto !important;
         width: 20% !important;
     }
-}
+} */
 
 .home-content {
     text-align: center;

@@ -74,6 +74,7 @@ namespace server.Controllers
                         refreshToken,
                         userId = check.Id,
                         userAvatar = check.Avatar,
+                        userLocalAvatar = check.LocalAvatar,
                         userRole = check.Roles,
                     });
                 }
@@ -172,6 +173,7 @@ namespace server.Controllers
             public string username { get; set; }
             public string password { get; set; }
             public string name { get; set; }
+            public string email { get; set; }
         }
 
         [HttpPost("signup")]
@@ -198,6 +200,7 @@ namespace server.Controllers
                         Password = encrypt(signupUser.password),
                         Roles = 0,
                         Name = signupUser.name,
+                        Email = signupUser.email,
                     });
                     context.SaveChanges();
 
@@ -222,6 +225,7 @@ namespace server.Controllers
                         refreshToken,
                         userId = user.Id,
                         userAvatar = user.Avatar,
+                        userLocalAvatar = user.LocalAvatar,
                         userRole = user.Roles,
                     });
                 }
@@ -312,6 +316,7 @@ namespace server.Controllers
                             userId = check.Id,
                             userAvatar = check.Avatar,
                             userRole = check.Roles,
+                            userLocalAvatar = check.LocalAvatar,
                         });
                     }
                 }
@@ -380,9 +385,7 @@ namespace server.Controllers
 
             foreach (byte b in bHash)
             {
-
                 sbHash.Append(String.Format("{0:x2}", b));
-
             }
 
             return sbHash.ToString();

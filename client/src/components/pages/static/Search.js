@@ -20,6 +20,8 @@ const Search = () => {
                 })
             }, 1000)
             return () => clearTimeout(timeId)
+        } else {
+            setData()
         }
     }, [value])
     return (
@@ -35,15 +37,16 @@ const Search = () => {
                             className='search-input form-control'
                             placeholder='Search here...' />
                     </div>
-                    <div  className='search-show'>
-                        {data ? (
-                            <>
+
+                    {data && (
+                        <>
+                            <div className='search-show'>
                                 {data?.song.length > 0 && (
                                     <>
                                         <span className='text-sm fw-bolder'>Songs</span>
                                         <ul>
                                             {data?.song && data.song.map(e => (
-                                                <li key={e.id} onClick={() => navigate('/song/'+e.tag)}>
+                                                <li key={e.id} onClick={() => navigate('/song/' + e.tag)}>
                                                     <div className='d-flex justify-content-center align-items-center'>
                                                         <img
                                                             src={e.localImg === 1
@@ -68,7 +71,7 @@ const Search = () => {
                                         <span className='text-sm fw-bolder'>Album</span>
                                         <ul>
                                             {data?.album && data.album.map(e => (
-                                                <li key={e.id}>
+                                                <li key={e.id} onClick={() => navigate('/album/' + e.tag)}>
                                                     <div className='d-flex justify-content-center align-items-center'>
                                                         <img
                                                             src={e.localImg === 1
@@ -87,13 +90,11 @@ const Search = () => {
                                         </ul>
                                     </>
                                 )}
+                            </div>
+                        </>
+                    )}
 
-                            </>
-                        ) : (
-                            <span className='text-sm'> Input text search...</span>
-                        )}
 
-                    </div>
                 </div>
 
             </div>

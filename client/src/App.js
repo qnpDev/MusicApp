@@ -11,7 +11,7 @@ import Static from './components/pages/static';
 import SignIn from './components/pages/auth/SignIn';
 import SignUp from './components/pages/auth/SignUp';
 import SignOut from './components/pages/auth/SignOut';
-import Song from './components/pages/song';
+import DetailSong from './components/pages/song/Detail';
 import ManageSong from './components/pages/manage';
 import UploadSong from './components/pages/manage/CreateSong';
 import CreateAlbum from './components/pages/manage/CreateAlbum';
@@ -28,6 +28,9 @@ import AdminAlbum from './components/pages/admin/album';
 import AdminCategory from './components/pages/admin/category';
 import AdminBanner from './components/pages/admin/banner';
 import AdminUser from './components/pages/admin/user';
+import Album from './components/pages/album';
+import AlbumDetail from './components/pages/album/Detail';
+import Song from './components/pages/song';
 
 function App() {
   return (
@@ -42,11 +45,13 @@ function App() {
                 <Route path='signin/*' element={<SignIn />} />
                 <Route path='signup/*' element={<SignUp />} />
                 <Route path='signout/*' element={<SignOut />}/>
-                <Route path='song/:tag' element={<Song />} />
+                <Route path='song/*' element={<Song />} />
+                <Route path='song/:tag' element={<DetailSong />} />
                 <Route path='manage/*' element={<ManageSong />}/>
                 <Route path='manage/upload-song/*' element={<UploadSong />}/>
                 <Route path='manage/create-album/*' element={<CreateAlbum/>}/>
-
+                <Route path='album/*' element={<Album/>}/>
+                <Route path='album/:tag' element={<AlbumDetail/>}/>
                 {/* Admin */}
                 <Route path='admin/*' element={<Admin/>} />
                 <Route path='admin/song/*' element={<AdminSong/>}/>

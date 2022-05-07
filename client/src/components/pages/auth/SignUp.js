@@ -48,13 +48,14 @@ const SignUp = () => {
 				}).then(res => {
 					if (res.data.success) {
 						toast.dismiss(load)
-						const { token, refreshToken, userId, userAvatar, userRole } = res.data
+						const { token, refreshToken, userId, userAvatar, userRole, userLocalAvatar } = res.data
 						localStorage.setItem('token', token)
 						localStorage.setItem('refreshToken', refreshToken)
 						setDataUser({
 							id: userId,
 							avatar: userAvatar,
-							role: userRole
+							role: userRole,
+							localAvatar: userLocalAvatar,
 						})
 						navigate('/')
 					} else {

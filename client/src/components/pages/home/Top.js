@@ -104,16 +104,16 @@ const HomeTop = () => {
                         <div className='text-dark font-weight-bolder mb-4 pt-2'>Top month</div>
                         <ul>
                             {data.topmonth.map((e, i) => (
-                                <li key={i} className='item'>
+                                 <li key={i} className='item'>
                                     <div className='left cursor-default'>
                                         {i + 1}
                                     </div>
                                     <div className='center' onClick={() => navigate('/song/' + e.tag)}>
                                         <div className='img'>
                                             <img src={e.localImg === 1
-                                                        ? process.env.REACT_APP_API_SRC_AUDIO_IMG + e.img
-                                                        : e.img
-                                                    }
+                                                ? (process.env.REACT_APP_API_SRC_AUDIO_IMG + e.img)
+                                                : e.img
+                                            }
                                                 alt='img song' />
                                         </div>
                                         <div className='info'>

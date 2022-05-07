@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../../axios'
 import Loading from '../loading';
 
 const HomeListAlbum = () => {
+    const navigate = useNavigate()
     const [data, setData] = useState()
 
     useEffect(() => {
@@ -19,7 +21,7 @@ const HomeListAlbum = () => {
                     <div className='text-dark font-weight-bolder mb-4 pt-2'>Some albums</div>
                     <ul>
                         {data.map(e => (
-                            <li key={e.id}>
+                            <li key={e.id} onClick={() => navigate('/album/'+e.tag)}>
                                 <div className='d-flex justify-content-center align-items-center'>
                                     <img
                                         src={e.localImg === 1
