@@ -2,11 +2,13 @@
 
 <h1 align="center">MusicApp</h1>
 
+
 ## 🧐 About
 <ul>
 <li>Languages: <code>DOT.NET CORE RESTful API Server + ReactJS Client</code></li>
 <li>Database: <code>MySQL</code></li>
 </ul>
+
 
 ## 🏁 Getting Started
 ### Requirements
