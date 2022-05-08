@@ -261,7 +261,7 @@ namespace server.Controllers
             public string token { set; get; }
         }
         [HttpPost("verify")]
-        [Authorize]
+        //[Authorize]
         public IActionResult VerifiUser([FromBody] AuthVerifyModel rf)
         {
             if (rf.token == null)

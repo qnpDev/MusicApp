@@ -64,7 +64,7 @@ const ListSong = () => {
 
     const apiDelete = (e, close) => {
         const load = toast.loading('wait...')
-            api.delete('api/Manage/album/delete?id=' + e.id).then(res => {
+            api.delete('api/Manage/song/delete?id=' + e.song.id).then(res => {
                 toast.dismiss(load)
                 if (res.data.success) {
                     setData(prev => ({

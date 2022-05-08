@@ -394,7 +394,7 @@ namespace server.Controllers
         }
 
         [HttpDelete("song/delete")]
-        public IActionResult DeleteDSong(int id)
+        public IActionResult DeleteSong(int id)
         {
             int uid = User.Identity.GetId();
             using (var context = new MusicContext())
@@ -669,7 +669,7 @@ namespace server.Controllers
                 {
                     if (album == -1)
                     {
-                        context.Songs.Add(new Song()
+                        context.Requestsongs.Add(new Requestsong()
                         {
                             Name = name,
                             Artist = artist,
@@ -680,12 +680,13 @@ namespace server.Controllers
                             LocalImg = localImg,
                             LocalSrc = localSrc,
                             Tag = SongHelper.ConvertTag(name),
+                            Status = status,
                             CreatedBy = createBy,
                         });
                     }
                     else
                     {
-                        context.Songs.Add(new Song()
+                        context.Requestsongs.Add(new Requestsong()
                         {
                             Name = name,
                             Artist = artist,
@@ -697,6 +698,7 @@ namespace server.Controllers
                             LocalSrc = localSrc,
                             Album = album,
                             Tag = SongHelper.ConvertTag(name),
+                            Status = status,
                             CreatedBy = createBy,
                         });
                     }

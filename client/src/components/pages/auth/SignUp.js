@@ -17,15 +17,19 @@ const SignUp = () => {
 		const username = e.target.username.value
 		const pass = e.target.pass.value
 		const pass2 = e.target.pass2.value
-		if (name === '') {
+		const email = e.target.email.value
+		if (name.trim() === '') {
 			toast.error('Please enter Name!')
 			e.target.name.focus()
-		} else if (username === '') {
+		} else if (username.trim() === '') {
 			toast.error('Please enter Username!')
 			e.target.username.focus()
 		} else if (username.match('^[a-zA-Z0-9][a-zA-Z0-9_]*[a-zA-Z0-9](?<![-?+?*$]{6,}.*)$') === null) {
 			toast.error('Username must two characters at least and have no special characters!')
 			e.target.username.focus()
+		}else if(email.trim() === ''){
+			toast.error('Please enter Email!')
+			e.target.email.focus()
 		} else if (pass === '') {
 			toast.error('Please enter Password!')
 			e.target.pass.focus()
@@ -45,6 +49,7 @@ const SignUp = () => {
 					username,
 					password: pass,
 					name,
+					email,
 				}).then(res => {
 					if (res.data.success) {
 						toast.dismiss(load)
@@ -109,6 +114,9 @@ const SignUp = () => {
                                             </div>
                                             <div className='mb-3'>
                                                 <input type='text' name='username' className='form-control' placeholder='Username' aria-label='Username' aria-describedby='username-addon' />
+                                            </div>
+											<div className='mb-3'>
+                                                <input type='email' name='email' className='form-control' placeholder='Email' aria-label='Email' aria-describedby='email-addon' />
                                             </div>
                                             <div className='mb-3'>
                                                 <input type='password' name='pass' className='form-control' placeholder='Password' aria-label='Password' aria-describedby='password-addon' />
