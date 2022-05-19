@@ -41,6 +41,7 @@
 **Features:**
 - Users:
     - Signin and signup account
+    - Reset and change account password
     - Change account infomation
     - Upload new songs
     - Create song drafts
