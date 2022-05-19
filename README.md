@@ -3,10 +3,10 @@
     <h1><b>MusicApp</b></h1>
     <h5>Music App is a web application that everyone can access to find and listen to music online. Moreover, people can upload their song and download their favorite song.</br>***</h5>
     </br>
-    </br>
 </div>
 
 # Table of contents
+
 1. [About](#1-about)</br>
 2. [Requirements](#2-requirements)</br>
 3. [Install](#3-install)</br>
@@ -29,16 +29,26 @@
 </br>
 
 # 1. About
+
 <img src="bin/home-page-view.png" alt="Review-Home-Page">
 </br>
 
+**Author**
+
+<ul>
+    <li>Nguyễn Phú Quí - 51900192</li>
+    <li>Nguyễn Quốc Thái - 51900210</li>
+</ul>
+
 **Technicality**
+
 <ul>
     <li>Languages: <code>DOT.NET CORE RESTful API Server + ReactJS Client</code></li>
     <li>Database: <code>MySQL</code></li>
 </ul>
 
 **Features:**
+
 - Users:
     - Signin and signup account
     - Reset and change account password
@@ -81,6 +91,7 @@
         - keeng.vn
 
 # 2. Requirements
+
 <ul>
 <li>DOT.NET CORE</li>
 <li>ReactJS</li>
@@ -88,6 +99,7 @@
 </ul>
 
 # 3. Install
+
 <ul>
 <li>Clone the repository with git clone </li>
 <li>Run <code>SQLQuery.sql</code> database in MySQL</li>
@@ -623,7 +635,7 @@ public class UploadImageBanner : UploadTemplate
 
 >Các file `UploadImageAlbum.cd`, `UploadImageCategory.cs`, `UploadImageUser.cs` tương tự các file trên chỉ thay đổi giá trị trả về
 
-### Testcase Factory Method Pattern
+### Testcase Template Method Pattern
 
 - **Testcase 01:**
     - Input:
