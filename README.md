@@ -25,19 +25,19 @@
     - [Áp dụng](#áp-dụng-template-method-pattern)
     - [Testcase](#testcase-template-method-pattern)
 
-    4.3 [Adapter Pattern](#adapter-method-pattern)</br>
-    - [Giới thiệu](#giới-thiệu-adapter-method-pattern)
-    - [Lý do áp dụng](#lý-do-áp-dụng-adapter-method-pattern)
-    - [Mô tả việc áp dụng](#mô-tả-việc-áp-dụng-adapter-method-pattern)
-    - [Áp dụng](#áp-dụng-adapter-method-pattern)
-    - [Testcase](#testcase-adapter-method-pattern)
+    4.3 [Adapter Pattern](#adapter-pattern)</br>
+    - [Giới thiệu](#giới-thiệu-adapter-pattern)
+    - [Lý do áp dụng](#lý-do-áp-dụng-adapter-pattern)
+    - [Mô tả việc áp dụng](#mô-tả-việc-áp-dụng-adapter-pattern)
+    - [Áp dụng](#áp-dụng-adapter-pattern)
+    - [Testcase](#testcase-adapter-pattern)
 
-    4.4 [Singleton Pattern](#singleton-method-pattern)</br>
-    - [Giới thiệu](#giới-thiệu-singleton-method-pattern)
-    - [Lý do áp dụng](#lý-do-áp-dụng-singleton-method-pattern)
-    - [Mô tả việc áp dụng](#mô-tả-việc-áp-dụng-singleton-method-pattern)
-    - [Áp dụng](#áp-dụng-singleton-method-pattern)
-    - [Testcase](#testcase-singleton-method-pattern)
+    4.4 [Singleton Pattern](#singleton-pattern)</br>
+    - [Giới thiệu](#giới-thiệu-singleton-pattern)
+    - [Lý do áp dụng](#lý-do-áp-dụng-singleton-pattern)
+    - [Mô tả việc áp dụng](#mô-tả-việc-áp-dụng-singleton-pattern)
+    - [Áp dụng](#áp-dụng-singleton-pattern)
+    - [Testcase](#testcase-singleton-pattern)
 5. [Some pictures](#5-some-pictures)
     
 
