@@ -3,6 +3,7 @@ import Loading from '../loading';
 import api from '../../axios'
 import { useNavigate } from 'react-router-dom';
 import CrawlSongTool from './tool/crawlSong';
+import Backup from '../../resources/images/backup.jpg'
 const Admin = () => {
     document.title = 'Admin Panel'
     const navigate = useNavigate()
@@ -125,6 +126,25 @@ const Admin = () => {
                 </div>
             </div>
             <CrawlSongTool />
+            <div className='card my-4'>
+                <div className='card-header pb-0'>
+                    <h3>Database tool</h3>
+                </div>
+                <div className='card-body'>
+                    <div className='row'>
+                        <div className='col-12 mt-2'>
+                            <div className='card bg-gradient-success d-flex justify-content-center align-items-center py-4'>
+                                <img 
+                                    className='avatar avatar-xl mb-2'
+                                    src={Backup}
+                                    alt='backup'
+                                />
+                                <h5 onClick={() => navigate('/admin/tool/database')} className='btn btn-info text-white'>Backup</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </>
     );
 };

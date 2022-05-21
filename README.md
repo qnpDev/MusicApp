@@ -45,7 +45,7 @@
 
 # 1. About
 
-<img src="bin/home-page-view.png" alt="Review-Home-Page">
+<img src="bin/Home.png" alt="Review-Home-Page">
 </br>
 
 **Author**
@@ -104,6 +104,7 @@
         - nhac.vn
         - chiasenhac.vn
         - keeng.vn
+    - Create and download database backup
 
 # 2. Requirements
 
@@ -1277,6 +1278,9 @@ public class SocketIO
 
 `Mail reset password`
 <img src="bin/Auth-reset-password-mail.png" slt="Auth-reset-password-mail">
+
+`Database backup`
+<img src="bin/Admin-database-backup.png" slt="Admin-database-backup">
 
 <h5 align="center">__qnp__</h5>
 <h2 align="center">Thank you!</h3>

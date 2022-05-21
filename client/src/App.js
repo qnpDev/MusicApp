@@ -36,6 +36,7 @@ import User from './components/pages/user';
 import ChangePassword from './components/pages/user/ChangePassword';
 import ResetPassword from './components/pages/auth/ResetPassword';
 import ForgotPassword from './components/pages/auth/ForgotPassword';
+import Database from './components/pages/admin/tool/database';
 
 function App() {
   return (
@@ -77,6 +78,7 @@ function App() {
                 <Route path='admin/banner/*' element={<AdminBanner/>}/>
                 <Route path='admin/user/*' element={<AdminUser/>}/>
                 <Route path='admin/temp-crawl/*' element={<TempCrawl/>}/>
+                <Route path='admin/tool/database/*' element={<Database/>}/>
 
                 {/* 404 */}
                 <Route path="*" element={<NotFound />} />

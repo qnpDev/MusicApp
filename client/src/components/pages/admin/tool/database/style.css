@@ -1,0 +1,23 @@
+
+.database-list ul{
+    list-style-type: none;
+    padding-left: 0;
+    
+    overflow: hidden;
+    overflow-y: scroll;
+    max-height: 40rem;
+}
+
+.database-list li{
+    margin-bottom: .5rem;
+    padding: 1rem;
+    border-radius: 20px;
+    transition: .5s;
+}
+.database-list li:hover{
+    background-color: aquamarine;
+    transition: .5s;
+}
+.database-list .db-name{
+    cursor: default;
+}
