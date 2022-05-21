@@ -12,7 +12,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="NETCore.MailKit" Version="2.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="SocketIOSharp" Version="2.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     <PackageReference Include="System.Collections" Version="4.3.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.16.0" />
@@ -21,7 +23,6 @@
   <ItemGroup>
     <Folder Include="Uploads\Images\Banners\" />
     <Folder Include="Uploads\Images\Categories\" />
-    <Folder Include="Uploads\Images\Users\" />
   </ItemGroup>
 
 </Project>

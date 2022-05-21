@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -26,5 +27,6 @@ namespace server.Helpers
 
             return sbHash.ToString();
         }
+
     }
 }

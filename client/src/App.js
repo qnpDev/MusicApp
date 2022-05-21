@@ -31,6 +31,11 @@ import AdminUser from './components/pages/admin/user';
 import Album from './components/pages/album';
 import AlbumDetail from './components/pages/album/Detail';
 import Song from './components/pages/song';
+import TempCrawl from './components/pages/admin/tempCrawl';
+import User from './components/pages/user';
+import ChangePassword from './components/pages/user/ChangePassword';
+import ResetPassword from './components/pages/auth/ResetPassword';
+import ForgotPassword from './components/pages/auth/ForgotPassword';
 
 function App() {
   return (
@@ -52,6 +57,12 @@ function App() {
                 <Route path='manage/create-album/*' element={<CreateAlbum/>}/>
                 <Route path='album/*' element={<Album/>}/>
                 <Route path='album/:tag' element={<AlbumDetail/>}/>
+                <Route path='user/:id' element={<User/>}/>
+                <Route path='user/*' element={<User/>}/>
+                <Route path='change-password/*' element={<ChangePassword/>}/>
+                <Route path='forgot-password/*' element={<ForgotPassword/>}/>
+                <Route path='reset-password/:token' element={<ResetPassword/>}/>
+
                 {/* Admin */}
                 <Route path='admin/*' element={<Admin/>} />
                 <Route path='admin/song/*' element={<AdminSong/>}/>
@@ -65,6 +76,7 @@ function App() {
                 <Route path='admin/category/*' element={<AdminCategory/>}/>
                 <Route path='admin/banner/*' element={<AdminBanner/>}/>
                 <Route path='admin/user/*' element={<AdminUser/>}/>
+                <Route path='admin/temp-crawl/*' element={<TempCrawl/>}/>
 
                 {/* 404 */}
                 <Route path="*" element={<NotFound />} />

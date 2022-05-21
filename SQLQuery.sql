@@ -15,11 +15,13 @@ create table users(
 	primary key(id)
 )
 
+/*
 alter table album
 add localImg int default 0 not null
 
 alter table banner
 add localLink int default 0 not null
+*/
 
 create table categories(
 	id int not null IDENTITY(1, 1),
@@ -64,12 +66,16 @@ create table banner(
 	localImg int default 1 not null,
 	localLink int default 1 not null,
 	show int default 0 not null,
+	createdBy int not null foreign key references users(id),
 	createdAt datetime not null default current_timestamp,
 	updatedAt datetime default 0,
 	primary key(id),
 )
 
 /*
+alter table banner
+alter column createdBy int not null foreign key references users(id)
+
 alter table banner
 add colorTitle varchar(max) default 'white'
 
@@ -90,6 +96,14 @@ create table refreshToken(
 	expiredAt datetime not null default 0,
 	primary key (id, userId)
 )
+
+/*
+create table resetPassword(
+	id int not null identity(1,1),
+	token varchar(max) not null,
+	primary key (id)
+)
+*/
 
 create table album(
 	id int not null identity(1,1),

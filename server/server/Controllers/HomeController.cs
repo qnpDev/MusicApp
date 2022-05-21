@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using server.Helpers.Pattern.SocketSingleton;
 using server.Models;
 using System;
 using System.Collections;
@@ -25,7 +26,7 @@ namespace server.Controllers
                 var newSongs = (from s in context.Songs
                                 where s.Show == 1
                                 orderby s.CreatedAt.Date descending
-                                select s).Take(10);
+                                select s).Take(8);
 
                 var album = (from a in context.Albums
                              where a.Show == 1
@@ -42,7 +43,7 @@ namespace server.Controllers
                 var randomSongs = context.Songs
                     .Where(s => s.Show == 1)
                     .OrderBy(r => Guid.NewGuid())
-                    .Take(10);
+                    .Take(8);
 
                 return Ok(new
                 {
@@ -96,9 +97,10 @@ namespace server.Controllers
                         s.Tag,
                         s.LocalImg,
                     })
-                    .Take(10);
+                    .Take(8);
                 return Ok(randomAlbums.ToList());
             }
         }
+
     }
 }

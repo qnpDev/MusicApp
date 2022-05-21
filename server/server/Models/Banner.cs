@@ -19,5 +19,8 @@ namespace server.Models
         public string ColorInfo { get; set; }
         public int LocalImg { get; set; }
         public int LocalLink { get; set; }
+        public int? CreatedBy { get; set; }
+
+        public virtual User CreatedByNavigation { get; set; }
     }
 }

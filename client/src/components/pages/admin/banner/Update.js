@@ -188,7 +188,7 @@ const AdminUpdateBanner = ({ data, close, setData }) => {
                         <div className='form-group'>
                             <div className='d-flex justify-content-between align-items-end'>
                                 <div>
-                                    <label htmlFor='album'>Image song:  </label>
+                                    <label htmlFor='album'>Image:  </label>
                                 </div>
                                 <div className='d-flex justify-content-end'>
                                     {changeImage

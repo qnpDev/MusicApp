@@ -146,7 +146,20 @@ namespace server.Controllers.Admin
                     return Ok(new
                     {
                         success = false,
-                        message = "Can not find category",
+                        message = "Can not find user",
+                    });
+                }
+
+                var checkEmail = (from r in db.Users
+                                  where r.Email == email
+                                    && r.Id != data.Id
+                                  select r).FirstOrDefault();
+                if (checkEmail != null)
+                {
+                    return Ok(new
+                    {
+                        success = false,
+                        message = "Email already exists!"
                     });
                 }
 

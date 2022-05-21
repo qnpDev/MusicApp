@@ -74,13 +74,13 @@ const Admin = () => {
                 <div className='col-lg-3 col-md-6 col-12'>
                     <div className='card mb-4 d-flex justify-content-center align-items-center'>
                         <div className='card-header fw-bold pb-0'>
-                            Total draft song
+                            Total temp crawl
                         </div>
                         <h1 className='card-body'>
-                            {data.draft}
+                            {data.tempCrawl}
                         </h1>
                         <div className='card-footer pt-0'>
-                            <button disabled={true} className='btn btn-sm bg-gradient-primary'>Manage</button>
+                            <button onClick={() => navigate('/admin/temp-crawl')} className='btn btn-sm bg-gradient-primary'>Manage</button>
                         </div>
                     </div>
                 </div>

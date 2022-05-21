@@ -18,7 +18,6 @@ const SignOut = () => {
         localStorage.removeItem('refreshToken')
         setDataUser(null)
         navigate('/', {replace: true})
-
     }
     useEffect(()=> {
         if (!localStorage.getItem('token') || !localStorage.getItem('refreshToken'))

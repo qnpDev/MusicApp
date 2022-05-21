@@ -52,8 +52,8 @@ const AdminCreateCategory = ({ close, setData }) => {
                         {
                             ...prev,
                             data: [
+                                res.data.data,
                                 ...prev.data,
-                                res.data.data
                             ]
                         }
                     ))

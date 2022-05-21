@@ -314,7 +314,7 @@ const UpdateSong = ({ data, listAlbum, listCategory, close, setData }) => {
                                                         id='song'
                                                         className='form-control'
                                                         type='file'
-                                                        accept='mpeg/mp3'
+                                                        accept='audio/mp3,audio/*;capture=microphone'
                                                         onChange={handleSong}
                                                     />
                                                 )

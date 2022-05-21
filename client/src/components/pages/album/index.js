@@ -72,7 +72,7 @@ const Album = () => {
                         </table>
                     </div>
                 </div>
-                {data.songLength > 6 && (
+                {data.size > 6 && (
                 <div className='card-footer d-flex justify-content-end'>
                     <Pagination
                         activePage={curPage}

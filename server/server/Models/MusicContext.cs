@@ -102,6 +102,8 @@ namespace server.Models
                     .HasColumnName("createdAt")
                     .HasDefaultValueSql("(getdate())");
 
+                entity.Property(e => e.CreatedBy).HasColumnName("createdBy");
+
                 entity.Property(e => e.Img)
                     .IsRequired()
                     .HasColumnName("img");
@@ -128,6 +130,11 @@ namespace server.Models
                     .HasColumnType("datetime")
                     .HasColumnName("updatedAt")
                     .HasDefaultValueSql("((0))");
+
+                entity.HasOne(d => d.CreatedByNavigation)
+                    .WithMany(p => p.Banners)
+                    .HasForeignKey(d => d.CreatedBy)
+                    .HasConstraintName("FK__banner__createdB__607251E5");
             });
 
             modelBuilder.Entity<Category>(entity =>

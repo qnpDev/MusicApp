@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import api from '../../../../axios'
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../../../contexts/UserContext';
 
 const AdminCrawlResult = ({ data, setData, setLink, listCategory, listAlbum }) => {
     const navigate = useNavigate()
     const [btnUpload, setBtnUpload] = useState(false)
-
+    const { dataUser } = useContext(UserContext)
 
     const handleSave = () => {
         if (data.name.trim().length === 0)
@@ -30,16 +31,44 @@ const AdminCrawlResult = ({ data, setData, setLink, listCategory, listAlbum }) =
             const load = toast.loading('Wait...')
             setBtnUpload(true)
             api.post('api/admin/song/create', formData).then(res => {
+                toast.dismiss(load)
                 if (res.data.success) {
                     toast.success('Upload success!')
                     setData()
                     setLink('')
                 } else {
-
+                    setBtnUpload(false)
                     toast.error(res.data.message)
                 }
-                setBtnUpload(false)
+            })
+        }
+    }
+
+    const handleSaveTemp = () => {
+        if (data.name.trim().length === 0)
+            toast.error('Enter song name!')
+        else if (!data.artist || data.artist.trim().length === 0)
+            toast.error('Enter song artist!')
+        else {
+            let formData = new FormData()
+            formData.append('img', data.img)
+            formData.append('src', data.src)
+            formData.append('name', data.name)
+            formData.append('artist', data.artist)
+            formData.append('uname', dataUser.name)
+
+            const load = toast.loading('Wait...')
+            setBtnUpload(true)
+            api.post('api/admin/temp-crawl', formData).then(res => {
                 toast.dismiss(load)
+                if (res.data.success) {
+                    toast.success('Save success!')
+                    setData()
+                    setLink('')
+                } else {
+                    setBtnUpload(false)
+                    toast.error(res.data.message)
+                }
             })
         }
     }
@@ -134,6 +163,10 @@ const AdminCrawlResult = ({ data, setData, setLink, listCategory, listAlbum }) =
                 </select>
             </div>
             <div className='text-end mt-5'>
+                <button
+                    disabled={btnUpload}
+                    onClick={handleSaveTemp}
+                    className='btn btn-secondary mx-1'>Save temp</button>
                 <button
                     disabled={btnUpload}
                     onClick={handleSave}

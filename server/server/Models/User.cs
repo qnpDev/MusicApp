@@ -10,6 +10,7 @@ namespace server.Models
         public User()
         {
             Albums = new HashSet<Album>();
+            Banners = new HashSet<Banner>();
             RefreshTokens = new HashSet<RefreshToken>();
             Requestsongs = new HashSet<Requestsong>();
             Songs = new HashSet<Song>();
@@ -27,6 +28,7 @@ namespace server.Models
         public DateTime? UpdatedAt { get; set; }
 
         public virtual ICollection<Album> Albums { get; set; }
+        public virtual ICollection<Banner> Banners { get; set; }
         public virtual ICollection<RefreshToken> RefreshTokens { get; set; }
         public virtual ICollection<Requestsong> Requestsongs { get; set; }
         public virtual ICollection<Song> Songs { get; set; }

@@ -29,7 +29,6 @@ namespace server.Helpers.Pattern.UploadTemplate
             string folderName = FolderName();
             string fileName = SaveFile(file, folderName);
             return fileName;
-            
         }
     }
 }

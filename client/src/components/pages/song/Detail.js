@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import NotFound from '../notfound';
 import api from '../../axios'
 import Loading from '../loading';
-import './style.css'
 import DefaultAvatar from '../../assets/avatar-default.png'
 
 import {
@@ -25,6 +24,7 @@ const DetailSong = () => {
     document.title = 'Song'
     const { tag } = useParams();
     const [data, setData] = useState()
+    const navigate = useNavigate()
     const { listMusic, addMusic, setAudioIndex, setPlay } = useContext(ListMusicContext)
 
     const handlePlayNow = e => {
@@ -106,7 +106,7 @@ const DetailSong = () => {
                                     <div className='avatar'>
                                         <img alt={data.author.name} src={data.author.avatar ? data.author.avatar : DefaultAvatar} />
                                     </div>
-                                    <div className='info'>
+                                    <div onClick={() => navigate('/user/' + data.author.id)} className='info cursor-pointer'>
                                         {data.author.name}
                                     </div>
                                 </div>

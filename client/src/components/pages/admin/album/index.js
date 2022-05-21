@@ -152,10 +152,10 @@ const AdminAlbum = () => {
                                             </div>
                                         </td>
                                         <td className='align-middle'>
-                                            <span className='text-secondary text-xs font-weight-bold'>{e.tag}</span>
+                                            <span className='text-secondary text-xs font-weight-bold wraptext'>{e.tag}</span>
                                         </td>
                                         <td className='align-middle text-center'>
-                                            <span className='text-secondary text-xs font-weight-bold'>{e.songCount}</span>
+                                            <span className='text-secondary text-xs font-weight-bold wraptext'>{e.songCount}</span>
                                         </td>
                                         <td className='align-middle text-center text-sm cursor-default'>
                                             {e.show === 0
@@ -185,7 +185,7 @@ const AdminAlbum = () => {
                         </table>
                     </div>
                 </div>
-                {data.songLength > 6 && (
+                {data.size > 6 && (
                 <div className='card-footer d-flex justify-content-end'>
                     <Pagination
                         activePage={curPage}

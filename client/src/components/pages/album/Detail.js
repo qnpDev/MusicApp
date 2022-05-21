@@ -59,6 +59,10 @@ const AlbumDetail = () => {
                                             <h1 className='fw-bolder'>{data.album.name}</h1>
                                             <div className='text-sm artist'>{data.album.artist}</div>
                                         </div>
+                                        <div className='mt-4 text-center'>
+                                            <span className='fw-bolder cursor-default'>Author: </span>
+                                            <span className='album-author' onClick={() => navigate('/user/' + data.album.user.id)}>{data.album.user.name}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

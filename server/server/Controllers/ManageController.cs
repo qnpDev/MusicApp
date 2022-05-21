@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.Helpers;
 using server.Helpers.Pattern.DeleteStrategy;
+using server.Helpers.Pattern.SocketSingleton;
 using server.Helpers.Pattern.UploadTemplate;
 using server.Models;
 using System;
@@ -20,7 +21,7 @@ namespace server.Controllers
     public class ManageController : ControllerBase
     {
         [HttpGet("song/getsong")]
-        public IActionResult GetSong(int page, int limit)
+        public IActionResult GetSong(int page = 1, int limit = 6)
         {
             int id = User.Identity.GetId();
             if (page < 1)
@@ -298,13 +299,26 @@ namespace server.Controllers
                 else
                 {
                     songrequest.Status = 1;
-                    context.SaveChanges();
-                    return Ok(new
+                    if(context.SaveChanges() > 0)
                     {
-                        success = true,
-                        message = "successful!",
-                        data = songrequest,
-                    });
+                        SocketIO server = SocketIO.GetInstance;
+                        server.GetServer().Emit("newRequest", songrequest);
+                        return Ok(new
+                        {
+                            success = true,
+                            message = "successful!",
+                            data = songrequest,
+                        });
+                    }
+                    else
+                    {
+                        return Ok(new
+                        {
+                            success = false,
+                            message = "successful!",
+                            data = songrequest,
+                        });
+                    }
                 }
             }
         }
@@ -682,6 +696,7 @@ namespace server.Controllers
                             Tag = SongHelper.ConvertTag(name),
                             Status = status,
                             CreatedBy = createBy,
+                            CreatedAt = DateTime.Now,
                         });
                     }
                     else
@@ -700,6 +715,7 @@ namespace server.Controllers
                             Tag = SongHelper.ConvertTag(name),
                             Status = status,
                             CreatedBy = createBy,
+                            CreatedAt = DateTime.Now,
                         });
                     }
                     if (context.SaveChanges() > 0)
@@ -930,6 +946,7 @@ namespace server.Controllers
                             LocalImg = localImg,
                             Tag = SongHelper.ConvertTag(name),
                             CreatedBy = createBy,
+                            CreatedAt = DateTime.Now,
                     });
 
                     if(context.SaveChanges() > 0)

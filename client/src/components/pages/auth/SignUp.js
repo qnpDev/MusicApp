@@ -110,19 +110,19 @@ const SignUp = () => {
                                     <div className='card-body'>
                                         <form onSubmit={handleSubmit}>
                                             <div className='mb-3'>
-                                                <input type='text' name='name' className='form-control' placeholder='Name' aria-label='Name' aria-describedby='email-addon' />
+                                                <input type='text' name='name' className='form-control' placeholder='Name' aria-label='Name' aria-describedby='name-addon' required/>
                                             </div>
                                             <div className='mb-3'>
-                                                <input type='text' name='username' className='form-control' placeholder='Username' aria-label='Username' aria-describedby='username-addon' />
+                                                <input type='text' name='username' className='form-control' placeholder='Username' aria-label='Username' aria-describedby='username-addon' required/>
                                             </div>
 											<div className='mb-3'>
-                                                <input type='email' name='email' className='form-control' placeholder='Email' aria-label='Email' aria-describedby='email-addon' />
+                                                <input type='email' name='email' className='form-control' placeholder='Email' aria-label='Email' aria-describedby='email-addon' required/>
                                             </div>
                                             <div className='mb-3'>
-                                                <input type='password' name='pass' className='form-control' placeholder='Password' aria-label='Password' aria-describedby='password-addon' />
+                                                <input type='password' name='pass' className='form-control' placeholder='Password' aria-label='Password' aria-describedby='password-addon' required/>
                                             </div>
                                             <div className='mb-3'>
-                                                <input type='password' name='pass2' className='form-control' placeholder='Password again' aria-label='Password again' aria-describedby='passwordagain-addon' />
+                                                <input type='password' name='pass2' className='form-control' placeholder='Password again' aria-label='Password again' aria-describedby='passwordagain-addon' required/>
                                             </div>
                                             <div className='text-center'>
                                                 <button 

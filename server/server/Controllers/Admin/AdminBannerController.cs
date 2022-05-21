@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using server.Helpers;
 using server.Helpers.Pattern.DeleteStrategy;
 using server.Helpers.Pattern.UploadTemplate;
 using server.Models;
@@ -231,6 +232,7 @@ namespace server.Controllers.Admin
             {
                 var formCollection = await Request.ReadFormAsync();
 
+                var id = User.Identity.GetId();
                 var files = formCollection.Files;
                 var name = formCollection["name"][0].ToString().Trim();
                 var info = formCollection["info"][0].ToString().Trim();
@@ -276,6 +278,7 @@ namespace server.Controllers.Admin
                     ColorInfo = colorInfo,
                     ColorTitle = colorTitle,
                     Show = show,
+                    CreatedBy = id,
                 });
                 var checkSave = db.SaveChanges();
                 var save = (from r in db.Banners

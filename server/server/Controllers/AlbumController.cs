@@ -63,7 +63,7 @@ namespace server.Controllers
                             r.CreatedBy,
                             r.Tag,
                             r.Show,
-                            songCount = r.Songs.Count,
+                            songCount = r.Songs.Count(x => x.Show == 1),
                             user = new
                             {
                                 r.CreatedByNavigation.Name
@@ -101,6 +101,13 @@ namespace server.Controllers
                             r.Show,
                             r.LocalImg,
                             r.Img,
+                            user = new
+                            {
+                                r.CreatedByNavigation.Id,
+                                r.CreatedByNavigation.Name,
+                                r.CreatedByNavigation.Avatar,
+                                r.CreatedByNavigation.LocalAvatar,
+                            }
                         }).FirstOrDefault();
             if(album == null)
             {

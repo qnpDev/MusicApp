@@ -87,3 +87,10 @@
     background-color: #b4f0fd;
     transition: .5s;
 }
+.album-detail-info .album-author, .album-author:hover{
+    transition: .5s;
+    cursor: pointer;
+}
+.album-detail-info .album-author:hover{
+    color: var(--bs-info);
+}

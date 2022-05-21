@@ -1,0 +1,31 @@
+.user-container .user-avatar img{
+    min-width: 21.4rem;
+    max-width: 21.4rem;
+    min-height: 21.4rem;
+    max-height: 21.4rem;
+    border-radius: 50%;
+}
+.user-container .user-avatar .user-edit-active{
+    min-width: 17.9rem;
+    max-width: 17.9rem;
+    min-height: 17.9rem;
+    max-height: 17.9rem;
+}
+.user-container .user-info table{
+    vertical-align: middle;
+}
+.user-container .user-info table th{
+    width: 20%;
+    
+}
+.user-container .user-info table input{
+    padding-left: .5rem !important;
+    width: 90%;
+}
+.change-password-avatar{
+    border-radius: 50%;
+    max-width: 25vh;
+    max-height: 25vh;
+    min-height: 25vh;
+    min-width: 25vh;
+}

@@ -60,6 +60,11 @@
     white-space: nowrap;
     overflow: hidden;
     margin-left: .2rem;
+    transition: .5s;
+}
+.song-current-action .author .info:hover{
+    color: var(--bs-info);
+    transition: .5s;
 }
 .song-current-action .action{
     display: flex;
@@ -72,4 +77,28 @@
 }
 .song-current-action .action .btn{
     margin: 8px;
+}
+
+
+/* index */
+.song-select-category .list{
+    list-style-type: none;
+    padding-left: 0;
+    flex-wrap: wrap;
+    max-height: 4rem;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+.song-select-category .list .item{
+    background-color: var(--bs-gray-200);
+    border-radius: 8px;
+    padding: .2rem .3rem;
+    margin: .1rem;
+    font-size: small;
+    word-wrap: break-word;
+    cursor: pointer;
+}
+.song-select-category .list .item-active{
+    background-color: var(--bs-info);
+    color: var(--bs-white);
 }

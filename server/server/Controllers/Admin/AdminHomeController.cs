@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using server.Helpers.Pattern.TempCrawlSongSingleton;
 using server.Models;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace server.Controllers.Admin
         [HttpGet]
         public IActionResult GetAdminHome()
         {
+            TempCrawlSong dataList = TempCrawlSong.GetInstance;
             var user = from r in db.Users
                        where r.Roles != 10
                        select r;
@@ -31,9 +33,7 @@ namespace server.Controllers.Admin
                         select r;
             var category = from r in db.Categories
                            select r;
-            var draft = from r in db.Requestsongs
-                        where r.Status == 0
-                        select r;
+            var tempCrawl = dataList.GetSize();
             var banner = from r in db.Banners
                          select r;
             var admin = from r in db.Users
@@ -46,7 +46,7 @@ namespace server.Controllers.Admin
                 request = request.Count(),
                 album = album.Count(),
                 category = category.Count(),
-                draft = draft.Count(),
+                tempCrawl = tempCrawl,
                 banner = banner.Count(),
                 admin = admin.Count(),
             });

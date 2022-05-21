@@ -377,6 +377,7 @@ namespace server.Controllers.Admin
                             LocalSrc = localSrc,
                             Tag = SongHelper.ConvertTag(name),
                             CreatedBy = createBy,
+                            CreatedAt = DateTime.Now,
                         });
                     }
                     else
@@ -394,6 +395,7 @@ namespace server.Controllers.Admin
                             Album = album,
                             Tag = SongHelper.ConvertTag(name),
                             CreatedBy = createBy,
+                            CreatedAt = DateTime.Now,
                         });
                     }
                     if (context.SaveChanges() > 0)

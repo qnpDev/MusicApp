@@ -20,12 +20,49 @@ namespace server.Controllers
     [ApiController]
     public class SongController : ControllerBase
     {
+        MusicContext context = new();
+        [HttpPost]
+        public IActionResult Get(int page, int limit, [FromBody] int[] category)
+        {
+            if (page < 1)
+            {
+                return BadRequest(new
+                {
+                    success = false,
+                    message = "Page start from 1",
+                });
+            }
+            var data = from r in context.Songs
+                       where r.Show == 1
+                           && category.Length > 0 ? category.Contains(r.Category) : true
+                       orderby r.CreatedAt descending
+                       select new
+                       {
+                           r.Id,
+                           r.Name,
+                           r.Artist,
+                           r.Img,
+                           r.Listen,
+                           r.LocalImg,
+                           r.CreatedAt,
+                           r.CreatedBy,
+                           r.Tag,
+                           category = r.CategoryNavigation.Name,
+                           user = r.CreatedByNavigation.Name,
+                           album = r.AlbumNavigation.Name,
+                        };
+            int p = page - 1;
+            return Ok(new
+            {
+                size = data.Count(),
+                data = data.ToList().Skip(limit * p).Take(limit),
+            });
+        }
+
         [HttpPut("{tag}/listen")]
         public void ListenSong(string tag)
         {
-            if (tag != null)
-                using (var context = new MusicContext())
-                {
+            if (tag != null) {
                     var song = (from r in context.Songs
                                 where r.Tag == tag
                                 select r).FirstOrDefault();
@@ -48,8 +85,6 @@ namespace server.Controllers
                     message = "Not found!"
                 });
             }
-            using (var context = new MusicContext())
-            {
                 var song = (from r in context.Songs
                             where r.Tag == tag
                                  && r.Show == 1
@@ -116,7 +151,6 @@ namespace server.Controllers
                         message = "Not found!"
                     });
                 }
-            }
         }
 
 

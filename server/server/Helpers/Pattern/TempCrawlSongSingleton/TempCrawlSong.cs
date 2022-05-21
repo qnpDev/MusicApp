@@ -32,5 +32,39 @@ namespace server.Helpers.Pattern.TempCrawlSongSingleton
                 return instance;
             }
         }
+        public TempCrawlSongModel Get(string id)
+        {
+            var item = (from r in list
+                        where r.id.Equals(id)
+                        select r).FirstOrDefault();
+            return item;
+        }
+        public List<TempCrawlSongModel> GetAll()
+        {
+            return list;
+        }
+        public void Add(TempCrawlSongModel data)
+        {
+            list.Add(data);
+        }
+        public void AddList(List<TempCrawlSongModel> data)
+        {
+            list.AddRange(data);
+        }
+        public void Remove(string id)
+        {
+            var item = (from r in list
+                       where r.id.Equals(id)
+                       select r).FirstOrDefault();
+            list.Remove(item);
+        }
+        public void Clear()
+        {
+            list.Clear();
+        }
+        public int GetSize()
+        {
+            return list.Count();
+        }
     }
 }

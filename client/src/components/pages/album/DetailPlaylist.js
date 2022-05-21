@@ -6,8 +6,10 @@ import {
     AiOutlinePlusCircle
 } from 'react-icons/ai'
 import { ListMusicContext } from '../../contexts/ListMusicContext';
+import { useNavigate } from 'react-router-dom';
 
 const DetailPlaylist = ({ data }) => {
+    const navigate = useNavigate()
     const { listMusic, addMusic, setPlay, setAudioIndex } = useContext(ListMusicContext)
 
     const handleAddMusic = e => {
@@ -55,7 +57,7 @@ const DetailPlaylist = ({ data }) => {
                     {(data && data.length > 0) ? (
                         <ul>
                             {data.map((e, i) => (
-                                <li key={e.id}>
+                                <li key={e.id} onClick={() => navigate('/song/' + e.tag)}>
                                     <div className='left'>
                                         <div className='d-flex justify-content-center align-items-center'>
                                             <img

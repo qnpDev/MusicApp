@@ -62,9 +62,17 @@
               "target": "Package",
               "version": "[5.0.2, )"
             },
+            "NETCore.MailKit": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.1, )"
+            },
+            "SocketIOSharp": {
+              "target": "Package",
+              "version": "[2.0.3, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

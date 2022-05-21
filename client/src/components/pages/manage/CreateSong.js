@@ -244,7 +244,7 @@ const CreateSong = () => {
                                         className='form-control'
                                         onChange={handleSong}
                                         type="file"
-                                        accept="image/png, image/jpeg, image/jpg"
+                                        accept="audio/mp3,audio/*;capture=microphone"
                                     />
                                 ) : (
                                     <input

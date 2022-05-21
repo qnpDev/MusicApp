@@ -7,6 +7,7 @@ namespace server.Helpers.Pattern.TempCrawlSongSingleton
 {
     public class TempCrawlSongModel
     {
+        public string id  { get; set; } = Guid.NewGuid().ToString("N");
         public string Name { get; set; }
         public string Artist { get; set; }
         public string Img { get; set; }

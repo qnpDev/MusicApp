@@ -12,6 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using server.Helpers.Pattern.SocketSingleton;
+using SocketIOSharp.Server;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -78,6 +80,8 @@ namespace server
                 o.MultipartBodyLengthLimit = int.MaxValue;
                 o.MemoryBufferThreshold = int.MaxValue;
             });
+
+            _ = SocketIO.GetInstance;
 
             services.AddControllers();
 

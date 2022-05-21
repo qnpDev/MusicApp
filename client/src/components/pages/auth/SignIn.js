@@ -24,7 +24,7 @@ const SignIn = () => {
         } else if (password.trim() === '') {
             toast.error('Please enter Password!')
             e.target.password.focus()
-        } else if (password.length <= 2) {
+        } else if (password.length < 4) {
             toast.error('Password must four characters at least!')
             e.target.password.focus()
         } else {

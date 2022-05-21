@@ -18,7 +18,7 @@ namespace server.Controllers.Admin
     {
         MusicContext db = new();
         [HttpGet]
-        public IActionResult Get(int page, int limit)
+        public IActionResult Get(int page = 1, int limit = 6)
         {
             if (page < 1)
             {
