@@ -954,6 +954,7 @@ public class XML2ListSong : IXML2ListSongAdapter
 - Trường hợp áp dụng:
     - Áp dụng vào việc lưu trữ tạm thời một danh sách các bài hát đã crawl được
     - Áp dụng vào việc lưu trữ tạm thời các token dùng để reset mật khẩu cho user
+    - Áp dụng vào việc khởi tạo server cho SocketIO
 - Lý do áp dụng:
     - Áp dụng vào việc lưu trữ tạm thời một danh sách các bài hát đã crawl được
         - Một bài hát crawl được nếu chưa muốn lưu ngay sẽ lưu tạm thời
@@ -966,6 +967,9 @@ public class XML2ListSong : IXML2ListSongAdapter
         - Người dùng chỉ sử dụng token được 1 lần duy nhất cho việc reset mật khẩu sau đó sẽ xóa
         - Nếu người dùng không sử dụng sẽ tự động loại bỏ token die ở một thời điểm nào đó (restart server)
         - Khi server hoạt động chỉ cần tạo ra một danh sách chứa các token được tạo ra
+    - Áp dụng vào việc khởi tạo server cho SocketIO
+        - SocketIO server chỉ khởi tạo một lần trong suốt quá trình server hoặt động
+        - Nếu khởi tạo quá nhiều server trong quá trình hoạt động sẽ gây ra hiện tượng quá tải cũng như trùng port trên server
 - Ưu điểm sau khi áp dụng
     - Tới ưu code (rút ngắn code) nếu sử dụng ở nhiều nơi
     - Chỉ khởi tạo một danh sách duy nhất để lưu trữ dữ liệu trong suốt thời gian server chạy
@@ -984,6 +988,10 @@ public class XML2ListSong : IXML2ListSongAdapter
 
 <img src="bin/Singleton-reset-class-diagram.png" alt="Singleton-reset-class-diagram">
 
+`SocketSingleton`
+
+<img src="bin/Singleton-socketIO-class-diagram.png" alt="Singleton-socketIO-class-diagram">
+
 - Trong đó:
     - `TempCrawlSongSingleton`: Danh sách lưu bài hát crawl tạm
         - `TempCrawlSongModel`: là lớp chịu trách nhiệm định nghĩa các dữ liệu cho mỗi object
@@ -991,12 +999,15 @@ public class XML2ListSong : IXML2ListSongAdapter
     - `ResetPwSingleton`: Danh sách lưu bài hát crawl tạm
         - `ResetPwModel`: là lớp chịu trách nhiệm định nghĩa các dữ liệu cho mỗi object
         - `ResetPw`: Là lớp chứa việc khởi tạo singleton và các phương thức làm việc với list được tạo
+    - `SocketSingleton`: Lưu server SocketIO
+        - `SocketIO`: Là lớp chứa việc khởi tạo singleton và các phương thức làm việc với server được tạo
 
 ### Áp dụng Singleton Pattern
 
 - **Trước khi áp dụng**: 
     - Phải sử dụng database cho việc lưu trữ các dữ liệu tạm
     - Hoặc tạo một class cho việc lưu trữ nhưng không tối ưu vì có thể người phát triển dự án sau này sẽ không biết và new lại trong quá trình code
+    - Có thể gặp rắc rối trong việc khởi tạo quá nhiều class (class yêu cầu chỉ khởi tạo một lần)
 
 </br>
 
@@ -1156,6 +1167,47 @@ public class ResetPw
     public int GetSize()
     {
         return list.Count();
+    }
+}
+```
+
+code>SocketSingleton > SocketIO.cs</code>
+
+```cs
+public class SocketIO
+{
+    private static volatile SocketIO instance;
+    private static readonly object InstanceLoker = new();
+    private static SocketIOServer server;
+    private SocketIO()
+    {
+        server = new SocketIOServer(new SocketIOServerOption(9001));
+        server.Start();
+    }
+    public static SocketIO GetInstance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                lock (InstanceLoker)
+                {
+                    if (instance == null)
+                    {
+                        instance = new SocketIO();
+                    }
+                }
+            }
+            return instance;
+        }
+    }
+    public void Stop()
+    {
+        server.Stop();
+    }
+    public SocketIOServer GetServer()
+    {
+        return server;
     }
 }
 ```
