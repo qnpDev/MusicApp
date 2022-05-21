@@ -118,10 +118,10 @@
 
 <ul>
 <li>Clone the repository with git clone </li>
-<li>Run <code>SQLQuery.sql</code> database in MySQL</li>
-<li>Config server database in <code>server/server/Models/MusicContext.cs</code> file</li>
+<li>Run <code>SQLQuery.sql</code> in MySQL if you want new database or use <code>backupDatabase.bak</code> file for database backuped in MySQL with <code>Music</code> database</li>
+<li>Config server database in <code>server/server/Models/MusicContext.cs</code> file at line <code>33</code></li>
 <li>Open 'server' folder in <code>Visual Studio</code> and run it</li>
-<li>Run client with <code>npm start</code> in client folder</li>
+<li>Config client in <code>client/.env</code> file and run client with <code>npm start</code> in client folder with <code>cmd</code> or <code>VSCode</code></li>
 <li>Your demo is available at <code>localhost:3000</code></li>
 </ul>
 
