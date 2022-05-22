@@ -375,6 +375,9 @@
 .chat-container .chat-list ul{
     padding: 0 .5rem;
     list-style-type: none;
+    max-height: 20rem;
+    overflow: hidden;
+    overflow-y: scroll;
 }
 .chat-container .chat-list li .chat-msg{
     padding: 0 1rem;

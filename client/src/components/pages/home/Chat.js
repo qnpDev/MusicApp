@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { UserContext } from '../../contexts/UserContext';
 import Loading from '../loading';
 import api from '../../axios'
@@ -10,8 +10,10 @@ const Chat = () => {
     const [data, setData] = useState()
     const [msg, setMsg] = useState('')
     const [btnSend, setBtnSend] = useState(false)
+    const ulRef = useRef()
 
-    const handleChat = () => {
+    const handleChat = e => {
+        e.preventDefault()
         if (msg.trim().length === 0) {
             toast.error('Enter message!')
         } else {
@@ -64,9 +66,11 @@ const Chat = () => {
                     res
                 ]))
                 setMsg('')
+                ulRef.current.scrollTop = ulRef.current.scrollHeight
             })
             dataUser.socket.on('chatClear', () => {
                 setData([])
+                ulRef.current.scrollTop = ulRef.current.scrollHeight
             })
             return () => {
                 dataUser.socket.off('chatAdd')
@@ -79,6 +83,10 @@ const Chat = () => {
             setData(res.data)
         })
     }, [])
+    useEffect(() => {
+        if (data && ulRef.current)
+            ulRef.current.scrollTop = ulRef.current.scrollHeight
+    }, [data, ulRef])
     if (!data)
         return (<Loading />)
     return (
@@ -96,7 +104,7 @@ const Chat = () => {
                     </div>
                     <div className='chat-list'>
                         {data && data.length > 0 ? (
-                            <ul>
+                            <ul ref={ulRef}>
                                 {data.map((e, i) => (
                                     <div key={e.id}>
                                         {e.uid === dataUser.id ? (
@@ -143,17 +151,22 @@ const Chat = () => {
                         )}
 
                     </div>
-                    <div className='chat-create'>
-                        <input
-                            onChange={e => setMsg(e.target.value)}
-                            placeholder='Enter message!'
-                            value={msg}
-                            className='form-control' />
-                        <button
-                            onClick={handleChat}
-                            disabled={btnSend}
-                            className='btn bg-gradient-info m-0'><i className='fa fa-paper-plane'></i></button>
-                    </div>
+                    <form onSubmit={handleChat}>
+                        <div className='chat-create'>
+
+                            <input
+                                onChange={e => setMsg(e.target.value)}
+                                placeholder='Enter message!'
+                                value={msg}
+                                className='form-control' />
+                            <button
+                                disabled={btnSend}
+                                className='btn bg-gradient-info m-0'>
+                                <i className='fa fa-paper-plane'></i>
+                            </button>
+
+                        </div>
+                    </form>
                 </div>
             </div>
         </>
