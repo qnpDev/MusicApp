@@ -83,11 +83,11 @@ const Home = () => {
 
 
                 <div className='col-xl-3 col-12'>
-                    <HomeTop />
-                    <HomeListAlbum />
                     {dataUser && (
                         <Chat/>
                     )}
+                    <HomeTop />
+                    <HomeListAlbum />
                 </div>
             </div>
         </>
