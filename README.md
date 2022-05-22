@@ -1,5 +1,6 @@
 <div align="center">
     <img src="bin/logo-tdtu.png" alt="tdtu" width="100" height="100">
+    <br/><b><i>Vietnam General Confederation of Labor</i></b><br/>
     <h2><b><i>TON DUC THANG UNIVERSITY</i></b></h2>
     <h3><i>Faculty of Information Technology</i></h3>
     <h4>***</h4>
@@ -8,7 +9,7 @@
 
 <div align="center">
     <img src="bin/Music-icon.png" alt="Logo" width="80" height="80">
-    <h1><b>MusicApp</b></h1>
+    <h1><b>Music App</b></h1>
     <h5><i>Music App is a web application that everyone can access to find and listen to music online. Moreover, people can upload their song and download their favorite song.</i></br>***</h5>
     </br>
 </div>
@@ -87,6 +88,7 @@
     - Download a song
     - Add songs to playlist
     - Control music player
+    - Realtime chat together
 - Administrator:
     - Confirm song requests
     - Refuse song requests
@@ -128,8 +130,8 @@
 <li>Clone the repository with git clone </li>
 <li>Run <code>SQLQuery.sql</code> in MySQL if you want to new database or use <code>backupDatabase.bak</code> file for database backuped in MySQL with <code>Music</code> database</li>
 <li>Config server database in <code>server/server/Models/MusicContext.cs</code> file at line <code>33</code></li>
-<li>Open 'server' folder in <code>Visual Studio</code> and run it</li>
-<li>Config client in <code>client/.env</code> file and run client with <code>npm start</code> in client folder with <code>cmd</code> or <code>VSCode</code></li>
+<li>Open <code>server</code> folder in <code>Visual Studio</code> and run it</li>
+<li>Config client in <code>client/.env</code> file and run client with <code>npm start</code> in <code>client</code> folder. You can run this command in <code>Window Command Prompt</code> or <code>VSCode</code></li>
 <li>Your demo is available at <code>localhost:3000</code></li>
 </ul>
 
