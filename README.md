@@ -1,7 +1,15 @@
 <div align="center">
+    <img src="bin/logo-tdtu.png" alt="tdtu" width="100" height="100">
+    <h2><b><i>TON DUC THANG UNIVERSITY</i></b></h2>
+    <h3><i>Faculty of Information Technology</i></h3>
+    <h4>***</h4>
+    <br/>
+</div>
+
+<div align="center">
     <img src="bin/Music-icon.png" alt="Logo" width="80" height="80">
     <h1><b>MusicApp</b></h1>
-    <h5>Music App is a web application that everyone can access to find and listen to music online. Moreover, people can upload their song and download their favorite song.</br>***</h5>
+    <h5><i>Music App is a web application that everyone can access to find and listen to music online. Moreover, people can upload their song and download their favorite song.</i></br>***</h5>
     </br>
 </div>
 
