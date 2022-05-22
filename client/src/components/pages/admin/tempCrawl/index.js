@@ -145,7 +145,7 @@ const TempCrawl = () => {
                 <div className='card-header pb-0'>
                     <div className='d-flex justify-content-between align-item-center'>
                         <div>
-                            <h6>Album Manager | Admin</h6>
+                            <h6>Temp Crawl | Admin</h6>
                         </div>
                         <div
                             onClick={handleClear}
