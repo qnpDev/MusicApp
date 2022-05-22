@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import HomeBanner from './Banner'
 import api from '../../axios'
 import Loading from '../loading'
@@ -7,11 +7,14 @@ import HomeItem from './Item';
 import HomeTop from './Top';
 import { useNavigate } from 'react-router-dom';
 import HomeListAlbum from './HomeListAlbum';
+import Chat from './Chat';
+import { UserContext } from '../../contexts/UserContext'
 
 const Home = () => {
     document.title = 'Music App'
     const navigate = useNavigate()
     const [data, setData] = useState();
+    const { dataUser } = useContext(UserContext)
 
     useEffect(() => {
         api.get('api/Home').then(res => {
@@ -82,6 +85,9 @@ const Home = () => {
                 <div className='col-xl-3 col-12'>
                     <HomeTop />
                     <HomeListAlbum />
+                    {dataUser && (
+                        <Chat/>
+                    )}
                 </div>
             </div>
         </>

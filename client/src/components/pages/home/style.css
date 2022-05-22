@@ -363,3 +363,45 @@
 .home-some-album .info .info-artist {
     font-size: small;
 }
+
+/* chat */
+.chat-container .chat-create{
+    width: 100%;
+    display: flex;
+}
+.chat-container .chat-create input{
+    padding-left: 1rem !important;
+}
+.chat-container .chat-list ul{
+    padding: 0 .5rem;
+    list-style-type: none;
+}
+.chat-container .chat-list li .chat-msg{
+    padding: 0 1rem;
+    padding-bottom: .3rem;
+    border-radius: .5rem;
+    margin-bottom: .3rem;
+}
+.chat-container .chat-list ul .text-right .chat-msg{
+    margin-right: .5rem;
+    background-color: rgb(190, 216, 255);
+}
+.chat-container .chat-list ul .text-left .chat-msg{
+    margin-left: .5rem;
+    background-color: var(--bs-gray-200);
+}
+.chat-container .chat-list li .chat-msg-name{
+    font-weight: bold;
+    color: black;
+    word-break: break-all;
+}
+
+.chat-container .chat-list .text-right .chat-msg-name{
+    width: 100%;
+    text-align: end;
+    margin: 0;
+}
+
+.chat-container .chat-msg{
+    word-break: break-all;
+}

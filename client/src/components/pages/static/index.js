@@ -51,18 +51,27 @@ const Static = () => {
                 }
             })
     }, [dataUser, setDataUser])
-
     useEffect(() => {
-        if(dataUser && dataUser.role ===  10){
+        if(dataUser && !dataUser.socket){
             const socket = io(process.env.REACT_APP_API_ENDPOINT_SOCKET)
+            setDataUser(prev => ({
+                ...prev,
+                socket,
+            }))
+        }
+    },  [dataUser, setDataUser])
+    useEffect(() => {
+        if(dataUser && dataUser.role ===  10 && dataUser.socket){
+            // const socket = io(process.env.REACT_APP_API_ENDPOINT_SOCKET)
             // socket.on("connect_error", (err) => {
             //     console.log(`connect_error due to ${err.message}`);
             //   });
-            socket.on('newRequest', res => {
+
+            dataUser.socket.on('newRequest', res => {
                 toast.dismiss()
                 toast.warning('Have a new song request!')
             })
-            return () => socket.off('newRequest')
+            return () => dataUser.socket.off('newRequest')
         }
     }, [dataUser])
 

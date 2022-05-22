@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ namespace server.Controllers.Admin
 {
     [Route("api/admin/database")]
     [ApiController]
+    [Authorize(Roles = "10")]
     public class AdminDatabase : ControllerBase
     {
         MusicContext db = new();
