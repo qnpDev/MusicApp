@@ -57,8 +57,8 @@ const DetailPlaylist = ({ data }) => {
                     {(data && data.length > 0) ? (
                         <ul>
                             {data.map((e, i) => (
-                                <li key={e.id} onClick={() => navigate('/song/' + e.tag)}>
-                                    <div className='left'>
+                                <li key={e.id}>
+                                    <div className='left' onClick={() => navigate('/song/' + e.tag)}>
                                         <div className='d-flex justify-content-center align-items-center'>
                                             <img
                                                 src={e.localImg === 1
@@ -68,8 +68,8 @@ const DetailPlaylist = ({ data }) => {
                                                 alt={e.name}
                                             />
                                             <div className='info'>
-                                                <div className='info-name'>{e.name}</div>
-                                                <div className='info-artist'>{e.artist}</div>
+                                                <div className='info-name wraptext'>{e.name}</div>
+                                                <div className='info-artist wraptext'>{e.artist}</div>
                                             </div>
                                         </div>
                                     </div>
