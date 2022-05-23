@@ -71,7 +71,7 @@
     <li>Database: <code>MySQL</code></li>
 </ul>
 
-**Features:**
+**Features**
 
 - Users:
     - Signin and signup account
@@ -115,6 +115,14 @@
         - chiasenhac.vn
         - keeng.vn
     - Create and download database backup
+
+**Usecase**
+
+<img src="bin/Usecase.png" alt="usecase">
+
+**Database Class Diagram**
+
+<img src="bin/Database-class-diagram.png" alt="database-class-diagram">
 
 # 2. Requirements
 
