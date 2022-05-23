@@ -102,3 +102,10 @@
     background-color: var(--bs-info);
     color: var(--bs-white);
 }
+
+@media screen and (max-width: 600px) {
+    .song-current-action .action .action-text{
+        display: none;
+    }
+}
+

@@ -115,13 +115,13 @@ const DetailSong = () => {
                                         ? process.env.REACT_APP_API_SRC_AUDIO + data.song.src
                                         : data.song.src
                                     } className='btn btn-outline-primary'>
-                                        <AiOutlineDownload /> Download
+                                        <AiOutlineDownload /> <span className='action-text'> Download</span> 
                                     </a>
                                     <div className='btn btn-outline-success' onClick={() => handlePlayNow(data.song)}>
-                                        <AiOutlinePlayCircle /> Play Now
+                                        <AiOutlinePlayCircle /> <span className='action-text'> Play Now</span>
                                     </div>
                                     <div className='btn btn-outline-info' onClick={() => handleAddPlaylist(data.song)}>
-                                        <BiListPlus /> Add to Playlists
+                                        <BiListPlus /> <span className='action-text'> Add to Playlists</span>
                                     </div>
                                 </div>
                             </div>
