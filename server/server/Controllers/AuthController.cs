@@ -291,7 +291,7 @@ namespace server.Controllers
 
 
             var jwtTokenHandler = new JwtSecurityTokenHandler();
-            var symmetric = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["AppSettings:TokenKey"]));
+            var symmetric = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["AppSettings:RefreshTokenKey"]));
             var tokenParameter = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
             {
                 //tự cấp token

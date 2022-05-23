@@ -35,7 +35,7 @@ const Static = () => {
     useEffect(() => {
         if (!dataUser && localStorage.getItem('token') && localStorage.getItem('refreshToken'))
             api.post('api/Auth/verify', {
-                token: localStorage.getItem('token')
+                token: localStorage.getItem('refreshToken')
             }).then(res => {
                 const { userId, userAvatar, userRole } = res.data
                 if (res.data.success) {

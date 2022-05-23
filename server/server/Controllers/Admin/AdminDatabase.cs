@@ -14,12 +14,12 @@ namespace server.Controllers.Admin
 {
     [Route("api/admin/database")]
     [ApiController]
-    [Authorize(Roles = "10")]
     public class AdminDatabase : ControllerBase
     {
         MusicContext db = new();
 
         [HttpGet]
+        [Authorize(Roles = "10")]
         public IActionResult Get()
         {
             try
@@ -72,6 +72,7 @@ namespace server.Controllers.Admin
         }
 
         [HttpPost("backup")]
+        [Authorize(Roles = "10")]
         public async Task<IActionResult> Backup()
         {
             var conn = db.Database.GetDbConnection();
@@ -119,6 +120,7 @@ namespace server.Controllers.Admin
         }
 
         [HttpDelete]
+        [Authorize(Roles = "10")]
         public IActionResult Delete(string name)
         {
             var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), Path.Combine(Directory.GetCurrentDirectory(), Path.Combine("Uploads", "Database")));
