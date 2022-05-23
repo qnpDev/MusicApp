@@ -34,7 +34,7 @@ namespace server.Controllers
             }
             var data = from r in context.Songs
                        where r.Show == 1
-                           && category.Length > 0 ? category.Contains(r.Category) : true
+                           && (category.Length > 0 ? category.Contains(r.Category) : true)
                        orderby r.CreatedAt descending
                        select new
                        {
