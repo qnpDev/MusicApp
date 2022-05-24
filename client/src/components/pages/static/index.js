@@ -37,12 +37,13 @@ const Static = () => {
             api.post('api/Auth/verify', {
                 token: localStorage.getItem('refreshToken')
             }).then(res => {
-                const { userId, userAvatar, userRole } = res.data
+                const { userId, userAvatar, userRole, userLocalAvatar } = res.data
                 if (res.data.success) {
                     setDataUser({
                         id: userId,
                         avatar: userAvatar,
-                        role: userRole
+                        role: userRole,
+                        localAvatar: userLocalAvatar,
                     })
                 } else {
                     setDataUser(null)
@@ -74,7 +75,6 @@ const Static = () => {
             return () => dataUser.socket.off('newRequest')
         }
     }, [dataUser])
-
     return (
         <>
             <div className={leftNav ? 'g-sidenav-show g-sidenav-pinned' : 'g-sidenav-show'}>
