@@ -24,6 +24,8 @@ const Chat = () => {
                 setBtnSend(false)
                 if (!res.data.success)
                     toast.error(res.data.message)
+                else
+                    setMsg('')
             })
         }
     }
@@ -65,7 +67,6 @@ const Chat = () => {
                     ...prev,
                     res
                 ]))
-                setMsg('')
                 ulRef.current.scrollTop = ulRef.current.scrollHeight
             })
             dataUser.socket.on('chatClear', () => {
