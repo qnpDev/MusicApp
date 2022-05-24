@@ -47,6 +47,20 @@
     - [Mô tả việc áp dụng](#mô-tả-việc-áp-dụng-singleton-pattern)
     - [Áp dụng](#áp-dụng-singleton-pattern)
     - [Testcase](#testcase-singleton-pattern)
+
+    4.5 [MVC Pattern](#mvc-pattern)</br>
+    - [Giới thiệu](#giới-thiệu-mvc-pattern)
+    - [Lý do áp dụng](#lý-do-áp-dụng-mvc-pattern)
+    - [Mô tả việc áp dụng](#mô-tả-việc-áp-dụng-mvc-pattern)
+    - [Áp dụng](#áp-dụng-mvc-pattern)
+    - [Testcase](#testcase-mvc-pattern)
+
+    4.6 [Observer Pattern](#observer-pattern)</br>
+    - [Giới thiệu](#giới-thiệu-observer-pattern)
+    - [Lý do áp dụng](#lý-do-áp-dụng-observer-pattern)
+    - [Mô tả việc áp dụng](#mô-tả-việc-áp-dụng-observer-pattern)
+    - [Áp dụng](#áp-dụng-observer-pattern)
+    - [Testcase](#testcase-observer-pattern)
 5. [Some pictures](#5-some-pictures)
     
 
@@ -128,7 +142,7 @@
 
 <ul>
 <li>DOT.NET CORE</li>
-<li>ReactJS</li>
+<li>ReactJS, NodeJS</li>
 <li>MySQL Server</li>
 </ul>
 
@@ -139,7 +153,8 @@
 <li>Run <code>SQLQuery.sql</code> in MySQL if you want to new database or use <code>backupDatabase.bak</code> file for database backuped in MySQL with <code>Music</code> database</li>
 <li>Config server database in <code>server/server/Models/MusicContext.cs</code> file at line <code>33</code></li>
 <li>Open <code>server</code> folder in <code>Visual Studio</code> and run it</li>
-<li>Config client in <code>client/.env</code> file and run client with <code>npm start</code> in <code>client</code> folder. You can run this command in <code>Window Command Prompt</code> or <code>VSCode</code></li>
+<li>Config client in <code>client/.env</code> file.</li>
+<li>Run <code>npm install</code> to install dependencies and <code>npm start</code> in <code>client</code> folder. You can run this command in <code>Window Command Prompt</code> or <code>VSCode</code></li>
 <li>Your demo is available at <code>localhost:3000</code></li>
 </ul>
 
@@ -1252,6 +1267,393 @@ public class SocketIO
     - Output: Go to link from email <img src="bin/Singleton-reset-notfound.png" alt="Singleton-reset-notfound">
 
 </br>
+
+## MVC Pattern
+
+### Giới thiệu MVC Pattern
+
+>Model – View – Controller (MVC) Pattern là một mẫu thiết kế nhằm mục tiêu chia tách phần giao diện và code để dễ quản lý, phát triển và bảo trì. MVC Pattern  là một dạng Architectural Design Pattern được áp dụng để xử lý các vấn đề liên quan đến kiến trúc ứng dụng. MVC Pattern tuân thủ nguyên tắc thiết kế Separation of Concern, giúp phân tách logic của các tầng (layer) khác nhau trong một chương trình thành các đơn vị độc lập.
+
+### Lý do áp dụng MVC Pattern
+
+- Trường hợp áp dụng: áp dụng vào cấu trúc toàn dự án ngay từ đầu
+- Lý do áp dụng:
+    - Ứng dụng có giao tiếp với cơ sở dữ liệu (model)
+    - Ứng dụng có giao diện tương tác (view)
+    - Ứng dụng có sử dụng các api đễ trao đổi dữ liệu (controller)
+    - Ứng dụng sẽ được tào từ từng thành phần riêng rẽ giao tiếp với nhau
+    - Sử dụng ngôn ngữ coding khác nhau để tạo các thành phần bên trong dự án
+- Ưu điểm sau khi áp dụng
+    - Tới ưu code, phát triển ứng dụng nhanh chóng
+    - Có thể sử dụng nhiều ngôn ngữ coding khác nhau cho các thành phần trong dự án
+    - Các phương thức sử dụng sẽ dễ dàng lưu dữ liệu hơn vì kiểu dữ liệu quen thuộc với server
+    - Giảm độ phức tạp của code
+    - Giảm bớt sự phụ thuộc trong code, dễ bảo trì, dễ nâng cấp hơn
+    - Giúp có thể mở rộng thành mô hình microservices hoặc microfrontend trong tương lai nếu dự án phát triển lớn
+
+### Mô tả việc áp dụng MVC Pattern
+
+- Diagram:
+
+<img src="bin/mvc-diagram.png" alt="mvc-diagram">
+
+- Trong đó:
+    - `Controller`: là server gồm các api tiếp nhận yêu cầu từ client gửi lên cũng như trả dữ liệu về lại cho client
+    - `Model`: là các class được thiết kế để giao tiếp với cơ sở dữ liệu
+    - `View`: là phần sẽ hiển thị lên cho người dùng và người dùng có thể tương tác
+    - `Database`: là nơi lưu trữ dữ liệu của hệ thống
+
+### Áp dụng MVC Pattern
+
+- **Trước khi áp dụng**: 
+    - Cả ba thành phần của MVC được thiết kế chung toàn bộ
+    - Một ví dụ bằng PHP về gom chung cả ba thành phần:
+
+```php
+<?php
+    require_once '../config/head.php';
+    if(!isset($_SESSION['user'])){
+        die ("<script>location.href='$home/';</script>");
+    }
+    if($permission !=2){
+        die ("<script>location.href='$home/';</script>");
+    }
+    echo '<title>Admin | Card</title>';
+    if ($permission==2){
+?>
+<div class="container">
+    <div class="card m-auto">
+        <div class="card-header text-center text-primary bg-white">
+            <h1 class="font-weight-bold">CARD</h1>
+        </div>
+        <div class="card-body">
+            <p class="text-center">
+                <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#themthecao" aria-expanded="false" aria-controls="themthecao">
+                        Thêm thẻ nạp
+                </button>
+            </p>
+            <div class="collapse" id="themthecao">
+                <div class="card card-body">
+                    <form method="POST">
+                    <div class="input-group form-group">
+                        <select name="menhgia" class="btn btn-light">
+                            <option  selected disabled hidden>Mệnh giá</option>
+                            <option value="10000">10,000</option>
+                            <option value="20000">20,000</option>
+                            <option value="50000">50,000</option>
+                            <option value="100000">100,000</option>
+                            <option value="200000">200,000</option>
+                            <option value="500000">500,000</option>
+                            <option value="1000000">1,000,000</option>
+                            <option value="2000000">2,000,000</option>
+                            <option value="5000000">5,000,000</option>
+                            <option value="10000000">10,000,000</option>
+                            <option value="50000000">50,000,000</option>
+                        </select>
+                        <input name="soluong" type="number" class="form-control" placeholder="Số lượng" min="1">
+                    </div>
+                    <div class="invalid-login text-warning text-center font-weight-bold">
+                    </div>
+                    <div class="form-group">
+                        <div id="forgot-recovery-err" class="d-none alert alert-danger">Error</div>
+                        <button name="themthecao" type="submit" class="btn float-right login_btn bg-primary text-white">Thêm</button>
+                    </div>
+                </form>
+                </div>
+           </div>
+            <?php
+                if (isset($_POST['themthecao'])){
+                    $menhgia = $_POST['menhgia'];
+                    $soluong = $_POST['soluong'];
+                    if($menhgia == "" || $menhgia == 0 || $soluong == "" || $soluong == 0){
+                        ?><div class="alert alert-danger">Có lỗi!</div><?php
+                    }else{
+                        for ($i=0;$i<$soluong;$i++){
+                            do{
+                                $mathe = substr(md5(uniqid()), 0, 12);
+                                $query = mysqli_query($conn, "SELECT * FROM card WHERE mathe='$mathe'");
+                            }while(mysqli_num_rows($query)>0);
+                            $query = mysqli_query($conn, "INSERT INTO card(mathe,menhgia) VALUES ('$mathe',$menhgia)");
+                        }
+                        ?><div class="alert alert-success">Thêm thành công!</div><?php
+                    }
+                }
+            ?>
+            <h4 class="text-info">Danh sách thẻ nạp</h4>
+            <table class="table text-center">
+                <thead>
+                    <th>STT</th>
+                    <th>Mã thẻ</th>
+                    <th>Mệnh giá</th>
+                    <th>Date</th>
+                </thead>
+                <?php 
+                    $total_records = mysqli_num_rows(mysqli_query($conn, "SELECT * FROM card"));
+                    $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+                    $limit = 10;
+                    $total_page = ceil($total_records / $limit);
+                    if ($current_page > $total_page){
+                        $current_page = $total_page;
+                    }
+                    else if ($current_page < 1){
+                        $current_page = 1;
+                    }
+                    $start = ($current_page - 1) * $limit;
+                    
+                    $count = 0;
+                    $query = mysqli_query($conn, "SELECT * FROM card ORDER BY date DESC LIMIT $start, $limit");
+                    while ($data = mysqli_fetch_assoc($query)){
+                        $count++;
+                ?>
+                <tbody>
+                    <td><?=$count?></td>
+                    <td><?=$data['mathe']?></td>
+                    <td><?=$data['menhgia']?></td>
+                    <td><?=$data['date']?></td>
+                </tbody>
+                <?php
+                    }
+                ?>
+            </table>
+            <div class="d-flex justify-content-end mt-2">
+            <?php
+            echo "<ul class='pagination'>";
+            if ($current_page > 1 && $total_page > 1){
+                echo '<li class="page-item"><a class="page-link" href="?page='.($current_page-1).'">Prev</a></li>';
+            }
+            for ($i = 1; $i <= $total_page; $i++){
+                if ($i == $current_page){
+                    echo '<li class="page-item active"><a class="page-link">'.$i.'</a></li>';
+                }
+                else{
+                    echo '<li class="page-item"><a class="page-link" href="?page='.$i.'">'.$i.'</a></li>';
+                }
+            }
+            if ($current_page < $total_page && $total_page > 1){
+                echo '<li class="page-item"><a class="page-link" href="?page='.($current_page+1).'">Next</a></li>';
+            }
+            echo '</ul>';
+            ?>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+    }
+    require_once '../config/end.php';
+?>
+```
+
+</br>
+
+- **Sau khi áp dụng**
+
+<code>Controller</code>
+
+<img src="bin/MVC-controller.png" alt="MVC-controller"/>
+
+<code>Model</code>
+
+<img src="bin/MVC-model.png" alt="MVC-Model"/>
+
+<code>View</code>
+
+<img src="bin/MVC-view.png" alt="MVC-view"/>
+
+### Testcase MVC Pattern
+
+- **Testcase 01:**
+    - Description: 
+        - Truy cập vào view 'Home' ở client
+        - Client gửi request lên controller của server
+        - Server sử dụng Model để truy cập database lấy dữ liệu
+        - Server trả dữ liệu về cho client
+        - Client render dữ liệu ra màn hình
+    - Input:
+        - Base url: `http://localhost:3000`
+    - Output: <img src="bin/Home.png" alt="Testcase01">
+
+</br>
+
+## Observer Pattern
+
+### Giới thiệu Observer Pattern
+
+>Observer Pattern là một trong những Pattern thuộc nhóm hành vi (Behavior Pattern). Nó định nghĩa mối phụ thuộc một – nhiều giữa các đối tượng để khi mà một đối tượng có sự thay đổi trạng thái, tất các thành phần phụ thuộc của nó sẽ được thông báo và cập nhật một cách tự động.
+
+### Lý do áp dụng Observer Pattern
+
+- Trường hợp áp dụng: áp dụng vào tính năng trò chuyện thời gian thực (realtime chatting) và thông báo thời gian thực khi có một yêu cầu duyệt bài hát mới cho admin
+- Lý do áp dụng:
+    - Tính năng trò chuyện thời gian thực cần phản hồi và xuất hiện tin nhắn ngay khi có người dùng sử dụng tính năng trò chuyện
+    - Admin xóa hết trò chuyện cần cập nhật ngay ở cả phía người dùng và admin đang sử dụng tính năng trò chuyện
+    - Khi người dùng yêu cầu một bài hát mới, admin cần ngay lập tức nhận được một thông báo xuất hiện là có một yêu cầu mới vừa được gửi lên
+- Ưu điểm sau khi áp dụng
+    - Cập nhật trò chuyện theo thời gian thực
+    - Có thể dễ dàng mở rộng thêm một số tính năng cần áp dụng thời gian thực trong dự án tương lai
+    - Một đối tượng có thể thông báo đến một số lượng không giới hạn các đối tượng khác.
+
+
+### Mô tả việc áp dụng Observer Pattern
+
+- Class diagram:
+
+<img src="bin/Observer-class-diagram.png" alt="Observer-diagram">
+
+- Trong đó:
+    - `SocketServer`: là class chứa hàm khởi tạo server cũng như các phương thức tiếp nhận kết nối của client, gửi dữ liệu update đến các client và tiếp nhận dữ liệu liên tục
+    - `Client1`, `Client2`, `Client3`: là các client chứa phương thức kết nối đến server cũng như các sự kiện gửi dữ liệu và đón nhận dữ liệu khi giao tiếp với server
+
+### Áp dụng Observer Pattern
+
+- **Trước khi áp dụng**: 
+    - Không thể giao tiếp liên tục giữa client và server
+    - Không thể khởi tạo được các tính năng liên quan đến thời gian thực (cần được tự động cập nhật liên tục)
+
+</br>
+
+- **Sau khi áp dụng**
+
+<code>SocketServer</code>
+
+```cs
+public class SocketIO
+{
+    private static volatile SocketIO instance;
+    private static readonly object InstanceLoker = new();
+    private static SocketIOServer server;
+    private SocketIO()
+    {
+        server = new SocketIOServer(new SocketIOServerOption(9001));
+        server.Start();
+    }
+    public static SocketIO GetInstance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                lock (InstanceLoker)
+                {
+                    if (instance == null)
+                    {
+                           instance = new SocketIO();
+                    }
+                }
+            }
+            return instance;
+        }
+    }
+    public void OnConnect(){
+        server.OnConnection((SocketIOSocket socket) =>
+        {
+            System.Diagnostics.Debug.WriteLine("a client connected");
+        });
+    }
+    public void Stop()
+    {
+        server.Stop();
+    }
+    public SocketIOServer GetServer()
+    {
+        return server;
+    }
+}
+```
+
+<code>Server > ChatController.cs</code>
+
+```cs
+public IActionResult Create([FromBody] ChatCreateModel data)
+{
+    if(data == null)
+    {
+        return Ok(new
+        {
+            success = false,
+            message = "Input data",
+        });
+    }
+    if (data.msg == null || data.msg.Trim().Length == 0)
+    {
+        return Ok(new
+        {
+            success = false,
+            message = "Input message",
+        });
+    }
+    int uid = User.Identity.GetId();
+    var user = (from r in context.Users
+                where r.Id == uid
+                select r).FirstOrDefault();
+    var save = new ChatModel()
+    {
+        id = Guid.NewGuid().ToString("N"),
+        uid = user.Id,
+        name = user.Name,
+        avatar = user.Avatar,
+        localAvatar = user.LocalAvatar,
+        msg = data.msg,
+    };
+    db.GetList().Add(save);
+    // sẻver gửi dữ liệu chat mới về cho mọi client đã kết nối
+    socket.GetServer().Emit("chatAdd", save);
+    return Ok(new
+    {
+        success = true,
+        message = "Success!",
+        data = save,
+    });
+}
+```
+
+<code>Client > Notification</code> 
+
+```js
+// kết nối đến server
+const socket = io(process.env.REACT_APP_API_ENDPOINT_SOCKET)
+// cài đặt đón nhận sự kiện có yêu cầu bài hát mới
+socket.on('newRequest', res => {
+    toast.dismiss()
+    toast.warning('Have a new song request!')
+})
+```
+
+<code>Client > Realtime Chatting</code>
+
+```js
+// cài đặt đón nhận sự kiện có chat mới
+socket.on('chatAdd', res => {
+    setData(prev => ([
+         ...prev,
+        res
+    ]))
+    ulRef.current.scrollTop = ulRef.current.scrollHeight
+})
+// cài đặt đón nhận sự kiện clear chat
+socket.on('chatClear', () => {
+    setData([])
+    ulRef.current.scrollTop = ulRef.current.scrollHeight
+})
+```
+
+### Testcase Observer Pattern
+
+- **Testcase 01:**
+    - Input: 
+        - Truy cập vào view 'Home' ở client với hai tài khoản, trình duyệt khác nhau
+        - Bắt đầu sử dụng tính năng realtime chatting
+    - Output: <img src="bin/Observer-testcase01-result.png" alt="Observer-testcase01-result">
+
+- **Testcase 02:**
+    - Input: 
+        - Truy cập vào view 'Home' ở client với tài khoản admin
+        - Truy cập vào view 'Manage' ở client với tài khoản user và gửi một yêu cầu xét duyệt bài hát
+        - <img src="bin/Observer-testcase02-input.png" alt="Observer-testcase02-input"/>
+    - Output: <img src="bin/Observer-testcase02-result.png" alt="Observer-testcase02-result"/>
+    
+</br>
+
 
 # 5. Some Pictures
 
