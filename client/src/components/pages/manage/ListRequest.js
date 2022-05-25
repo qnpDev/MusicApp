@@ -168,7 +168,7 @@ const ListRequest = () => {
 
     const apiDeleteDraft = (e, close) => {
         const load = toast.loading('Wait...')
-        api.delete('api/Manage/song/deleteraft?id=' + e.song.id).then(res => {
+        api.delete('api/Manage/song/deletedraft?id=' + e.song.id).then(res => {
             if (res.data.success) {
 
                 setDataDraft(prev => ({

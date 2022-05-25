@@ -61,6 +61,15 @@
     - [Mô tả việc áp dụng](#mô-tả-việc-áp-dụng-observer-pattern)
     - [Áp dụng](#áp-dụng-observer-pattern)
     - [Testcase](#testcase-observer-pattern)
+
+    4.7 [Abstract Factory Pattern](#abstract-factory-pattern)</br>
+    - [Giới thiệu](#giới-thiệu-abstract-factory-pattern)
+    - [Lý do áp dụng](#lý-do-áp-dụng-abstract-factory-pattern)
+    - [Mô tả việc áp dụng](#mô-tả-việc-áp-dụng-abstract-factory-pattern)
+    - [Áp dụng](#áp-dụng-abstract-factory-pattern)
+    - [Testcase](#testcase-abstract-factory-pattern)
+
+    
 5. [Some pictures](#5-some-pictures)
     
 
@@ -1651,6 +1660,384 @@ socket.on('chatClear', () => {
         - Truy cập vào view 'Manage' ở client với tài khoản user và gửi một yêu cầu xét duyệt bài hát
         - <img src="bin/Observer-testcase02-input.png" alt="Observer-testcase02-input"/>
     - Output: <img src="bin/Observer-testcase02-result.png" alt="Observer-testcase02-result"/>
+    
+</br>
+
+## Abstract Factory Pattern
+
+### Giới thiệu Abstract Factory Pattern
+
+>Abstract Factory pattern là một trong những Creational pattern. Nó là phương pháp tạo ra một Super-factory dùng để tạo ra các Factory khác. Hay còn được gọi là Factory của các Factory. Abstract Factory Pattern là một Pattern cấp cao hơn so với Factory Method Pattern. Trong Abstract Factory pattern, một interface có nhiệm vụ tạo ra một Factory của các object có liên quan tới nhau mà không cần phải chỉ ra trực tiếp các class của object. Mỗi Factory được tạo ra có thể tạo ra các object bằng phương pháp giống như Factory pattern.
+
+### Lý do áp dụng Abstract Factory Pattern
+
+- Trường hợp áp dụng: áp dụng vào việc xóa các file có liên quan khi tiến hành xóa một dữ liệu gì đó như một bài hát, một album,...
+- Lý do áp dụng:
+    - Mối lần xóa dữ liệu nào đó thì dữ liệu đó sẽ bao gồm nhiều file liên quan
+    - Các file liên quan cần được xóa hoàn toàn khỏi server nếu có trong một lần
+    - Các file sẽ có thuật toán (đường dẫn) xóa khác nhau
+- Ưu điểm sau khi áp dụng
+    - Tối ưu code và khả năng sử dụng (chỉ cần gọi phương thức một lần và không cần quan tâm đến các thuật toán, đường dẫn file của dữ liệu cần xóa)
+    - Tránh được việc sử dụng quá nhiều điều kiện logic
+    - Dễ dàng bảo trì, nâng cấp và mở rộng cho việc xóa các dữ liệu khác trên server trong tương lai
+    - Cung cấp hướng tiếp cận với Interface thay thì các implement, che giấu sự phức tạp của việc khởi tạo các đối tượng với người dùng, độc lập giữa việc khởi tạo đối tượng và hệ thống sử dụng
+
+
+### Mô tả việc áp dụng Abstract Factory Pattern
+
+- Class diagram:
+
+<img src="bin/Abstract-factory-class-diagram.png" alt="Abstract-factory-class-diagram">
+
+- Trong đó:
+    - `DeleteAbstract`: Khai báo dạng abstract class chứa các phương thức để tạo ra các đối tượng abstract
+    - `DeleteFactory`: Xây dựng, cài đặt các phương thức tạo các factory cụ thể
+    - `DeleteType`: Quy định các tham số truyền vào phù hợp, được sử dụng cho 'DeleteFactory'
+    - `DeleteAlbumFactory`, `DeleteSongFactory`, `DeleteRequestSongFactory`:  Xây dựng, cài đặt các phương thức tạo các đối tượng cụ thể
+    - `IImage`, `ISrc`: Khai báo dạng interface class để định nghĩa đối tượng abstract
+    - `AlbumImage`, `RequestSongImage`, `SongImage`, : Cài đặt của các đối tượng cụ thể, cài đặt các phương thức được quy định tại `IImage`
+    - `AlbumSrc`, `RequestSongSrc`, `SongSrc`, : Cài đặt của các đối tượng cụ thể, cài đặt các phương thức được quy định tại `ISrc`
+    - `Client`: là đối tượng sử dụng AbstractFactory
+
+### Áp dụng Abstract Factory Pattern
+
+- **Trước khi áp dụng**: 
+
+<code>ManageController.cs > DeleteDraft</code>
+
+```cs
+public IActionResult DeleteDraft(int id)
+{
+    int uid = User.Identity.GetId();
+    using (var context = new MusicContext())
+    {
+        var songrequest = (from r in context.Requestsongs
+                           where r.Id == id
+                                && r.CreatedBy == uid
+                           select r).FirstOrDefault();
+        if (songrequest == null)
+        {
+            return BadRequest(new
+            {
+                success = false,
+                message = "not found id request song"
+            });
+        }
+        else
+        {
+            // delete file song
+            var folderName = Path.Combine("Uploads", "Songs", songrequest.Src);
+            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+            FileInfo file = new FileInfo(pathToSave);
+            if (file.Exists)
+            {
+               file.Delete();
+            }
+            // delete file song image
+            folderName = Path.Combine("Uploads", "Images", "Songs", songrequest.Img);
+            pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+            FileInfo file1 = new FileInfo(pathToSave);
+            if (file1.Exists)
+            {
+               file1.Delete();
+            }
+            context.Requestsongs.Remove(songrequest);
+            context.SaveChanges();
+            return Ok(new
+            {
+                success = true,
+                message = "successful!",
+            });
+        }
+    }
+}
+```
+
+<code>ManageController.cs > DeleteDraft</code>
+
+```cs
+public IActionResult DeleteDraft(int id)
+{
+    int uid = User.Identity.GetId();
+    using (var context = new MusicContext())
+    {
+        var song = (from r in context.Songs
+                           where r.Id == id
+                                && r.CreatedBy == uid
+                           select r).FirstOrDefault();
+        if (song == null)
+        {
+            return BadRequest(new
+            {
+                success = false,
+                message = "not found id song"
+            });
+        }
+        else
+        {
+            // delete file song
+            var folderName = Path.Combine("Uploads", "Songs", song.Src);
+            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+            FileInfo file = new FileInfo(pathToSave);
+            if (file.Exists)
+            {
+               file.Delete();
+            }
+            // delete file song image
+            folderName = Path.Combine("Uploads", "Images", "Songs", song.Img);
+            pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+            FileInfo file1 = new FileInfo(pathToSave);
+            if (file1.Exists)
+            {
+               file1.Delete();
+            }
+            context.Song.Remove(song);
+            context.SaveChanges();
+            return Ok(new
+            {
+                success = true,
+                message = "successful!",
+            });
+        }
+    }
+}
+```
+
+</br>
+
+- **Sau khi áp dụng**
+
+<code>ManageController.cs > DeleteDraft</code>
+
+```cs
+ public IActionResult DeleteDraft(int id)
+{
+    int uid = User.Identity.GetId();
+    using (var context = new MusicContext())
+    {
+        var songrequest = (from r in context.Requestsongs
+                           where r.Id == id
+                                && r.CreatedBy == uid
+                           select r).FirstOrDefault();
+        if (songrequest == null)
+        {
+            return BadRequest(new
+             {
+                success = false,
+                message = "not found id request song"
+            });
+        }
+        else
+        {
+            DeleteAbstract factory = DeleteFactory.getFactory(DeleteType.REQUESTSONG);
+            factory.DeleteImage().Delete(songrequest.Img);
+            factory.DeleteSrc().Delete(songrequest.Src);
+            context.Requestsongs.Remove(songrequest);
+            context.SaveChanges();
+            return Ok(new
+            {
+                success = true,
+                message = "successful!",
+            });
+        }
+    }
+}
+```
+
+<code>ManageController.cs > DeleteSong</code>
+
+```cs
+public IActionResult DeleteSong(int id)
+{
+    int uid = User.Identity.GetId();
+    using (var context = new MusicContext())
+    {
+        var song = (from r in context.Songs
+                           where r.Id == id
+                                && r.CreatedBy == uid
+                           select r).FirstOrDefault();
+        if (song == null)
+        {
+            return BadRequest(new
+            {
+                success = false,
+                message = "not found id song"
+            });
+        }
+        else
+        {
+            DeleteAbstract factory = DeleteFactory.getFactory(DeleteType.SONG);
+            factory.DeleteImage().Delete(song.Img);
+            factory.DeleteSrc().Delete(song.Src);
+            context.Songs.Remove(song);
+            context.SaveChanges();
+            return Ok(new
+            {
+                success = true,
+                message = "successful!",
+            });
+        }
+    }
+}
+```
+
+<code>DeleteType.cs</code>
+
+```cs
+public enum DeleteType
+{
+    SONG,
+    REQUESTSONG,
+    ALBUM,
+}
+```
+
+<code>DeleteAbstract.cs</code> 
+
+```cs
+public abstract class DeleteAbstract
+{
+    public abstract IImage DeleteImage();
+    public abstract ISrc DeleteSrc();
+}
+```
+
+<code>DeleteFactory.cs</code>
+
+```cs
+public class DeleteFactory
+{
+    private DeleteFactory() { }
+    public static DeleteAbstract getFactory(DeleteType type)
+    {
+        switch (type)
+        {
+            case DeleteType.SONG:
+                return new DeleteSongFactory();
+            case DeleteType.REQUESTSONG:
+                return new DeleteRequestSongFactory();
+            case DeleteType.ALBUM:
+                return new DeleteAlbumFactory();
+            default:
+                    throw new ArgumentException("This type is unsupported");
+        }
+    }
+}
+```
+
+<code>DeleteRequestSongFactory.cs</code>
+
+```cs
+public class DeleteRequestSongFactory : DeleteAbstract
+{
+    public override IImage DeleteImage()
+    {
+        return new RequestSongImage();
+    }
+    public override ISrc DeleteSrc()
+    {
+        return new RequestSongSrc();
+    }
+}
+```
+
+<code>DeleteSongFactory.cs</code>
+
+```cs
+public class DeleteSongFactory : DeleteAbstract
+{
+    public override IImage DeleteImage()
+    {
+        return new SongImage();
+    }
+    public override ISrc DeleteSrc()
+    {
+        return new SongSrc();
+    }
+}
+```
+
+<code>IImage.cs</code>
+
+```cs
+public interface IImage
+{
+    public void Delete(string fileName);
+}
+```
+
+<code>RequestSongImage.cs</code>
+
+```cs
+public class RequestSongImage : IImage
+{
+    public void Delete(string fileName)
+    {
+        DeleteFile delFile = new(new DeleteImageSong());
+        delFile.Delete(fileName);
+    }
+}
+```
+
+<code>SongImage.cs</code>
+
+```cs
+public class SongImage : IImage
+{
+    public void Delete(string fileName)
+    {
+        DeleteFile delFile = new(new DeleteImageSong());
+        delFile.Delete(fileName);
+    }
+}
+```
+
+<code>ISrc.cs</code>
+
+```cs
+public interface ISrc
+{
+    public void Delete(string fileName);
+}
+```
+
+<code>RequestSongSrc.cs</code>
+
+```cs
+public class RequestSongSrc : ISrc
+{
+    public void Delete(string fileName)
+    {
+        DeleteFile delFile = new(new DeleteSong());
+        delFile.Delete(fileName);
+    }
+}
+```
+
+<code>SongSrc.cs</code>
+
+```cs
+public class SongSrc : ISrc
+{
+    public void Delete(string fileName)
+    {
+        DeleteFile delFile = new(new DeleteSong());
+        delFile.Delete(fileName);
+    }
+}
+```
+
+### Testcase Abstract Factory Pattern
+
+- **Testcase 01:**
+    - Before: <img src="bin/Abstract-factory-testcase01-before.png" alt="Abstract-factory-testcase01-before">
+    - Input: Truy cập vào view 'Manager' với tài khoản bất kỳ và xóa một bản nháp bài hát
+    - Output: Đã xóa các file liên quan <img src="bin/Abstract-factory-testcase01-output.png" alt="Observer-testcase01-output">
+
+- **Testcase 02:**
+    - Before: <img src="bin/Abstract-factory-testcase02-before.png" alt="Abstract-factory-testcase02-before">
+    - Input: Truy cập vào view 'Manager' với tài khoản bất kỳ và xóa một bài hát
+    - Output: Đã xóa các file liên quan <img src="bin/Abstract-factory-testcase02-output.png" alt="Observer-testcase02-output">
     
 </br>
 

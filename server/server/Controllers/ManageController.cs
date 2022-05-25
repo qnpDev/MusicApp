@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.Helpers;
+using server.Helpers.Pattern.DeleteAbstractFactory;
 using server.Helpers.Pattern.DeleteStrategy;
 using server.Helpers.Pattern.SocketSingleton;
 using server.Helpers.Pattern.UploadTemplate;
@@ -375,27 +376,31 @@ namespace server.Controllers
                 }
                 else
                 {
-                    // delete file song
-                    DeleteFile delFile;
-                    delFile = new(new DeleteSong());
-                    delFile.Delete(songrequest.Src);
-                    //var folderName = Path.Combine("Uploads", "Songs", songrequest.Src);
-                    //var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                    //FileInfo file = new FileInfo(pathToSave);
-                    //if (file.Exists)
-                    //{
-                    //    file.Delete();
-                    //}
-                    // delete file song image
-                    delFile = new(new DeleteImageSong());
-                    delFile.Delete(songrequest.Img);
-                    //folderName = Path.Combine("Uploads", "Images", "Songs", songrequest.Img);
-                    //pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                    //FileInfo file1 = new FileInfo(pathToSave);
-                    //if (file1.Exists)
-                    //{
-                    //    file1.Delete();
-                    //}
+                    DeleteAbstract factory = DeleteFactory.getFactory(DeleteType.REQUESTSONG);
+                    factory.DeleteImage().Delete(songrequest.Img);
+                    factory.DeleteSrc().Delete(songrequest.Src);
+
+                    //// delete file song
+                    //DeleteFile delFile;
+                    //delFile = new(new DeleteSong());
+                    //delFile.Delete(songrequest.Src);
+                    ////var folderName = Path.Combine("Uploads", "Songs", songrequest.Src);
+                    ////var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                    ////FileInfo file = new FileInfo(pathToSave);
+                    ////if (file.Exists)
+                    ////{
+                    ////    file.Delete();
+                    ////}
+                    //// delete file song image
+                    //delFile = new(new DeleteImageSong());
+                    //delFile.Delete(songrequest.Img);
+                    ////folderName = Path.Combine("Uploads", "Images", "Songs", songrequest.Img);
+                    ////pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                    ////FileInfo file1 = new FileInfo(pathToSave);
+                    ////if (file1.Exists)
+                    ////{
+                    ////    file1.Delete();
+                    ////}
                     context.Requestsongs.Remove(songrequest);
                     context.SaveChanges();
                     return Ok(new
@@ -422,32 +427,36 @@ namespace server.Controllers
                     return BadRequest(new
                     {
                         success = false,
-                        message = "not found id request song"
+                        message = "not found id song"
                     });
                 }
                 else
                 {
-                    // delete file song
-                    DeleteFile delFile;
-                    delFile = new(new DeleteSong());
-                    delFile.Delete(song.Src);
-                    //var folderName = Path.Combine("Uploads", "Songs", song.Src);
-                    //var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                    //FileInfo file = new FileInfo(pathToSave);
-                    //if (file.Exists)
-                    //{
-                    //    file.Delete();
-                    //}
-                    // delete file song image
-                    delFile = new(new DeleteImageSong());
-                    delFile.Delete(song.Img);
-                    //folderName = Path.Combine("Uploads", "Images", "Songs", song.Img);
-                    //pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
-                    //FileInfo file1 = new FileInfo(pathToSave);
-                    //if (file1.Exists)
-                    //{
-                    //    file1.Delete();
-                    //}
+                    DeleteAbstract factory = DeleteFactory.getFactory(DeleteType.SONG);
+                    factory.DeleteImage().Delete(song.Img);
+                    factory.DeleteSrc().Delete(song.Src);
+
+                    //// delete file song
+                    //DeleteFile delFile;
+                    //delFile = new(new DeleteSong());
+                    //delFile.Delete(song.Src);
+                    ////var folderName = Path.Combine("Uploads", "Songs", song.Src);
+                    ////var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                    ////FileInfo file = new FileInfo(pathToSave);
+                    ////if (file.Exists)
+                    ////{
+                    ////    file.Delete();
+                    ////}
+                    //// delete file song image
+                    //delFile = new(new DeleteImageSong());
+                    //delFile.Delete(song.Img);
+                    ////folderName = Path.Combine("Uploads", "Images", "Songs", song.Img);
+                    ////pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                    ////FileInfo file1 = new FileInfo(pathToSave);
+                    ////if (file1.Exists)
+                    ////{
+                    ////    file1.Delete();
+                    ////}
                     context.Songs.Remove(song);
                     context.SaveChanges();
                     return Ok(new

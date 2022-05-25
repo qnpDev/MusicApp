@@ -16,6 +16,8 @@ namespace server.Helpers.Pattern.DeleteAbstractFactory
                     return new DeleteSongFactory();
                 case DeleteType.REQUESTSONG:
                     return new DeleteRequestSongFactory();
+                case DeleteType.ALBUM:
+                    return new DeleteAlbumFactory();
                 default:
                     throw new ArgumentException("This type is unsupported");
             }
