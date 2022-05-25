@@ -5,14 +5,33 @@
     <h3><i>Faculty of Information Technology</i></h3>
     <h4>***</h4>
     <br/>
+    <h2><b><i>Design Pattern</i></b></h2>
+    <br/>
 </div>
 
 <div align="center">
     <img src="bin/Music-icon.png" alt="Logo" width="80" height="80">
-    <h1><b>Music App</b></h1>
+    <h2><b>Music App</b></h2>
     <h5><i>Music App is a web application that everyone can access to find and listen to music online. Moreover, people can upload their song and download their favorite song.</i></br>***</h5>
     </br>
 </div>
+
+<div align="right">
+    <br/>
+    <h3><i>Instructor:</i> ĐẶNG HUỲNH TRUNG TÍN </h3>
+    <h3>
+    <i>Author</i>: <b>NGUYỄN PHÚ QUÍ – 51900192 – K23</b>
+    <br/>
+    <b>NGUYỄN QUỐC THÁI – 51900210 – k23</b>
+    </h3>
+  </h3>
+  </div>
+
+  <div align="center">
+    </br></br></br>
+    <h3><b><i>HO CHI MINH CITY - 2022</b></i></h3>
+    </br></br>
+  </div>
 
 # Table of contents
 
@@ -69,7 +88,13 @@
     - [Áp dụng](#áp-dụng-abstract-factory-pattern)
     - [Testcase](#testcase-abstract-factory-pattern)
 
-    
+    4.8 [Command Factory Pattern](#command-pattern)</br>
+    - [Giới thiệu](#giới-thiệu-command-pattern)
+    - [Lý do áp dụng](#lý-do-áp-dụng-command-pattern)
+    - [Mô tả việc áp dụng](#mô-tả-việc-áp-dụng-command-pattern)
+    - [Áp dụng](#áp-dụng-command-pattern)
+    - [Testcase](#testcase-command-pattern)
+
 5. [Some pictures](#5-some-pictures)
     
 
@@ -84,7 +109,6 @@
 
 <ul>
     <li>Nguyễn Phú Quí - 51900192</li>
-    <li>Nguyễn Quốc Thái - 51900210</li>
 </ul>
 
 **Technicality**
@@ -2038,6 +2062,316 @@ public class SongSrc : ISrc
     - Before: <img src="bin/Abstract-factory-testcase02-before.png" alt="Abstract-factory-testcase02-before">
     - Input: Truy cập vào view 'Manager' với tài khoản bất kỳ và xóa một bài hát
     - Output: Đã xóa các file liên quan <img src="bin/Abstract-factory-testcase02-output.png" alt="Observer-testcase02-output">
+    
+</br>
+
+## Command Pattern
+
+### Giới thiệu Command Pattern
+
+>Command Pattern là một trong những Pattern thuộc nhóm hành vi (Behavior Pattern). Nó cho phép chuyển yêu cầu thành đối tượng độc lập, có thể được sử dụng để tham số hóa các đối tượng với các yêu cầu khác nhau như log, queue (undo/redo), transtraction. Command Pattern cho phép tất cả những Request gửi đến object được lưu trữ trong chính object đó dưới dạng một object Command. Khái niệm Command Object giống như một class trung gian được tạo ra để lưu trữ các câu lệnh và trạng thái của object tại một thời điểm nào đó.
+
+### Lý do áp dụng Command Pattern
+
+- Trường hợp áp dụng: áp dụng vào việc ghi log khi backup và xóa backup cơ sở dữ liệu của admin hoặc ghi log để debug khi dev
+- Lý do áp dụng:
+    - Mỗi lần backup cần ghi lại log gồm thời gian, ai backup
+    - Mỗi lần xóa một bản backup cần ghi lại log gồm thời gian, ai xóa backup
+    - Cần Tham số hóa các đối tượng ghi log theo một hành động thực hiện.
+    - Có nhiều cách xuất log như log trong console hoặc log file
+    - Cần bật tắt tất cả các log nhanh chóng
+- Ưu điểm sau khi áp dụng
+    - Tối ưu code và khả năng sử dụng
+    - Dễ dàng bảo trì, chỉnh sửa, xuất log hoặc không
+    - Dễ dàng thêm các Command mới trong hệ thống mà không cần thay đổi trong các lớp hiện có. Đảm bảo Open/Closed Principle
+    - Cho phép tham số hóa các yêu cầu khác nhau bằng một hành động để thực hiện
+
+
+### Mô tả việc áp dụng Command Pattern
+
+- Class diagram:
+
+<img src="bin/Command-class-diagram.png" alt="Command-class-diagram">
+
+- Trong đó:
+    - `ILogCommand`: là một interface class, chứa một phương thức trừu tượng thực thi (execute) một hành động (operation). Request sẽ được đóng gói dưới dạng Command
+    - `Log`, `EnableLogCommand`, `DisableLogCommand`: là các implementation của Command. Định nghĩa một sự gắn kết giữa một đối tượng Receiver và một hành động. Thực thi execute() bằng việc gọi operation đang hoãn trên Receiver. Mỗi một Command sẽ phục vụ cho một case request riêng
+    - `LogInvoker`: tiếp nhận các Command từ Client và gọi execute() của các Command để thực thi request
+    - `ILogRêciver`: là một interface class, định nghĩa các phương thức thành phần xử lý business logic cho case request
+    - `LogFile`, `LogConsole`: là các implementation của interface receiver, đây là thành phần thực sự xử lý business logic cho case request. Trong phương execute() của ConcreteCommand chúng ta sẽ gọi method thích hợp trong Receiver.
+    - `Client`: tiếp nhận request từ phía người dùng, đóng gói request thành các Command thích hợp và thiết lập receiver của nó
+
+### Áp dụng Command Pattern
+
+- **Sau khi áp dụng**
+
+<code>AdminDatabase.cs > Backup</code>
+
+```cs
+public async Task<IActionResult> Backup()
+{
+    var conn = db.Database.GetDbConnection();
+    string dbName = conn.Database;
+    string folder = Path.Combine(Directory.GetCurrentDirectory(), Path.Combine("Uploads", "Database"));
+    try
+    {
+        await conn.OpenAsync();
+        string fileCurrent = DateTime.Now.ToString("ddMMyyyy_HHmmss");
+        string sql = "backup database " + dbName + " to disk='" + folder + "\\" + fileCurrent + ".bak'";
+        var command = conn.CreateCommand();
+        command.CommandText = sql;
+        var result = await command.ExecuteNonQueryAsync();
+        if (result == -1)
+        {
+            await conn.CloseAsync();
+            //Log
+            ILogReceiver receiver = new LogFile();
+            ILogCommand logCommand = new Log(receiver, "[Create backup]: " + fileCurrent + ".bak" + " - Id: " + User.Identity.GetId().ToString());
+            new LogInvoker(logCommand).execute();
+            return Ok(new
+            {
+                success = true,
+                message = "Create success!",
+                data = fileCurrent + ".bak",
+                result,
+            });
+        }
+        else
+        {
+            await conn.CloseAsync();
+            return Ok(new
+            {
+                success = false,
+                message = "Can not create data!",
+                result,
+            });
+        }
+    }
+    catch
+    {
+        return Ok(new
+        {
+            success = false,
+            message = "Can not access data!",
+        });
+    }
+}
+```
+
+<code>AdminDatabase.cs > Delete</code>
+
+```cs
+public IActionResult Delete(string name)
+{
+     var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), Path.Combine(Directory.GetCurrentDirectory(), Path.Combine("Uploads", "Database")));
+    var fullPath = Path.Combine(pathToSave, name);
+    FileInfo file = new(fullPath);
+    if (file.Exists)
+    {
+        file.Delete();
+        //Log
+        ILogReceiver receiver = new LogFile();
+        ILogCommand logCommand = new Log(receiver, "[Delete backup]: " + name + " - Id: " + User.Identity.GetId().ToString());
+        new LogInvoker(logCommand).execute();
+    }
+    return Ok(new
+    {
+        success = true,
+        message = "Success!",
+    });
+}
+```
+
+<code>AdminDatabase.cs > GetBackup</code>
+
+```cs
+public async Task<IActionResult> GetBackup(string filename)
+{
+    if (System.IO.File.Exists("Uploads/Database/" + filename))
+    {
+        var bytes = await System.IO.File.ReadAllBytesAsync("Uploads/Database/" + filename);
+        if(bytes != null)
+        {
+            //Log
+            ILogReceiver receiver = new LogConsole();
+            ILogCommand logCommand = new Log(receiver, "[Download backup]: A admin download backup: " + filename);
+            new LogInvoker(logCommand).execute();
+        }
+        return File(bytes, "application/octet-stream", Path.GetFileName("Uploads/Database/" + filename));
+    }
+    else
+    {
+        return NotFound(new
+        {
+            success = false,
+            message = "File not found"
+        });
+    }
+}
+```
+
+<code>ILogCommand.cs</code>
+
+```cs
+public interface ILogCommand
+{
+    public void execute();
+}
+```
+
+<code>Log.cs</code> 
+
+```cs
+public class Log : ILogCommand
+{
+    private ILogReceiver logReceiver;
+    private String msg;
+    public Log(ILogReceiver logReceiver, String msg)
+    {
+        this.logReceiver = logReceiver;
+        this.msg = msg;
+    }
+    public void execute()
+    {
+        logReceiver.log(msg);
+    }
+}
+```
+
+<code>EnableLogCommand.cs</code>
+
+```cs
+public class EnableLogCommand : ILogCommand
+{
+    private ILogReceiver logReceiver;
+    public EnableLogCommand(ILogReceiver logReceiver)
+    {
+        this.logReceiver = logReceiver;
+    }
+    public void execute()
+    {
+        logReceiver.configure(true);
+    }
+}
+```
+
+<code>DisableCommand.cs</code>
+
+```cs
+public class DisableCommand : ILogCommand
+{
+    private ILogReceiver logReceiver;
+    public DisableCommand(ILogReceiver logReceiver)
+    {
+        this.logReceiver = logReceiver;
+    }
+    public void execute()
+    {
+        logReceiver.configure(false);
+    }
+}
+```
+
+<code>ILogReceiver.cs</code>
+
+```cs
+public interface ILogReceiver
+{
+    public void configure(bool enable);
+    public void log(string msg);
+}
+```
+
+<code>LogConsole.cs</code>
+
+```cs
+public class LogConsole : ILogReceiver
+{
+    private bool isEnabled = true;
+    public void configure(bool enable)
+    {
+        this.isEnabled = enable;
+    }
+    public void log(string msg)
+    {
+        if (isEnabled)
+        {
+            System.Diagnostics.Debug.WriteLine(DateTime.Now.ToString() + " - " + msg);
+        }
+    }
+}
+```
+
+<code>LogFile.cs</code>
+
+```cs
+public class LogFile : ILogReceiver
+{
+    private bool isEnabled = true;
+    public void configure(bool enable)
+    {
+        this.isEnabled = enable;
+    }
+    public void log(string msg)
+    {
+        if (isEnabled)
+        {
+            StreamWriter log;
+            FileInfo logFileInfo;
+            string logFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Logs", "Log-" + System.DateTime.Today.ToString("dd-MM-yyyy") + "." + "txt");
+            logFileInfo = new FileInfo(logFilePath);
+            DirectoryInfo logDirInfo = new(logFileInfo.DirectoryName);
+            if (!logDirInfo.Exists) logDirInfo.Create();
+            FileStream fileStream;
+            if (!logFileInfo.Exists)
+            {
+                fileStream = logFileInfo.Create();
+            }
+            else
+            {
+                fileStream = new FileStream(logFilePath, FileMode.Append);
+            }
+            log = new StreamWriter(fileStream);
+            log.WriteLine(DateTime.Now.ToString() + " - " + msg);
+            log.WriteLine("-------------------------------");
+            log.Close();
+        }
+    }
+}
+```
+
+<code>LogInvoker.cs</code>
+
+```cs
+public class LogInvoker
+{
+    private ILogCommand command;
+
+    public LogInvoker(ILogCommand command)
+    {
+        this.command = command;
+    }
+    public void execute()
+    {
+        command.execute();
+    } 
+}
+```
+
+
+### Testcase Command Pattern
+
+- **Testcase 01:**
+    - Input: Truy cập vào view 'Admin backup' với tài khoản admin và tiến hành tạo backup
+    - Output: <img src="bin/Command-testcase01-output.png" alt="Command-testcase01-output">
+
+- **Testcase 02:**
+    - Input: Truy cập vào view 'Admin backup' với tài khoản admin và tiến hành tải một backup
+    - Output: <img src="bin/Command-testcase02-output.png" alt="Command-testcase02-output">
+
+- **Testcase 03:**
+    - Input: Truy cập vào view 'Admin backup' với tài khoản admin và tiến hành xóa một backup
+    - Output: <img src="bin/Command-testcase03-output.png" alt="Command-testcase03-output">
     
 </br>
 
