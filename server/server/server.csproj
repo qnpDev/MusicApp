@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Logs\" />
     <Folder Include="Uploads\Images\Banners\" />
     <Folder Include="Uploads\Images\Categories\" />
   </ItemGroup>

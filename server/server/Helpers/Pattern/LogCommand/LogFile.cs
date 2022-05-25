@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace server.Helpers.Pattern.DeleteAbstractFactory.LogCommand
+namespace server.Helpers.Pattern.LogCommand
 {
     public class LogFile : ILogReceiver
     {
@@ -20,15 +20,13 @@ namespace server.Helpers.Pattern.DeleteAbstractFactory.LogCommand
             if (isEnabled)
             {
                 StreamWriter log;
-                FileStream fileStream = null;
-                DirectoryInfo logDirInfo = null;
                 FileInfo logFileInfo;
 
-                string logFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Logs");
-                logFilePath = logFilePath + "Log-" + System.DateTime.Today.ToString("MM-dd-yyyy") + "." + "txt";
+                string logFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Logs", "Log-" + System.DateTime.Today.ToString("dd-MM-yyyy") + "." + "txt");
                 logFileInfo = new FileInfo(logFilePath);
-                logDirInfo = new DirectoryInfo(logFileInfo.DirectoryName);
+                DirectoryInfo logDirInfo = new(logFileInfo.DirectoryName);
                 if (!logDirInfo.Exists) logDirInfo.Create();
+                FileStream fileStream;
                 if (!logFileInfo.Exists)
                 {
                     fileStream = logFileInfo.Create();
@@ -38,7 +36,7 @@ namespace server.Helpers.Pattern.DeleteAbstractFactory.LogCommand
                     fileStream = new FileStream(logFilePath, FileMode.Append);
                 }
                 log = new StreamWriter(fileStream);
-                log.WriteLine(msg);
+                log.WriteLine(DateTime.Now.ToString() + " - " + msg);
                 log.WriteLine("-------------------------------");
                 log.Close();
             }

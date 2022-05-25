@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using server.Helpers;
+using server.Helpers.Pattern.LogCommand;
 using server.Models;
 using System;
 using System.Collections.Generic;
@@ -58,6 +60,13 @@ namespace server.Controllers.Admin
             {
 
                 var bytes = await System.IO.File.ReadAllBytesAsync("Uploads/Database/" + filename);
+                if(bytes != null)
+                {
+                    //Log
+                    ILogReceiver receiver = new LogConsole();
+                    ILogCommand logCommand = new Log(receiver, "[Download backup]: A admin download backup: " + filename);
+                    new LogInvoker(logCommand).execute();
+                }
                 return File(bytes, "application/octet-stream", Path.GetFileName("Uploads/Database/" + filename));
 
             }
@@ -89,6 +98,12 @@ namespace server.Controllers.Admin
                 if (result == -1)
                 {
                     await conn.CloseAsync();
+
+                    //Log
+                    ILogReceiver receiver = new LogFile();
+                    ILogCommand logCommand = new Log(receiver, "[Create backup]: " + fileCurrent + ".bak" + " - Id: " + User.Identity.GetId().ToString());
+                    new LogInvoker(logCommand).execute();
+
                     return Ok(new
                     {
                         success = true,
@@ -129,6 +144,11 @@ namespace server.Controllers.Admin
             if (file.Exists)
             {
                 file.Delete();
+
+                //Log
+                ILogReceiver receiver = new LogFile();
+                ILogCommand logCommand = new Log(receiver, "[Delete backup]: " + name + " - Id: " + User.Identity.GetId().ToString());
+                new LogInvoker(logCommand).execute();
             }
             return Ok(new
             {

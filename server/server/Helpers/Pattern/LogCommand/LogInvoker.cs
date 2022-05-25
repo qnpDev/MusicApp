@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace server.Helpers.Pattern.DeleteAbstractFactory.LogCommand
+namespace server.Helpers.Pattern.LogCommand
 {
     public class LogInvoker
     {
@@ -14,7 +14,7 @@ namespace server.Helpers.Pattern.DeleteAbstractFactory.LogCommand
             this.command = command;
         }
 
-        void execute()
+        public void execute()
         {
             command.execute();
         } 

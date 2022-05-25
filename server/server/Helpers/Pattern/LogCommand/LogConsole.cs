@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace server.Helpers.Pattern.DeleteAbstractFactory.LogCommand
+namespace server.Helpers.Pattern.LogCommand
 {
     public class LogConsole : ILogReceiver
     {
@@ -18,7 +18,7 @@ namespace server.Helpers.Pattern.DeleteAbstractFactory.LogCommand
         {
             if (isEnabled)
             {
-                System.Diagnostics.Debug.WriteLine(msg + " - " + DateTime.Now.ToString());
+                System.Diagnostics.Debug.WriteLine(DateTime.Now.ToString() + " - " + msg);
             }
         }
     }
