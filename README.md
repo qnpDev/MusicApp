@@ -22,7 +22,7 @@
     <h3>
     <i>Author</i>: <b>NGUYỄN PHÚ QUÍ – 51900192 – K23</b>
     <br/>
-    <b>NGUYỄN QUỐC THÁI – 51900210 – k23</b>
+    <b>NGUYỄN QUỐC THÁI – 51900210 – K23</b>
     </h3>
   </h3>
   </div>
@@ -88,7 +88,7 @@
     - [Áp dụng](#áp-dụng-abstract-factory-pattern)
     - [Testcase](#testcase-abstract-factory-pattern)
 
-    4.8 [Command Factory Pattern](#command-pattern)</br>
+    4.8 [Command Pattern](#command-pattern)</br>
     - [Giới thiệu](#giới-thiệu-command-pattern)
     - [Lý do áp dụng](#lý-do-áp-dụng-command-pattern)
     - [Mô tả việc áp dụng](#mô-tả-việc-áp-dụng-command-pattern)
