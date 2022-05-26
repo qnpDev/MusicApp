@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using server.Helpers;
+using server.Helpers.Pattern.SongFilterDecorator;
 using server.Helpers.Pattern.UploadTemplate;
 using server.Models;
 using System;
@@ -32,31 +33,48 @@ namespace server.Controllers
                     message = "Page start from 1",
                 });
             }
-            var data = from r in context.Songs
-                       where r.Show == 1
-                           && (category.Length > 0 ? category.Contains(r.Category) : true)
-                       orderby r.CreatedAt descending
-                       select new
-                       {
-                           r.Id,
-                           r.Name,
-                           r.Artist,
-                           r.Img,
-                           r.Listen,
-                           r.LocalImg,
-                           r.CreatedAt,
-                           r.CreatedBy,
-                           r.Tag,
-                           category = r.CategoryNavigation.Name,
-                           user = r.CreatedByNavigation.Name,
-                           album = r.AlbumNavigation.Name,
-                        };
+
+            
+            ISongFilter songs = new ListSong();
+
+            var data = songs.filter();
+            if (category.Length > 0)
+            {
+                ISongFilter filterCategory = new FilterCategory(songs, category);
+                data = filterCategory.filter();
+            }
             int p = page - 1;
             return Ok(new
             {
                 size = data.Count(),
                 data = data.ToList().Skip(limit * p).Take(limit),
             });
+
+            //var data = from r in context.Songs
+            //           where r.Show == 1
+            //               && (category.Length > 0 ? category.Contains(r.Category) : true)
+            //           orderby r.CreatedAt descending
+            //           select new
+            //           {
+            //               r.Id,
+            //               r.Name,
+            //               r.Artist,
+            //               r.Img,
+            //               r.Listen,
+            //               r.LocalImg,
+            //               r.CreatedAt,
+            //               r.CreatedBy,
+            //               r.Tag,
+            //               category = r.CategoryNavigation.Name,
+            //               user = r.CreatedByNavigation.Name,
+            //               album = r.AlbumNavigation.Name,
+            //            };
+            //int p = page - 1;
+            //return Ok(new
+            //{
+            //    size = data.Count(),
+            //    data = data.ToList().Skip(limit * p).Take(limit),
+            //});
         }
 
         [HttpPut("{tag}/listen")]

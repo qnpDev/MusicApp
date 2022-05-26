@@ -95,9 +95,15 @@
     - [Áp dụng](#áp-dụng-command-pattern)
     - [Testcase](#testcase-command-pattern)
 
+    4.9 [Decorator Pattern](#decorator-pattern)</br>
+    - [Giới thiệu](#giới-thiệu-decorator-pattern)
+    - [Lý do áp dụng](#lý-do-áp-dụng-decorator-pattern)
+    - [Mô tả việc áp dụng](#mô-tả-việc-áp-dụng-decorator-pattern)
+    - [Áp dụng](#áp-dụng-decorator-pattern)
+    - [Testcase](#testcase-decorator-pattern)
+
 5. [Some pictures](#5-some-pictures)
     
-
 </br>
 
 # 1. About
@@ -2375,6 +2381,238 @@ public class LogInvoker
     
 </br>
 
+## Decorator Pattern
+
+### Giới thiệu Decorator Pattern
+
+>Decorator pattern là một trong những Pattern thuộc nhóm cấu trúc (Structural Pattern). Nó cho phép người dùng thêm chức năng mới vào đối tượng hiện tại mà không muốn ảnh hưởng đến các đối tượng khác. Kiểu thiết kế này có cấu trúc hoạt động như một lớp bao bọc (wrap) cho lớp hiện có. Mỗi khi cần thêm tính năng mới, đối tượng hiện có được wrap trong một đối tượng mới (decorator class). Decorator pattern sử dụng composition thay vì inheritance (thừa kế) để mở rộng đối tượng. Decorator pattern còn được gọi là Wrapper hay Smart Proxy.
+
+### Lý do áp dụng Decorator Pattern
+
+- Trường hợp áp dụng: áp dụng vào việc lọc danh sách bài hát theo nhiều điều kiện khác nhau
+- Lý do áp dụng:
+    - Danh sách bài hát được lấy từ database sau đó lọc theo điều kiện người dùng hoặc không
+    - Có thể có nhiều cách lọc cũng như điều kiện lọc khác nhau dựa vào danh sách bài hát lấy từ database
+    - Cần mở rộng khi có thuộc tính hoặc điều kiện lọc mới
+    - có thể lọc bài hát chồng lên nhau (ví dụ vừa lọc theo thể loại này vừa lọc theo album kia)
+- Ưu điểm sau khi áp dụng
+    - Tối ưu code và khả năng sử dụng
+    - Dễ dàng bảo trì, chỉnh sửa
+    - Tăng cường khả năng mở rộng của đối tượng và không gây ảnh hướng tới các đối tượng hiện tại, vì những thay đổi được thực hiện bằng cách implement trên các lớp mới
+    - Một lần lọc có thể được bao bọc bởi nhiều wrapper lọc cùng một lúc
+
+
+### Mô tả việc áp dụng Decorator Pattern
+
+- Class diagram:
+
+<img src="bin/Decorator-class-diagram.png" alt="Decorator-class-diagram">
+
+- Trong đó:
+    - `ISongFilter`: là một interface hoặc abstract class quy định các method chung cần phải có cho tất cả các thành phần tham gia vào mẫu này.
+    - `ListSong`: là lớp hiện thực (implements) các phương thức của ISongFilter.
+    - `FilterDecorator`: là một abstract class dùng để duy trì một tham chiếu của đối tượng ISongFilter và đồng thời cài đặt các phương thức của ISongFilter.
+    - `FilterCategory`: là lớp hiện thực (implements) các phương thức của FilterDecorator, nó cài đặt thêm các tính năng mới cho ISongFilter.
+    - `SongFilterModel`: là đối tượng định nghĩa các giá trị mỗi object trong list
+    - `Client`: tiđối tượng sử dụng ISongFilter
+
+### Áp dụng Decorator Pattern
+
+- **Trước khi áp dụng**
+    - Khó mở rộng khi có thêm thuộc tính mới hoặc phương thức lọc
+    - Phải chỉnh sửa code trực tiếp
+
+<code>SongController.cs > Get</code>
+
+```cs
+public IActionResult Get(int page, int limit, [FromBody] int[] category)
+{
+    if (page < 1)
+    {
+        return BadRequest(new
+        {
+            success = false,
+                    message = "Page start from 1",
+        });
+    }
+
+    var data = from r in context.Songs
+                where r.Show == 1
+                    && (category.Length > 0 ? category.Contains(r.Category) : true)
+                orderby r.CreatedAt descending
+                select new
+                {
+                    r.Id,
+                    r.Name,
+                    r.Artist,
+                    r.Img,
+                    r.Listen,
+                    r.LocalImg,
+                    r.CreatedAt,
+                    r.CreatedBy,
+                    r.Tag,
+                    category = r.CategoryNavigation.Name,
+                    user = r.CreatedByNavigation.Name,
+                    album = r.AlbumNavigation.Name,
+                };
+    int p = page - 1;
+    return Ok(new
+    {
+        size = data.Count(),
+        data = data.ToList().Skip(limit * p).Take(limit),
+    });
+}
+```
+
+- **Sau khi áp dụng**
+
+<code>SongController.cs > Get</code>
+
+```cs
+public IActionResult Get(int page, int limit, [FromBody] int[] category)
+{
+    if (page < 1)
+    {
+        return BadRequest(new
+        {
+            success = false,
+                    message = "Page start from 1",
+        });
+    }
+    ISongFilter songs = new ListSong();
+    var data = songs.filter();
+    if (category.Length > 0)
+    {
+        ISongFilter filterCategory = new FilterCategory(songs, category);
+        data = filterCategory.filter();
+    }
+    int p = page - 1;
+    return Ok(new
+    {
+        size = data.Count(),
+        data = data.ToList().Skip(limit * p).Take(limit),
+    });
+}
+```
+
+<code>ISongFilter.cs</code>
+
+```cs
+public abstract class ISongFilter
+{
+    public abstract List<SongFilterModel> filter();
+}
+```
+
+<code>ListSong.cs</code>
+
+```cs
+public class ListSong : ISongFilter
+{
+    public override List<SongFilterModel> filter()
+    {
+        using(var db = new MusicContext())
+        {
+            var data = from r in db.Songs
+                       where r.Show == 1
+                       orderby r.CreatedAt descending
+                       select new SongFilterModel()
+                       {
+                            id = r.Id,
+                            name = r.Name,
+                            artist = r.Artist,
+                            img = r.Img,
+                            listen = r.Listen,
+                            localImg = r.LocalImg,
+                            createdAt = r.CreatedAt,
+                            createdBy = r.CreatedBy,
+                            tag = r.Tag,
+                            category = r.CategoryNavigation.Name,
+                            user = r.CreatedByNavigation.Name,
+                            album = r.AlbumNavigation.Name,
+                            localSrc = r.LocalSrc,
+                            src = r.Src,
+                            updatedAt = r.UpdatedAt,
+                            idCategory = r.Category,
+                        };
+            return data.ToList();
+        }
+    }
+}
+```
+
+<code>FilterDecorator.cs</code>
+
+```cs
+public abstract class FilterDecorator : ISongFilter
+{
+    protected ISongFilter wrapper;
+    protected FilterDecorator(ISongFilter songFilter)
+    {
+        this.wrapper = songFilter;
+    }
+    public override List<SongFilterModel> filter()
+    {
+        return wrapper.filter();
+    }
+}
+```
+
+<code>FilterCategory.cs</code> 
+
+```cs
+public class FilterCategory : FilterDecorator
+{
+    private int[] category;
+    public FilterCategory(ISongFilter songFilter, int[] category) : base(songFilter)
+    {
+        this.category = category;
+    }
+    public override List<SongFilterModel> filter()
+    {
+        var data = from r in base.wrapper.filter()
+                   where category.Contains(r.idCategory)
+                   select r;
+        return data.ToList();
+    }
+}
+```
+
+<code>SongFilterModel.cs</code>
+
+```cs
+public class SongFilterModel
+{
+    public int id { get; set; }
+    public string name { get; set; }
+    public string artist { get; set; }
+    public string img { get; set; }
+    public string src { get; set; }
+    public long listen { get; set; }
+    public int localImg { get; set; }
+    public int localSrc { get; set; }
+    public int createdBy { get; set; }
+    public DateTime createdAt { get; set; }
+    public DateTime? updatedAt { get; set; }
+    public string tag { get; set; }
+    public int idCategory { get; set; }
+    public string category { get; set; }
+    public string user { get; set; }
+    public string album { get; set; }
+}
+```
+
+### Testcase Decorator Pattern
+
+- **Testcase 01:**
+    - Input: Truy cập vào view 'Playlists' (không filter)
+    - Output: <img src="bin/Decorator-testcase01-ouput.png" alt="Decorator-testcase01-ouput">
+
+- **Testcase 02:**
+    - Input: Truy cập vào view 'Playlists' và filter theo thể loại gồm 'Lofi', 'Rap việt'
+    - Output: <img src="bin/Decorator-testcase02-ouput.png" alt="Decorator-testcase02-ouput">
+
+</br>
 
 # 5. Some Pictures
 
