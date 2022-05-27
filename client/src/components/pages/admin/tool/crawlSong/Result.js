@@ -44,6 +44,39 @@ const AdminCrawlResult = ({ data, setData, setLink, listCategory, listAlbum }) =
         }
     }
 
+    const handleDownload = () => {
+        if (data.name.trim().length === 0)
+            toast.error('Enter song name!')
+        else if (!data.artist || data.artist.trim().length === 0)
+            toast.error('Enter song artist!')
+        else if (!data.category || data.category === -1)
+            toast.error('Choose song category!')
+        else {
+            let formData = new FormData()
+            formData.append('img', data.img)
+            formData.append('src', data.src)
+            formData.append('name', data.name)
+            formData.append('artist', data.artist)
+            formData.append('category', data.category)
+            formData.append('album', data.album || -1)
+            formData.append('show', 1)
+
+            const load = toast.loading('Wait...')
+            setBtnUpload(true)
+            api.post('api/admin/tool/save-song', formData).then(res => {
+                toast.dismiss(load)
+                if (res.data.success) {
+                    toast.success('Upload success!')
+                    setData()
+                    setLink('')
+                } else {
+                    setBtnUpload(false)
+                    toast.error(res.data.message)
+                }
+            })
+        }
+    }
+
     const handleSaveTemp = () => {
         if (data.name.trim().length === 0)
             toast.error('Enter song name!')
@@ -169,8 +202,12 @@ const AdminCrawlResult = ({ data, setData, setLink, listCategory, listAlbum }) =
                     className='btn btn-secondary mx-1'>Save temp</button>
                 <button
                     disabled={btnUpload}
+                    onClick={handleDownload}
+                    className='btn btn-info mx-1'>Download and save</button>
+                <button
+                    disabled={btnUpload}
                     onClick={handleSave}
-                    className='btn btn-success'>Save</button>
+                    className='btn btn-success mx-1'>Save</button>
             </div>
         </>
     );

@@ -39,6 +39,38 @@ const SaveASong = ({ data, index, setData, listCategory, listAlbum, close }) => 
             })
         }
     }
+
+    const handleDownload = () => {
+        if(category === -1){
+            toast.error('Choose category!')
+        }else{
+            let formData = new FormData()
+            formData.append('img', data.img)
+            formData.append('src', data.src)
+            formData.append('name', data.name)
+            formData.append('artist', data.artist)
+            formData.append('category', category)
+            formData.append('album', album)
+            formData.append('show', 1)
+
+            const load = toast.loading('Wait...')
+            setBtnUpload(true)
+            api.post('api/admin/tool/save-song', formData).then(res => {
+                if (res.data.success) {
+                    toast.success('Upload success!')
+                    setData(prev => prev.filter((e, i) => i !== index))
+                    setBtnUpload(false)
+                    toast.dismiss(load)
+                    close()
+                } else {
+                    toast.dismiss(load)
+                    setBtnUpload(false)
+                    toast.error(res.data.message)
+                }
+            })
+        }
+    }
+
     return (
         <>
             <div className='card'>
@@ -77,6 +109,13 @@ const SaveASong = ({ data, index, setData, listCategory, listAlbum, close }) => 
 
                     <div className='d-flex justify-content-end'>
                         <button className='btn bg-gradient-secondary mx-1' onClick={close}>Cancel</button>
+                        <button
+                            className='btn bg-gradient-info mx-1'
+                            onClick={handleDownload}
+                            disabled={btnUpload}
+                        >
+                            Download and save
+                        </button>
                         <button
                             className='btn bg-gradient-success mx-1'
                             onClick={handleAdd}

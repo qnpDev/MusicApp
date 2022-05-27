@@ -45,6 +45,41 @@ const SaveASongTempCrawl = ({ data, index, setData, listCategory, listAlbum, clo
             })
         }
     }
+
+    const handleDownload = () => {
+        if (category === -1) {
+            toast.error('Choose category!')
+        } else {
+            let formData = new FormData()
+            formData.append('img', data.img)
+            formData.append('src', data.src)
+            formData.append('name', name)
+            formData.append('artist', artist)
+            formData.append('category', category)
+            formData.append('album', album)
+            formData.append('show', 1)
+
+            const load = toast.loading('Wait...')
+            setBtnUpload(true)
+            api.post('api/admin/tool/save-song', formData).then(res => {
+                if (res.data.success) {
+                    toast.success('Upload success!')
+                    setData(prev => ({
+                        size: prev.size - 1,
+                        data: prev.data.filter((e, i) => i !== index)
+                    }))
+                    api.delete('api/admin/temp-crawl?id=' + data.id)
+                    setBtnUpload(false)
+                    toast.dismiss(load)
+                    close()
+                } else {
+                    toast.dismiss(load)
+                    setBtnUpload(false)
+                    toast.error(res.data.message)
+                }
+            })
+        }
+    }
     return (
         <>
             <div className='card manage-update-song'>
@@ -153,6 +188,13 @@ const SaveASongTempCrawl = ({ data, index, setData, listCategory, listAlbum, clo
 
                     <div className='d-flex justify-content-end'>
                         <button className='btn bg-gradient-secondary mx-1' onClick={close}>Cancel</button>
+                        <button
+                            className='btn bg-gradient-info mx-1'
+                            onClick={handleDownload}
+                            disabled={btnUpload}
+                        >
+                            Download and save
+                        </button>
                         <button
                             className='btn bg-gradient-success mx-1'
                             onClick={handleAdd}

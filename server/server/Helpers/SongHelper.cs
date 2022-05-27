@@ -13,11 +13,12 @@ namespace server.Helpers
     {
         public static string ConvertTag(string s)
         {
+            s = s.Trim();
             Regex regex = new Regex("\\p{IsCombiningDiacriticalMarks}+");
             string temp = s.Normalize(NormalizationForm.FormD);
             temp = regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D');
             temp = Regex.Replace(temp, "[^0-9a-zA-Z ]+", "").ToLower();
-            temp = temp.Replace(" ", "-") + DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            temp = temp.Replace(" ", "-") + "-" + DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             return temp;
         }
 
