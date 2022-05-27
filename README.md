@@ -1,37 +1,9 @@
 <div align="center">
-    <img src="bin/logo-tdtu.png" alt="tdtu" width="100" height="100">
-    <br/><b><i>Vietnam General Confederation of Labor</i></b><br/>
-    <h2><b><i>TON DUC THANG UNIVERSITY</i></b></h2>
-    <h3><i>Faculty of Information Technology</i></h3>
-    <h4>***</h4>
-    <br/>
-    <h2><b><i>Design Pattern</i></b></h2>
-    <br/>
-</div>
-
-<div align="center">
     <img src="bin/Music-icon.png" alt="Logo" width="80" height="80">
     <h2><b>Music App</b></h2>
     <h5><i>Music App is a web application that everyone can access to find and listen to music online. Moreover, people can upload their song and download their favorite song.</i></br>***</h5>
     </br>
 </div>
-
-<div align="right">
-    <br/>
-    <h3><i>Instructor:</i> ĐẶNG HUỲNH TRUNG TÍN </h3>
-    <h3>
-    <i>Author</i>: <b>NGUYỄN PHÚ QUÍ – 51900192 – K23</b>
-    <br/>
-    <b>NGUYỄN QUỐC THÁI – 51900210 – K23</b>
-    </h3>
-  </h3>
-  </div>
-
-  <div align="center">
-    </br></br></br>
-    <h3><b><i>HO CHI MINH CITY - 2022</b></i></h3>
-    </br></br>
-  </div>
 
 # Table of contents
 
@@ -101,6 +73,13 @@
     - [Mô tả việc áp dụng](#mô-tả-việc-áp-dụng-decorator-pattern)
     - [Áp dụng](#áp-dụng-decorator-pattern)
     - [Testcase](#testcase-decorator-pattern)
+
+    4.10 [Strategy Pattern](#strategy-pattern)</br>
+    - [Giới thiệu](#giới-thiệu-strategy-pattern)
+    - [Lý do áp dụng](#lý-do-áp-dụng-strategy-pattern)
+    - [Mô tả việc áp dụng](#mô-tả-việc-áp-dụng-strategy-pattern)
+    - [Áp dụng](#áp-dụng-strategy-pattern)
+    - [Testcase](#testcase-strategy-pattern)
 
 5. [Some pictures](#5-some-pictures)
     
@@ -2611,6 +2590,155 @@ public class SongFilterModel
 - **Testcase 02:**
     - Input: Truy cập vào view 'Playlists' và filter theo thể loại gồm 'Lofi', 'Rap việt'
     - Output: <img src="bin/Decorator-testcase02-ouput.png" alt="Decorator-testcase02-ouput">
+
+</br>
+
+## Strategy Pattern
+
+### Giới thiệu Strategy Pattern
+
+>Strategy Pattern là một trong những Pattern thuộc nhóm hành vi (Behavior Pattern). Nó cho phép định nghĩa tập hợp các thuật toán, đóng gói từng thuật toán lại, và dễ dàng thay đổi linh hoạt các thuật toán bên trong object. Strategy cho phép thuật toán biến đổi độc lập khi người dùng sử dụng chúng.
+
+### Lý do áp dụng Strategy Pattern
+
+- Trường hợp áp dụng: áp dụng vào việc tải xuống file bài hát và hình ảnh bài hát sau đó lưu vào server hoặc nơi khác
+- Lý do áp dụng:
+    - Tải và lưu file có thể bao gồm nhiều thuật toán khác nhau (ví dụ lưu trên server hoặc lưu trên AWS)
+    - Cùng chung một đầu vào là liên kết file cần tải và link file
+    - Cùng chung giá trị trả về là một string lưu trữ đường dẫn đến file
+- Ưu điểm sau khi áp dụng
+    - Tối ưu code và khả năng sử dụng
+    - Dễ dàng bảo trì, chỉnh sửa
+    - Tăng cường khả năng mở rộng của đối tượng và không gây ảnh hướng tới các đối tượng hiện tại, vì những thay đổi được thực hiện bằng cách implement trên các lớp mới
+    - Đảm bảo nguyên tắc Single responsibility principle (SRP) : một lớp định nghĩa nhiều hành vi và chúng xuất hiện dưới dạng với nhiều câu lệnh có điều kiện. Thay vì nhiều điều kiện, chúng ta sẽ chuyển các nhánh có điều kiện liên quan vào lớp Strategy riêng lẻ của nó.
+    - Đảm bảo nguyên tắc Open/Closed Principle (OCP) : chúng ta dễ dàng mở rộng và kết hợp hành vi mới mà không thay đổi ứng dụng.
+
+### Mô tả việc áp dụng Strategy Pattern
+
+- Class diagram:
+
+<img src="bin/Strategy-class-diagram.png" alt="Strategy-class-diagram">
+
+- Trong đó:
+    - `IDownload`: là một interface định nghĩa các hành vi có thể có của một Strategy
+    - `DownloadSongToServer`, `DownloadSongImageToServer`, `DownloadSongToAWS`, `DownloadSongImageToAWS`: cài đặt các hành vi cụ thể của Strategy
+    - `DownloadFile`: chứa một tham chiếu đến đối tượng Strategy và nhận các yêu cầu từ Client, các yêu cầu này sau đó được ủy quyền cho Strategy thực hiện
+
+### Áp dụng Strategy Pattern
+
+- **Trước khi áp dụng**
+    - Khó mở rộng khi muốn lưu trữ trên những nơi khác
+    - Phải chỉnh sửa code trực tiếp khi thay đổi đường dẫn hay thuật toán
+    - Khi muốn sử dụng phải viết code thuật toán đó ngay tại nơi áp dụng gây trùng code nếu dùng ở nhiều nơi
+
+- **Sau khi áp dụng**
+
+<code>AdmintoolController.cs > CreateSong</code>
+
+```cs
+public async Task<IActionResult> CreateSong()
+{
+    var createBy = User.Identity.GetId();
+    try
+    {
+        // ...some code get data...
+
+        // use strategy
+        DownloadFile downloadFile;
+
+        downloadFile = new(new DownloadSongToServer());
+        var srcResult = await downloadFile.Download(src, name);
+
+        downloadFile = new(new DownloadSongImageToServer());
+        var imgResult = await downloadFile.Download(image, name);
+
+        // ... some code create and return data...
+
+    }
+    catch (Exception e)
+    {
+        return StatusCode(500, "Internal server error " + e);
+    }
+}
+```
+
+<code>IDownload.cs</code>
+
+```cs
+public interface IDownload
+{
+    public Task<string> Download(string uri, string name);
+}
+```
+
+<code>DownloadSongToServer.cs</code>
+
+```cs
+public class DownloadSongToServer : IDownload
+{
+    public async Task<string> Download(string uri, string name)
+    {
+        var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), Path.Combine("Uploads", "Songs"));
+        var fileName = SongHelper.ConvertTag(name) + ".mp3";
+        var fullPath = Path.Combine(pathToSave, fileName);
+        using (var client = new WebClient())
+        {
+            await client.DownloadFileTaskAsync(new Uri(uri), fullPath);
+        }
+        return fileName;
+    }
+}
+```
+
+<code>DownloadSongImageToServer.cs</code> 
+
+```cs
+public class DownloadSongImageToServer : IDownload
+{
+    public async Task<string> Download(string uri, string name)
+    {
+        var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), Path.Combine("Uploads", "Images", "Songs"));
+        var fileName = SongHelper.ConvertTag(name) + ".jpg";
+        var fullPath = Path.Combine(pathToSave, fileName);
+        using (var client = new WebClient())
+        {
+            await client.DownloadFileTaskAsync(new Uri(uri), fullPath);
+        }
+        return fileName;
+    }
+}
+```
+
+<code>DownloadFile.cs</code>
+
+```cs
+public class DownloadFile
+{
+    private IDownload iDownload;
+    public DownloadFile(IDownload iDownload)
+    {
+        this.iDownload = iDownload;
+    }
+    public async Task<string> Download(string uri, string name)
+    {
+        var s = await this.iDownload.Download(uri, name);
+        return s;
+    }
+}
+```
+
+### Testcase Strategy Pattern
+
+- **Testcase 01:**
+    - Input: 
+        - Truy cập vào view 'Crawl Nhaccuatui' với admin account
+        - Tiến hành crawl một bài hát
+        - Lựa chọn 'Download and save'
+        - <img src="bin/Strategy-testcase01-input.png" alt="Strategy-testcase01-input">
+    - Output: 
+        - <img src="bin/Strategy-testcase01-output.png" alt="Strategy-testcase01-output">
+        - <img src="bin/Strategy-testcase01-output2.png" alt="Strategy-testcase01-output2">
+
 
 </br>
 
