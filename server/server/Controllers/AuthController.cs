@@ -313,6 +313,19 @@ namespace server.Controllers
 
                 using (var context = new MusicContext())
                 {
+                    var checkToken = (from r in context.RefreshTokens
+                                      where r.UserId == rid
+                                         && r.Token == rf.token
+                                      select r).FirstOrDefault();
+                    if(checkToken == null)
+                    {
+                        return Ok(new
+                        {
+                            success = false,
+                            message = "invalid!",
+                        });
+                    }
+
                     var check = (from u in context.Users
                                  where u.Id == rid
                                  select u).FirstOrDefault();
