@@ -107,3 +107,7 @@ create table requestsong(
 	primary key(id),
 	foreign key (category) REFERENCES categories(id)
 )
+
+/* admin user */
+insert into users (username, password, roles, name, avatar, email, localAvatar) 
+values ('qnp', '81dc9bdb52d04dc20036dbd8313ed055', 10, 'admin', 'default-avatar-music.jpg', 'qnpdev@gmail.com', 1)
