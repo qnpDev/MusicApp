@@ -15,13 +15,20 @@ create table users(
 	primary key(id)
 )
 
-/*
-alter table album
-add localImg int default 0 not null
+create table album(
+	id int not null identity(1,1),
+	name nvarchar(max) not null,
+	artist nvarchar(max),
+	img varchar(max),
+	localImg int default 1 not null,
+	show int not null default 0,
+	tag varchar(max) not null,
+	createdBy int foreign key references users(id),
+	createdAt datetime not null default current_timestamp,
+	updatedAt datetime not null default 0,
+	primary key(id)
+)
 
-alter table banner
-add localLink int default 0 not null
-*/
 
 create table categories(
 	id int not null IDENTITY(1, 1),
@@ -32,7 +39,7 @@ create table categories(
 	localAvatar int default 1 not null,
 	createdAt datetime not null default current_timestamp,
 	updatedAt datetime default 0,
-	primary key(id, tag)
+	primary key(id)
 )
 
 create table song(
@@ -51,7 +58,7 @@ create table song(
 	createdBy int not null foreign key references users(id),
 	createdAt datetime not null default current_timestamp,
 	updatedAt datetime default 0,
-	primary key(id, tag),
+	primary key(id),
 	foreign key (category) REFERENCES categories(id)
 )
 
@@ -72,51 +79,13 @@ create table banner(
 	primary key(id),
 )
 
-/*
-alter table banner
-alter column createdBy int not null foreign key references users(id)
-
-alter table banner
-add colorTitle varchar(max) default 'white'
-
-alter table banner
-add colorInfo varchar(max) default 'white'
-
-alter table banner
-drop column colorTitle
-alter table banner
-drop column colorInfo
-*/
-
 create table refreshToken(
 	id int not null identity(1,1),
 	userId int not null foreign key references users(id),
 	token varchar(max) not null,
 	createdAt datetime not null default current_timestamp,
 	expiredAt datetime not null default 0,
-	primary key (id, userId)
-)
-
-/*
-create table resetPassword(
-	id int not null identity(1,1),
-	token varchar(max) not null,
 	primary key (id)
-)
-*/
-
-create table album(
-	id int not null identity(1,1),
-	name nvarchar(max) not null,
-	artist nvarchar(max),
-	img varchar(max),
-	localImg int default 1 not null,
-	show int not null default 0 not null,
-	tag varchar(max) not null,
-	createdBy int foreign key references users(id),
-	createdAt datetime not null default current_timestamp,
-	updatedAt datetime not null default 0,
-	primary key(id, tag)
 )
 
 create table requestsong(
@@ -135,6 +104,6 @@ create table requestsong(
 	createdBy int not null foreign key references users(id),
 	createdAt datetime not null default current_timestamp,
 	updatedAt datetime default 0,
-	primary key(id, tag),
+	primary key(id),
 	foreign key (category) REFERENCES categories(id)
 )
