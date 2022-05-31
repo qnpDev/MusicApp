@@ -54,7 +54,7 @@ const ChangePassword = () => {
                     <div className='text-center mt-2'>
                         <img
                             className='change-password-avatar'
-                            src={dataUser.avatar}
+                            src={dataUser?.localAvatar === 1 ? process.env.REACT_APP_API_SRC_USER_IMG + dataUser.avatar : dataUser.avatar}
                             alt='avatar'
                         />
                     </div>
