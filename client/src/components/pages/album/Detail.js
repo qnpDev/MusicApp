@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import HomeTop from '../home/Top';
 import api from '../../axios'
 import { useNavigate, useParams } from 'react-router-dom';
 import Loading from '../loading';
 import NotFound from '../notfound';
 import DetailPlaylist from './DetailPlaylist';
+import { UserContext } from '../../contexts/UserContext';
 
 const AlbumDetail = () => {
     const { tag } = useParams()
@@ -12,6 +13,7 @@ const AlbumDetail = () => {
     const [notFound, setNotFound] = useState(false)
     const [data, setData] = useState()
     const [randomalbum, setRandomAlbum] = useState()
+    const { dataUser } = useContext(UserContext)
 
     useEffect(() => {
         api.get('api/album', {
@@ -63,6 +65,15 @@ const AlbumDetail = () => {
                                             <span className='fw-bolder cursor-default'>Author: </span>
                                             <span className='album-author' onClick={() => navigate('/user/' + data.album.user.id)}>{data.album.user.name}</span>
                                         </div>
+                                        {dataUser && dataUser.role >= 10 && (
+                                            <div className='mt-4 text-center'>
+                                                <button
+                                                    onClick={() => navigate('/admin/album/edit/' + tag)}
+                                                    className='btn btn-sm m-0 bg-gradient-warning'>
+                                                        Update
+                                                    </button>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>

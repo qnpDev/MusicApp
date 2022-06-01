@@ -43,6 +43,31 @@ namespace server.Controllers.Admin
             });
         }
 
+        [HttpGet("info")]
+        public IActionResult GetSongInfo(string tag)
+        {
+            var song = (from r in db.Songs
+                       where r.Tag == tag
+                       select r).FirstOrDefault();
+            if (song == null)
+            {
+                return Ok(new
+                {
+                    success = false,
+                    message = "Not found!",
+                });
+            }
+            else
+            {
+                return Ok(new
+                {
+                    success = true,
+                    song,
+                });
+            }
+            
+        }
+
         [HttpPut("show")]
         public IActionResult ChangeShow(int id)
         {

@@ -19,6 +19,7 @@ import { ListMusicContext } from '../../contexts/ListMusicContext';
 import HomeItem from '../home/Item';
 import HomeTop from '../home/Top';
 import HomeListAlbum from '../home/HomeListAlbum';
+import { UserContext } from '../../contexts/UserContext';
 
 const DetailSong = () => {
     document.title = 'Song'
@@ -26,6 +27,7 @@ const DetailSong = () => {
     const [data, setData] = useState()
     const navigate = useNavigate()
     const { listMusic, addMusic, setAudioIndex, setPlay } = useContext(ListMusicContext)
+    const { dataUser } = useContext(UserContext)
 
     const handlePlayNow = e => {
         addMusic({
@@ -97,6 +99,13 @@ const DetailSong = () => {
                                     {data.song.album && (
                                         <div className='album'>
                                             <b>Album: </b>{data.album.name}
+                                        </div>
+                                    )}
+                                    {dataUser && dataUser.role >= 10 && (
+                                        <div 
+                                            onClick={() => navigate('/admin/song/edit/'+ data.song.tag)}
+                                            className='btn btn-sm bg-gradient-warning mb-0 mt-3'>
+                                            Update
                                         </div>
                                     )}
                                 </div>

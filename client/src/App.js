@@ -37,6 +37,8 @@ import ChangePassword from './components/pages/user/ChangePassword';
 import ResetPassword from './components/pages/auth/ResetPassword';
 import ForgotPassword from './components/pages/auth/ForgotPassword';
 import Database from './components/pages/admin/tool/database';
+import EditASong from './components/pages/admin/song/EditASong';
+import EditAAlbum from './components/pages/admin/album/EditAAlbum';
 
 function App() {
   return (
@@ -68,12 +70,14 @@ function App() {
                 <Route path='admin/*' element={<Admin/>} />
                 <Route path='admin/song/*' element={<AdminSong/>}/>
                 <Route path='admin/song/create/*' element={<AdminCreateSong/>}/>
+                <Route path='admin/song/edit/:tagSong' element={<EditASong/>}/>
                 <Route path='admin/tool/crawl-song/nct/*' element={<CrawlSongNCT/>}/>
                 <Route path='admin/tool/crawl-song/nhacvn/*' element={<CrawlSongNhacVn/>}/>
                 <Route path='admin/tool/crawl-song/csn/*' element={<CrawlSongCSN/>}/>
                 <Route path='admin/tool/crawl-song/keeng/*' element={<CrawlSongKeeng/>}/>
                 <Route path='admin/request-song/*' element={<AdminRequestSong/>}/>
                 <Route path='admin/album/*' element={<AdminAlbum/>}/>
+                <Route path='admin/album/edit/:tagAlbum' element={<EditAAlbum/>}/>
                 <Route path='admin/category/*' element={<AdminCategory/>}/>
                 <Route path='admin/banner/*' element={<AdminBanner/>}/>
                 <Route path='admin/user/*' element={<AdminUser/>}/>

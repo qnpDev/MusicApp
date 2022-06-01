@@ -26300,3 +26300,10 @@ pre[class*="language-"] {
     overflow: hidden;
     display: block;
 }
+
+.img-song-edit{
+    min-width: 20rem;
+    min-height: 20rem;
+    max-width: 20rem;
+    max-height: 20rem;
+}

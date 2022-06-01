@@ -51,6 +51,42 @@ namespace server.Controllers.Admin
             });
         }
 
+        [HttpGet("info")]
+        public IActionResult GetInfo(string tag)
+        {
+            var album = (from r in db.Albums
+                        where r.Tag == tag
+                        select new
+                        {
+                            r.Id,
+                            r.Name,
+                            r.Artist,
+                            r.Img,
+                            r.LocalImg,
+                            r.CreatedAt,
+                            r.CreatedBy,
+                            r.Tag,
+                            r.Show,
+                            songCount = r.Songs.Count,
+                        }).FirstOrDefault();
+            if(album == null)
+            {
+                return Ok(new
+                {
+                    success = false,
+                    message = "Not found!",
+                });
+            }
+            else
+            {
+                return Ok(new
+                {
+                    success = true,
+                    data = album,
+                });
+            }
+        }
+
         [HttpPut("show")]
         public IActionResult ChangeShowAlbum(int id)
         {
