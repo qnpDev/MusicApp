@@ -6,7 +6,6 @@ const UpdateAlbum = ({ data, close, setData }) => {
     const [name, setName] = useState(data.name)
     const [artist, setArtist] = useState(data.artist)
     const [show, setShow] = useState(data.show)
-    const [tag, setTag] = useState(data.tag)
     const [image, setImage] = useState(null)
     const [changeImage, setChangeImage] = useState(false)
     const [btnUpdate, setBtnUpdate] = useState(true)
@@ -16,15 +15,12 @@ const UpdateAlbum = ({ data, close, setData }) => {
     const handleImage = e => setImage(e.target.files[0])
     const handleName = e => setName(e.target.value)
     const handleArtist = e => setArtist(e.target.value)
-    const handleTag = e => setTag(e.target.value)
     const handleShow = e => setShow(e.target.value)
     const handleUpload = () => {
         if (name.trim().length === 0)
             toast.error('Enter album name!')
         else if (artist.trim().length === 0)
             toast.error('Enter song artist!')
-        else if (tag.trim().length === 0)
-            toast.error('enter tag!')
         else if (!image && changeImage && localImg === 1)
             toast.error('Upload album image!')
         else if(localImg === 0 && linkImg.trim().length === 0)
@@ -42,7 +38,7 @@ const UpdateAlbum = ({ data, close, setData }) => {
             formData.append('changeImage', changeImage)
             formData.append('name', name)
             formData.append('artist', artist)
-            formData.append('tag', tag)
+            formData.append('tag', data.tag)
             formData.append('show', show)
             setBtnUpdate(false)
             const loading = toast.loading('Wait...')
@@ -119,18 +115,6 @@ const UpdateAlbum = ({ data, close, setData }) => {
                                 value={artist}
                             />
                         </div>
-                        <div className='form-group'>
-                            <label htmlFor='tag'>Tag:</label>
-                            <input
-                                onChange={handleTag}
-                                type='text'
-                                className='form-control'
-                                id='tag'
-                                placeholder='tag'
-                                value={tag}
-                            />
-                        </div>
-
                         <div className='form-group'>
                             <label className='form-check-label' htmlFor='show'>
                                 The album out now?
