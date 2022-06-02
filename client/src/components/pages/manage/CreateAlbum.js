@@ -22,8 +22,10 @@ const CreateAlbum = () => {
             toast.error('Enter song name!')
         else if (artist.trim().length === 0)
             toast.error('Enter song artist!')
-        else if (!img)
-            toast.error('Upload song image!')
+        else if (!img && localImg === 1)
+            toast.error('Upload image!')
+        else if (!linkImg.trim().length === 0 && localImg === 0)
+            toast.error('enter image link!')
         else {
             let formData = new FormData()
             
