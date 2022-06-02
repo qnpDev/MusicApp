@@ -1,4 +1,4 @@
-create Music
+create database Music
 use Music
 
 create table users(
