@@ -156,10 +156,16 @@ const User = () => {
                                         <tr>
                                             <th scope="row">Role:</th>
                                             <td>
-                                                {data.roles === 10 ? (
-                                                    <div className='btn bg-gradient-danger m-0 cursor-default'>Administrator</div>
+                                                {data.ban === 1 ? (
+                                                    <div className='btn bg-gradient-secondary m-0 cursor-default'>Banned</div>
                                                 ) : (
-                                                    <div className='btn bg-gradient-primary m-0 cursor-default'>Member</div>
+                                                    <>
+                                                        {data.roles >= 10 ? (
+                                                            <div className='btn bg-gradient-danger m-0 cursor-default'>Administrator</div>
+                                                        ) : (
+                                                            <div className='btn bg-gradient-primary m-0 cursor-default'>Member</div>
+                                                        )}
+                                                    </>
                                                 )}
                                             </td>
                                         </tr>
