@@ -28,6 +28,8 @@ const AdminUpdateUser = ({ data, close, setData }) => {
             toast.error('enter email!')
         else if (!password && changePassword)
             toast.error('Enter password!')
+        else if (!password && changePassword.trim().length < 4)
+            toast.error('Password must 4 characters at least!')
         else if (!image && changeImage && localImg === 1)
             toast.error('Upload album image!')
         else if (localImg === 0 && linkImg.trim().length === 0)
@@ -161,7 +163,7 @@ const AdminUpdateUser = ({ data, close, setData }) => {
                             {changePassword && (
                                 <input
                                     onChange={e => setPassword(e.target.value)}
-                                    type='text'
+                                    type='password'
                                     className='form-control'
                                     id='password'
                                     placeholder='Enter password'
