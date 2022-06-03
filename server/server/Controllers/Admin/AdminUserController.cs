@@ -88,6 +88,11 @@ namespace server.Controllers.Admin
                 DeleteFile delFile = new(new DeleteImageUser());
                 delFile.Delete(data.Avatar);
 
+                var rf = from r in db.RefreshTokens
+                         where r.UserId == id
+                         select r;
+                db.RefreshTokens.RemoveRange(rf);
+
                 db.Users.Remove(data);
                 if (db.SaveChanges() > 0)
                 {
