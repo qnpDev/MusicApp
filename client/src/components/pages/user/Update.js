@@ -75,6 +75,16 @@ const UserUpdate = ({ data, close, setData }) => {
                 <div className='card-body'>
                     <div className='upload-container'>
                         <div className='form-group'>
+                            <label>Username:</label>
+                            <input
+                                type='text'
+                                className='form-control'
+                                placeholder='Username'
+                                value={data.username}
+                                disabled={true}
+                            />
+                        </div>
+                        <div className='form-group'>
                             <label htmlFor='name'>Name:</label>
                             <input
                                 onChange={handleName}
