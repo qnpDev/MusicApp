@@ -26,6 +26,7 @@ namespace server.Models
         public string Email { get; set; }
         public int LocalAvatar { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public int Ban { get; set; }
 
         public virtual ICollection<Album> Albums { get; set; }
         public virtual ICollection<Banner> Banners { get; set; }

@@ -41,6 +41,55 @@ namespace server.Controllers.Admin
             });
         }
 
+        [HttpPut("ban")]
+        public IActionResult Ban(int id)
+        {
+            var data = (from r in db.Users
+                        where r.Id == id
+                        select r).FirstOrDefault();
+            if(data == null)
+            {
+                return Ok(new
+                {
+                    success = false,
+                    message = "Not Found"
+                });
+            }
+            else
+            {
+                if(data.Ban == 1)
+                {
+                    data.Ban = 0;
+                }
+                else
+                {
+                    data.Ban = 1;
+
+                    var rf = from r in db.RefreshTokens
+                             where r.UserId == id
+                             select r;
+                    db.RefreshTokens.RemoveRange(rf);
+                }
+                if(db.SaveChanges() > 0)
+                {
+                    return Ok(new
+                    {
+                        success = true,
+                        message = "Success!",
+                        data,
+                    });
+                }
+                else
+                {
+                    return Ok(new
+                    {
+                        success = false,
+                        message = "Fail!",
+                    });
+                }
+            }
+        }
+
         [HttpGet("get-info")]
         public IActionResult GetInfo(int id)
         {

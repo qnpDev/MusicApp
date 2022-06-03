@@ -59,6 +59,14 @@ namespace server.Controllers
                 }
                 else
                 {
+                    if(check.Ban == 1)
+                    {
+                        return Ok(new
+                        {
+                            success = false,
+                            message = "Your account have been banned!"
+                        });
+                    }
                     string refreshToken = GenerateRefreshToken(check.Id, check.Roles);
                     context.RefreshTokens.Add(new Models.RefreshToken()
                     {   
@@ -132,6 +140,14 @@ namespace server.Controllers
                     {
                         success = false,
                         message = "invalid user!"
+                    });
+                }
+                if(checku.Ban == 1)
+                {
+                    return Ok(new
+                    {
+                        success = false,
+                        message = "Banned!"
                     });
                 }
                 int rroles = checku.Roles;
@@ -339,6 +355,14 @@ namespace server.Controllers
                     }
                     else
                     {
+                        if(check.Ban == 1)
+                        {
+                            return Ok(new
+                            {
+                                success = false,
+                                message = "Banned!",
+                            });
+                        }
                         return Ok(new
                         {
                             success = true,

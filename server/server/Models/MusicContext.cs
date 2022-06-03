@@ -360,6 +360,8 @@ namespace server.Models
                     .IsUnicode(false)
                     .HasColumnName("avatar");
 
+                entity.Property(e => e.Ban).HasColumnName("ban");
+
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
                     .HasColumnName("createdAt")

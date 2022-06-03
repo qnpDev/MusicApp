@@ -10,6 +10,7 @@ create table users(
 	avatar varchar(MAX),
 	localAvatar int default 0 not null,
 	email varchar(MAX),
+	ban int default 0 not null,
 	createdAt datetime not null default current_timestamp,
 	updatedAt datetime default 0,
 	primary key(id)

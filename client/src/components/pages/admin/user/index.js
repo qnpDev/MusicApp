@@ -25,7 +25,7 @@ const AdminUser = () => {
                             <h1>Are you sure?</h1>
                         </div>
                         <div className='card-body'>
-                            <p>You want to delete this banner?</p>
+                            <p>You want to delete this account?</p>
                             <div className='d-flex justify-content-end'>
                                 <button className='btn btn-secondary mx-1' onClick={onClose}>No</button>
                                 <button
@@ -44,11 +44,39 @@ const AdminUser = () => {
         });
     }
 
+    const handleban = e => {
+        confirmAlert({
+            customUI: ({ onClose }) => {
+                return (
+                    <div className='card'>
+                        <div className='card-header text-center'>
+                            <h1>Are you sure?</h1>
+                        </div>
+                        <div className='card-body'>
+                            <p>You want to ban/unban this account?</p>
+                            <div className='d-flex justify-content-end'>
+                                <button className='btn btn-secondary mx-1' onClick={onClose}>No</button>
+                                <button
+                                    className='btn btn-danger mx-1'
+                                    onClick={() => apiBan(e, onClose)}
+                                >
+                                    Yes
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                );
+            }
+        });
+    }
+
     const handleUpdate = e => {
         confirmAlert({
             customUI: ({ onClose }) => {
                 return (
-                    <Update data={e} setData={setData} close={onClose}/>
+                    <Update data={e} setData={setData} close={onClose} />
                 );
             }
         });
@@ -57,46 +85,72 @@ const AdminUser = () => {
         confirmAlert({
             customUI: ({ onClose }) => {
                 return (
-                    <Create data={e} close={onClose}/>
+                    <Create data={e} close={onClose} />
                 );
             }
         });
     }
     const apiDelete = (e, close) => {
         const load = toast.loading('wait...')
-            api.delete('api/admin/user?id=' + e.id).then(res => {
-                toast.dismiss(load)
-                if (res.data.success) {
-                    setData(prev => ({
-                        size: prev.size - 1,
-                        data: prev.data.filter(ele => ele.id !== e.id)
-                    }))
-                    close()
-                    toast.success('successful!')
-                } else {
-                    toast.error('fail!')
-                }
-            })
+        api.delete('api/admin/user?id=' + e.id).then(res => {
+            toast.dismiss(load)
+            if (res.data.success) {
+                setData(prev => ({
+                    size: prev.size - 1,
+                    data: prev.data.filter(ele => ele.id !== e.id)
+                }))
+                close()
+                toast.success('successful!')
+            } else {
+                toast.error('fail!')
+            }
+        })
     }
-
+    const apiBan = (e, close) => {
+        const load = toast.loading('wait...')
+        api.put('api/admin/user/ban?id=' + e.id).then(res => {
+            toast.dismiss(load)
+            if (res.data.success) {
+                setData(prev => (
+                    {
+                        ...prev,
+                        data: prev.data.map(ele => (
+                            ele.id === e.id
+                                ? ({
+                                    ...ele,
+                                    ban: res.data.data.ban
+                                })
+                                : (
+                                    ele
+                                ))
+                        )
+                    }
+                ))
+                close()
+                toast.success('successful!')
+            } else {
+                toast.error('fail!')
+            }
+        })
+    }
     useEffect(() => {
         api.get('api/admin/user', {
-            params : {
+            params: {
                 page: curPage,
                 limit,
             }
-        }).then(res=> {
-            if(!res.data){
+        }).then(res => {
+            if (!res.data) {
                 setPer(false)
-            }else{
+            } else {
                 setData(res.data)
             }
         })
     }, [curPage])
-    if(!per)
-        return ( <NotPermission/> )
-    if(!data)
-        return ( <Loading/> )
+    if (!per)
+        return (<NotPermission />)
+    if (!data)
+        return (<Loading />)
     return (
         <>
             <div className='card mb-4'>
@@ -112,6 +166,7 @@ const AdminUser = () => {
                                     <th className='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>User</th>
                                     <th className='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2'>Email</th>
                                     <th className='text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Role</th>
+                                    <th className='text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Status</th>
                                     <th className='text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7'>Created at</th>
                                     <th className='text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 text-center'>Action</th>
                                 </tr>
@@ -128,7 +183,7 @@ const AdminUser = () => {
                                                     <img src={e.localAvatar === 1
                                                         ? process.env.REACT_APP_API_SRC_USER_IMG + e.avatar
                                                         : e.avatar
-                                                        } className='avatar avatar-sm me-3' alt={e.name} />
+                                                    } className='avatar avatar-sm me-3' alt={e.name} />
                                                 </div>
                                                 <div className='d-flex flex-column justify-content-center'>
                                                     <h6 className='mb-0 text-sm wraptext'>{e.name}</h6>
@@ -145,13 +200,24 @@ const AdminUser = () => {
                                                 : (<span className='badge badge-sm bg-gradient-info'>Member</span>)
                                             }
                                         </td>
+                                        <td className='align-middle text-center text-sm cursor-default'>
+                                            {e.ban === 0
+                                                ? (<span className='badge badge-sm bg-gradient-success'>Active</span>)
+                                                : (<span className='badge badge-sm bg-gradient-danger'>Banned</span>)
+                                            }
+                                        </td>
                                         <td className='align-middle text-center'>
                                             <span className='text-secondary text-xs font-weight-bold'>{convertDateTime(e.createdAt)}</span>
                                         </td>
                                         <td className='align-middle'>
                                             <div className='text-secondary font-weight-bold text-xs cursor-pointer text-center'>
-                                            <div onClick={() => handleView(e)} className='btn btn-sm bg-gradient-success m-0 mx-1 px-2'>View</div>
+                                                <div onClick={() => handleView(e)} className='btn btn-sm bg-gradient-success m-0 mx-1 px-2'>View</div>
                                                 <div onClick={() => handleUpdate(e)} className='btn btn-sm bg-gradient-info m-0 mx-1 px-2'>Edit</div>
+                                                {e.ban === 0 ? (
+                                                    <div onClick={() => handleban(e)} className='btn btn-sm bg-gradient-warning m-0 mx-1 px-2'>Ban</div>
+                                                ) : (
+                                                    <div onClick={() => handleban(e)} className='btn btn-sm bg-gradient-warning m-0 mx-1 px-2'>Unban</div>
+                                                )}
                                                 <div onClick={() => handleDelete(e)} className='btn btn-sm bg-gradient-danger m-0 mx-1 px-2'>Delete</div>
                                             </div>
                                         </td>
@@ -162,20 +228,20 @@ const AdminUser = () => {
                     </div>
                 </div>
                 {data.size > 6 && (
-                <div className='card-footer d-flex justify-content-end'>
-                    <Pagination
-                        activePage={curPage}
-                        itemsCountPerPage={limit}
-                        totalItemsCount={data.size}
-                        pageRangeDisplayed={2}
-                        onChange={e => setCurPage(e)}
-                        itemClass='page-item cursor-pointer'
-                        linkClass='page-link cursor-default'
-                        innerClass='pagination pagination-info'
-                        disabledClass='page-item disabled'
-                        hideDisabled={true}
-                    />
-                </div>
+                    <div className='card-footer d-flex justify-content-end'>
+                        <Pagination
+                            activePage={curPage}
+                            itemsCountPerPage={limit}
+                            totalItemsCount={data.size}
+                            pageRangeDisplayed={2}
+                            onChange={e => setCurPage(e)}
+                            itemClass='page-item cursor-pointer'
+                            linkClass='page-link cursor-default'
+                            innerClass='pagination pagination-info'
+                            disabledClass='page-item disabled'
+                            hideDisabled={true}
+                        />
+                    </div>
                 )}
             </div>
         </>

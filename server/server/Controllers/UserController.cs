@@ -35,6 +35,7 @@ namespace server.Controllers
                            r.CreatedAt,
                            r.LocalAvatar,
                            r.Username,
+                           r.Ban,
                            songCount = r.Songs.Count(x => x.Show == 1),
                            albumCount = r.Albums.Count(x => x.Show == 1),
                        }).FirstOrDefault();
