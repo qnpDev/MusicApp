@@ -5,7 +5,7 @@ import api from '../../axios'
 const UpdateAlbum = ({ data, close, setData }) => {
     const [name, setName] = useState(data.name)
     const [artist, setArtist] = useState(data.artist)
-    const [show, setShow] = useState(data.show)
+    // const [show, setShow] = useState(data.show)
     const [image, setImage] = useState(null)
     const [changeImage, setChangeImage] = useState(false)
     const [btnUpdate, setBtnUpdate] = useState(true)
@@ -15,7 +15,7 @@ const UpdateAlbum = ({ data, close, setData }) => {
     const handleImage = e => setImage(e.target.files[0])
     const handleName = e => setName(e.target.value)
     const handleArtist = e => setArtist(e.target.value)
-    const handleShow = e => setShow(e.target.value)
+    // const handleShow = e => setShow(e.target.value)
     const handleUpload = () => {
         if (name.trim().length === 0)
             toast.error('Enter album name!')
@@ -39,7 +39,7 @@ const UpdateAlbum = ({ data, close, setData }) => {
             formData.append('name', name)
             formData.append('artist', artist)
             formData.append('tag', data.tag)
-            formData.append('show', show)
+            formData.append('show', data.show)
             setBtnUpdate(false)
             const loading = toast.loading('Wait...')
             api.put('api/manage/album/update', formData).then(res => {
@@ -115,7 +115,7 @@ const UpdateAlbum = ({ data, close, setData }) => {
                                 value={artist}
                             />
                         </div>
-                        <div className='form-group'>
+                        {/* <div className='form-group'>
                             <label className='form-check-label' htmlFor='show'>
                                 The album out now?
                             </label>
@@ -127,7 +127,7 @@ const UpdateAlbum = ({ data, close, setData }) => {
                                 <option value='1'>Yes</option>
                                 <option value='0'>No</option>
                             </select>
-                        </div>
+                        </div> */}
 
                         <div className='form-group'>
                             <div className='d-flex justify-content-between align-items-end'>

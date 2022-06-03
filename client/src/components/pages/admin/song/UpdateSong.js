@@ -7,7 +7,7 @@ const UpdateSong = ({ data, listAlbum, listCategory, close, setData }) => {
     const [artist, setArtist] = useState(data.artist)
     const [category, setCategory] = useState(data.category)
     const [album, setAlbum] = useState(data.album ? data.album : -1)
-    const [show, setShow] = useState(data.show)
+    // const [show, setShow] = useState(data.show)
     const [tag, setTag] = useState(data.tag)
     const [image, setImage] = useState(null)
     const [song, setSong] = useState(null)
@@ -25,7 +25,7 @@ const UpdateSong = ({ data, listAlbum, listCategory, close, setData }) => {
     const handleTag = e => setTag(e.target.value)
     const handleCategory = e => setCategory(e.target.value)
     const handleAlbum = e => setAlbum(e.target.value)
-    const handleShow = e => setShow(e.target.value)
+    // const handleShow = e => setShow(e.target.value)
     const handleSong = e => setSong(e.target.files[0])
 
     const handleUpload = () => {
@@ -69,7 +69,7 @@ const UpdateSong = ({ data, listAlbum, listCategory, close, setData }) => {
             formData.append('category', category)
             formData.append('album', album)
             formData.append('tag', tag)
-            formData.append('show', show)
+            formData.append('show', data.show)
             setBtnUpload(false)
             const loading = toast.loading('Wait...')
             api.put('api/admin/song/update', formData).then(res => {
@@ -200,7 +200,7 @@ const UpdateSong = ({ data, listAlbum, listCategory, close, setData }) => {
                             </select>
                         </div>
 
-                        <div className='form-group'>
+                        {/* <div className='form-group'>
                             <label className='form-check-label' htmlFor='show'>
                                 The song out now?
                             </label>
@@ -212,7 +212,7 @@ const UpdateSong = ({ data, listAlbum, listCategory, close, setData }) => {
                                 <option value='1'>Yes</option>
                                 <option value='0'>No</option>
                             </select>
-                        </div>
+                        </div> */}
 
                         <div className='form-group'>
                             <div className='d-flex justify-content-between align-items-end'>

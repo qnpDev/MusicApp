@@ -4,7 +4,7 @@ import api from '../../../axios'
 
 const AdminUpdateBanner = ({ data, close, setData }) => {
     const [name, setName] = useState(data.name)
-    const [show, setShow] = useState(data.show)
+    // const [show, setShow] = useState(data.show)
     const [link, setLink] = useState(data.link)
     const [localLink, setLocalLink] = useState(data.localLink)
     const [info, setInfo] = useState(data.info)
@@ -18,7 +18,7 @@ const AdminUpdateBanner = ({ data, close, setData }) => {
 
     const handleImage = e => setImage(e.target.files[0])
     const handleName = e => setName(e.target.value)
-    const handleShow = e => setShow(e.target.value)
+    // const handleShow = e => setShow(e.target.value)
     const handleUpload = () => {
         if (name.trim().length === 0)
             toast.error('Enter album name!')
@@ -45,7 +45,7 @@ const AdminUpdateBanner = ({ data, close, setData }) => {
             formData.append('id', data.id)
             formData.append('changeImage', changeImage)
             formData.append('name', name)
-            formData.append('show', show)
+            formData.append('show', data.show)
             setBtnUpdate(false)
             const loading = toast.loading('Wait...')
             api.put('api/admin/banner/', formData).then(res => {
@@ -171,7 +171,7 @@ const AdminUpdateBanner = ({ data, close, setData }) => {
                             </select>
                         </div>
 
-                        <div className='form-group'>
+                        {/* <div className='form-group'>
                             <label htmlFor='show'>
                                 The banner out now?
                             </label>
@@ -183,7 +183,7 @@ const AdminUpdateBanner = ({ data, close, setData }) => {
                                 <option value='1'>Yes</option>
                                 <option value='0'>No</option>
                             </select>
-                        </div>
+                        </div> */}
 
                         <div className='form-group'>
                             <div className='d-flex justify-content-between align-items-end'>

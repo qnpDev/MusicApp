@@ -4,7 +4,7 @@ import api from '../../../axios'
 
 const AdminUpdateCategory = ({ data, close, setData }) => {
     const [name, setName] = useState(data.name)
-    const [show, setShow] = useState(data.show)
+    // const [show, setShow] = useState(data.show)
     const [tag, setTag] = useState(data.tag)
     const [image, setImage] = useState(null)
     const [changeImage, setChangeImage] = useState(false)
@@ -15,7 +15,7 @@ const AdminUpdateCategory = ({ data, close, setData }) => {
     const handleImage = e => setImage(e.target.files[0])
     const handleName = e => setName(e.target.value)
     const handleTag = e => setTag(e.target.value)
-    const handleShow = e => setShow(e.target.value)
+    // const handleShow = e => setShow(e.target.value)
     const handleUpload = () => {
         if (name.trim().length === 0)
             toast.error('Enter album name!')
@@ -38,7 +38,7 @@ const AdminUpdateCategory = ({ data, close, setData }) => {
             formData.append('changeImage', changeImage)
             formData.append('name', name)
             formData.append('tag', tag)
-            formData.append('show', show)
+            formData.append('show', data.show)
             setBtnUpdate(false)
             const loading = toast.loading('Wait...')
             api.put('api/admin/category/', formData).then(res => {
@@ -114,7 +114,7 @@ const AdminUpdateCategory = ({ data, close, setData }) => {
                             />
                         </div>
 
-                        <div className='form-group'>
+                        {/* <div className='form-group'>
                             <label className='form-check-label' htmlFor='show'>
                                 The category out now?
                             </label>
@@ -126,7 +126,7 @@ const AdminUpdateCategory = ({ data, close, setData }) => {
                                 <option value='1'>Yes</option>
                                 <option value='0'>No</option>
                             </select>
-                        </div>
+                        </div> */}
 
                         <div className='form-group'>
                             <div className='d-flex justify-content-between align-items-end'>
