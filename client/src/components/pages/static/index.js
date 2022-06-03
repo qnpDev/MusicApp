@@ -441,7 +441,7 @@ const Static = () => {
                     <div className='card-header pb-0 pt-3 '>
                         <div className='float-start'>
                             <h5 className='mt-3 mb-0'>Configuration</h5>
-                            <p>See our dashboard options.</p>
+                            {/* <p>See our dashboard options.</p> */}
                         </div>
                         <div className='float-end mt-4'>
                             <div
