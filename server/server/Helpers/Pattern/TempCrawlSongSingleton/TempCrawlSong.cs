@@ -51,12 +51,17 @@ namespace server.Helpers.Pattern.TempCrawlSongSingleton
         {
             list.AddRange(data);
         }
-        public void Remove(string id)
+        public bool Remove(string id)
         {
             var item = (from r in list
-                       where r.id.Equals(id)
+                       where r.id == id
                        select r).FirstOrDefault();
+            if(item == null)
+            {
+                return false;
+            }
             list.Remove(item);
+            return true;
         }
         public void Clear()
         {
@@ -64,7 +69,12 @@ namespace server.Helpers.Pattern.TempCrawlSongSingleton
         }
         public int GetSize()
         {
-            return list.Count();
+            return list.Count;
+        }
+
+        public List<TempCrawlSongModel> GetList()
+        {
+            return list;
         }
     }
 }

@@ -53,7 +53,7 @@ const TempCrawl = () => {
                             <h1>Are you sure?</h1>
                         </div>
                         <div className='card-body'>
-                            <p>You want to delete this album?</p>
+                            <p>You want to delete this temp?</p>
                             <div className='d-flex justify-content-end'>
                                 <button className='btn btn-secondary mx-1' onClick={onClose}>No</button>
                                 <button
@@ -93,12 +93,13 @@ const TempCrawl = () => {
                 toast.success('successful!')
             } else {
                 toast.error('fail!')
+                close()
             }
         })
     }
     const apiDelete = (e, close) => {
         const load = toast.loading('wait...')
-        api.delete('api/admin/temp-crawl?id=' + e.id).then(res => {
+        api.delete('api/admin/temp-crawl/' + e.id).then(res => {
             toast.dismiss(load)
             if (res.data.success) {
                 setData(prev => ({
@@ -108,7 +109,8 @@ const TempCrawl = () => {
                 close()
                 toast.success('successful!')
             } else {
-                toast.error('fail!')
+                toast.error(res.data.message)
+                close()
             }
         })
     }

@@ -15,7 +15,7 @@ namespace server.Controllers.Admin
     [Authorize(Roles = "10")]
     public class AdminTempCrawlController : ControllerBase
     {
-        TempCrawlSong dataList = TempCrawlSong.GetInstance;
+        readonly TempCrawlSong dataList = TempCrawlSong.GetInstance;
         [HttpGet]
         public IActionResult GetAll(int page = 1, int limit = 5)
         {
@@ -29,7 +29,21 @@ namespace server.Controllers.Admin
         [HttpGet("{id}")]
         public IActionResult Get(string id)
         {
-            return Ok(dataList.Get(id));
+            var item = dataList.Get(id);
+            if (item == null)
+            {
+                return Ok(new
+                {
+                    success = false,
+                    message = "Not found!",
+                });
+            }
+            return Ok(new
+            {
+                success = true,
+                message = "Success!",
+                data = item,
+            });
         }
 
         [HttpPost]
@@ -48,6 +62,7 @@ namespace server.Controllers.Admin
 
                 dataList.Add(new TempCrawlSongModel()
                 {
+                    id = Guid.NewGuid().ToString("N"),
                     Name = name,
                     Artist = artist,
                     Img = img,
@@ -82,12 +97,31 @@ namespace server.Controllers.Admin
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {
-            dataList.Remove(id);
-            return Ok(new
+            if (id == null)
             {
-                success = true,
-                message = "Successful!",
-            });
+                return Ok(new
+                {
+                    success = false,
+                    message = "Input id",
+                });
+            }
+            if (dataList.Remove(id))
+            {
+                return Ok(new
+                {
+                    success = true,
+                    message = "Successful!",
+                });
+            }
+            else
+            {
+                return Ok(new
+                {
+                    success = false,
+                    message = "Not found!",
+                });
+            }
+            
         }
 
     }

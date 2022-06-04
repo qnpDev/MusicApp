@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import api from '../../../axios'
+import Loading from '../../loading';
 
 const SaveASongTempCrawl = ({ data, index, setData, listCategory, listAlbum, close }) => {
     const [category, setCategory] = useState(-1)
@@ -8,6 +9,7 @@ const SaveASongTempCrawl = ({ data, index, setData, listCategory, listAlbum, clo
     const [name, setName] = useState(data.name)
     const [artist, setArtist] = useState(data.artist)
     const [btnUpload, setBtnUpload] = useState(false)
+    const [check, setCheck] = useState(false)
 
     const handleAdd = () => {
         if (category === -1) {
@@ -80,6 +82,18 @@ const SaveASongTempCrawl = ({ data, index, setData, listCategory, listAlbum, clo
             })
         }
     }
+    useEffect(() => {
+        api.get('api/admin/temp-crawl/' + data.id).then(res => {
+            if(res.data.success){
+                setCheck(true)
+            }else{
+                toast.error(res.data.message)
+                close()
+            }
+        })
+    })
+    if(!check)
+        return ( <Loading />)
     return (
         <>
             <div className='card manage-update-song'>
