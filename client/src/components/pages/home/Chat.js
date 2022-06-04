@@ -4,6 +4,7 @@ import Loading from '../loading';
 import api from '../../axios'
 import { toast } from 'react-toastify';
 import { confirmAlert } from 'react-confirm-alert';
+import { useNavigate } from 'react-router-dom';
 
 const Chat = () => {
     const { dataUser } = useContext(UserContext)
@@ -11,6 +12,7 @@ const Chat = () => {
     const [msg, setMsg] = useState('')
     const [btnSend, setBtnSend] = useState(false)
     const ulRef = useRef()
+    const navigate = useNavigate()
 
     const handleChat = e => {
         e.preventDefault()
@@ -115,7 +117,9 @@ const Chat = () => {
                                                 <div className='d-flex justify-content-end align-items-center'>
                                                     <div className='chat-msg'>
                                                         <div className='chat-msg-name'>
-                                                            {e.name}
+                                                            <span className='cursor-pointer' onClick={() => navigate('/user/' + e.uid)}>
+                                                                {e.name}
+                                                            </span>
                                                         </div>
                                                         <div className='chat-msg-content'>
                                                             {e.msg}
@@ -135,7 +139,9 @@ const Chat = () => {
                                                     </div>
                                                     <div className='chat-msg'>
                                                         <div className='chat-msg-name'>
-                                                            {e.name}
+                                                            <span className='cursor-pointer' onClick={() => navigate('/user/' + e.uid)}>
+                                                                {e.name}
+                                                            </span>
                                                         </div>
                                                         <div className='chat-msg-content'>
                                                             {e.msg}
