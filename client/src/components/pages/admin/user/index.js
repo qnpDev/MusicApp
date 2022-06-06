@@ -227,7 +227,7 @@ const AdminUser = () => {
                         </table>
                     </div>
                 </div>
-                {data.size > 6 && (
+                {data.size > limit && (
                     <div className='card-footer d-flex justify-content-end'>
                         <Pagination
                             activePage={curPage}
